@@ -1,0 +1,12 @@
+<!-- This is the body template of the page component -->
+<body>
+
+    <div class="cf" id="wrapper">
+        <script data-sly-include="header.html" data-sly-unwrap></script>
+        <div data-sly-resource="${@ resourceType='publick/components/foundation/pageView'}" data-sly-unwrap></div>
+        <script data-sly-include="footer.html" data-sly-unwrap></script>
+    </div>
+
+    <script data-sly-include="scripts.html" data-sly-unwrap></script>
+
+</body>

@@ -18,6 +18,9 @@ public final class PublickConstants {
     /** Blog path */
     public static final String BLOG_PATH = CONTENT_PATH + "/blog";
 
+    /** Page path */
+    public static final String PAGE_PATH = CONTENT_PATH + "/page";
+
     /** Comments path */
     public static final String COMMENTS_PATH = CONTENT_PATH + "/comments";
 
@@ -26,6 +29,12 @@ public final class PublickConstants {
 
     /** Assets path */
     public static final String ASSET_PATH = CONTENT_PATH + "/assets";
+
+    /** Admin page path */
+    public static final String ADMIN_PAGE_PATH = ADMIN_PATH + "/page";
+
+    /** Admin page list path */
+    public static final String ADMIN_PAGE_LIST_PATH = ADMIN_PAGE_PATH + "/list";
 
     /** Images path */
     public static final String IMAGE_PATH = ASSET_PATH + "/images";
@@ -89,6 +98,9 @@ public final class PublickConstants {
 
     /** Blog page resource type */
     public static final String PAGE_TYPE_BLOG = PAGE_TYPE + "/blogPage";
+
+    /** Blog page resource type */
+    public static final String PAGE_TYPE_PAGE = PAGE_TYPE + "/pagePage";
 
     /** Authors group name */
     public static final String GROUP_ID_AUTHORS = "authors";
