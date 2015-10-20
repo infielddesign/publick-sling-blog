@@ -21,6 +21,9 @@ public final class PublickConstants {
     /** Page path */
     public static final String PAGE_PATH = CONTENT_PATH + "/page";
 
+    /** Page Configuration path */
+    public static final String PAGE_PATH_CONF = CONTENT_PATH + "/pageconf";
+
     /** Comments path */
     public static final String COMMENTS_PATH = CONTENT_PATH + "/comments";
 
@@ -35,6 +38,12 @@ public final class PublickConstants {
 
     /** Admin page list path */
     public static final String ADMIN_PAGE_LIST_PATH = ADMIN_PAGE_PATH + "/list";
+
+    /** Admin page configuration path */
+    public static final String ADMIN_PAGE_CONF_PATH = ADMIN_PATH + "/pageconf";
+
+    /** Admin page configuration list path */
+    public static final String ADMIN_PAGE_CONF_LIST_PATH = ADMIN_PAGE_CONF_PATH + "/list";
 
     /** Images path */
     public static final String IMAGE_PATH = ASSET_PATH + "/images";

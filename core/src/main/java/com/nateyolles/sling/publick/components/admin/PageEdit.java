@@ -1,5 +1,8 @@
 package com.nateyolles.sling.publick.components.admin;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.nateyolles.sling.publick.sightly.WCMUse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -20,9 +23,12 @@ public class PageEdit extends WCMUse {
 
     private Resource resource;
     private SlingHttpServletRequest request;
+    private String configurationName;
     private String url;
     private boolean visible;
     private String[] keywords;
+    private String[] links;
+    private String[] scripts;
     private String content;
     private String description;
 
@@ -55,11 +61,23 @@ public class PageEdit extends WCMUse {
             ValueMap properties = page.adaptTo(ValueMap.class);
             url = properties.get("url", String.class);
             visible = Boolean.valueOf(properties.get("visible", false));
+            configurationName = properties.get("configurationName", String.class);
             keywords = properties.get("keywords", String[].class);
+            links = properties.get("links", String[].class);
+            scripts = properties.get("scripts", String[].class);
             content = properties.get("content", String.class);
             description = properties.get("description", String.class);
             url = page.getName();
         }
+    }
+
+    /**
+     * Get the page configurationName.
+     *
+     * @return The page configurationName.
+     */
+    public String getConfigurationName() {
+        return configurationName;
     }
 
     /**
@@ -87,6 +105,24 @@ public class PageEdit extends WCMUse {
      */
     public String[] getKeywords() {
         return keywords;
+    }
+
+    /**
+     * Get the multi-value link property.
+     *
+     * @return The multi-value link property.
+     */
+    public String[] getLinks() {
+        return links;
+    }
+
+    /**
+     * Get the multi-value script property.
+     *
+     * @return The multi-value script property.
+     */
+    public String[] getScripts() {
+        return scripts;
     }
 
     /**

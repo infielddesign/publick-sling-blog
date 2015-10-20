@@ -38,6 +38,9 @@ public class PageList extends WCMUse {
     public NodeIterator getPages() {
         NodeIterator nodes = null;
 
+        System.out.print("pageService");
+        System.out.print(pageService);
+        System.out.print("pageService");
         if (pageService != null) {
             nodes = pageService.getPages();
         }

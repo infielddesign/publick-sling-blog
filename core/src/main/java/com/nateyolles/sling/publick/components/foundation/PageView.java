@@ -44,8 +44,11 @@ public class PageView extends WCMUse {
     private String url;
     private boolean visible;
     private String[] keywords;
+    private String[] links;
+    private String[] scripts;
     private String image;
     private String content;
+    private String configurationName;
     private String description;
     private boolean listView;
 
@@ -65,21 +68,12 @@ public class PageView extends WCMUse {
      */
     @Override
     public void activate() {
-        System.out.println("###########################################");
-        System.out.println("BOB");
         resource = getResource();
         request = getRequest();
         resolver = getResourceResolver();
         listView = Arrays.asList(request.getRequestPathInfo().getSelectors()).contains(LIST_VIEW_SELECTOR);
         SlingScriptHelper scriptHelper = getSlingScriptHelper();
         linkRewriter = scriptHelper.getService(LinkRewriterService.class);
-
-        System.out.println(resource);
-        System.out.println(request);
-        System.out.println(resolver);
-        System.out.println(listView);
-        System.out.println(linkRewriter);
-        System.out.println("###########################################");
         getPage(resource);
     }
 
@@ -94,9 +88,12 @@ public class PageView extends WCMUse {
             url = properties.get("url", String.class);
             visible = Boolean.valueOf(properties.get("visible", false));
             keywords = properties.get("keywords", String[].class);
+            links = properties.get("links", String[].class);
+            scripts = properties.get("scripts", String[].class);
             content = properties.get("content", String.class);
             description = properties.get("description", String.class);
             image = properties.get("image", String.class);
+            configurationName = properties.get("configurationName", String.class);
 
             if (image != null) {
                 image = resolver.map(image);
@@ -107,6 +104,70 @@ public class PageView extends WCMUse {
         }
     }
 
+    /**
+     * Get the page scripts set by the author.
+     *
+     * @return return the page scripts.
+     */
+    public String[] getConfScripts() {
+        ResourceResolver resolver = resource.getResourceResolver();
+        Resource pageconf = resolver.getResource("/content/pageconf/" + configurationName);
+        ValueMap properties = pageconf.adaptTo(ValueMap.class);
+        String[] scripts = properties.get("scripts", String[].class);
+
+        return scripts;
+    }
+
+    /**
+     * Get the page links set by the author.
+     *
+     * @return return the page links.
+     */
+    public String[] getConfLinks() {
+        ResourceResolver resolver = resource.getResourceResolver();
+        Resource pageconf = resolver.getResource("/content/pageconf/" + configurationName);
+        ValueMap properties = pageconf.adaptTo(ValueMap.class);
+        String[] links = properties.get("links", String[].class);
+
+        return links;
+    }
+
+    /**
+     * Get the page footer set by the author.
+     *
+     * @return return the page footer.
+     */
+    public String getFooter() {
+        ResourceResolver resolver = resource.getResourceResolver();
+        Resource pageconf = resolver.getResource("/content/pageconf/" + configurationName);
+        ValueMap properties = pageconf.adaptTo(ValueMap.class);
+        String footer = properties.get("footer", String.class);
+
+        return footer;
+    }
+
+    /**
+     * Get the page header set by the author.
+     *
+     * @return return the page header.
+     */
+    public String getHeader() {
+        ResourceResolver resolver = resource.getResourceResolver();
+        Resource pageconf = resolver.getResource("/content/pageconf/" + configurationName);
+        ValueMap properties = pageconf.adaptTo(ValueMap.class);
+        String header = properties.get("header", String.class);
+
+        return header;
+    }
+
+    /**
+     * Get the page configuraiton name set by the author.
+     *
+     * @return return the page configuration name.
+     */
+    public String getConfigurationName() {
+        return configurationName;
+    }
 
     /**
      * Get the friendly URL set by the author.
@@ -135,6 +196,24 @@ public class PageView extends WCMUse {
      */
     public String[] getKeywords() {
         return keywords;
+    }
+
+    /**
+     * Get the page links set by the author.
+     *
+     * @return The page linkss.
+     */
+    public String[] getLinks() {
+        return links;
+    }
+
+    /**
+     * Get the page scripts set by the author.
+     *
+     * @return The page scripts.
+     */
+    public String[] getScripts() {
+        return scripts;
     }
 
     /**

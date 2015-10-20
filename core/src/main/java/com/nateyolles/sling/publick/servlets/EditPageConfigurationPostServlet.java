@@ -1,8 +1,6 @@
 package com.nateyolles.sling.publick.servlets;
 
 import com.nateyolles.sling.publick.PublickConstants;
-import com.nateyolles.sling.publick.services.FileUploadService;
-import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.jackrabbit.api.JackrabbitSession;
@@ -10,7 +8,10 @@ import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.resource.*;
+import org.apache.sling.api.resource.ModifiableValueMap;
+import org.apache.sling.api.resource.PersistenceException;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.jcr.resource.JcrResourceConstants;
 import org.apache.sling.jcr.resource.JcrResourceUtil;
@@ -29,18 +30,18 @@ import java.util.Map;
 /**
  * Servlet to save pages.
  */
-@SlingServlet(paths = PublickConstants.SERVLET_PATH_ADMIN + "/editpage")
-public class EditPagePostServlet extends SlingAllMethodsServlet {
+@SlingServlet(paths = PublickConstants.SERVLET_PATH_ADMIN + "/editpageconf")
+public class EditPageConfigurationPostServlet extends SlingAllMethodsServlet {
 
     /**
      * The logger.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(EditPagePostServlet.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditPageConfigurationPostServlet.class);
 
     /**
      * Root resource of all pages.
      */
-    private static final String PAGE_ROOT = "page";
+    private static final String PAGE_CONF_ROOT = "pageconf";
 
     /**
      * Create and save page resource.
@@ -53,30 +54,21 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
         ResourceResolver resolver = request.getResourceResolver();
         Session session = resolver.adaptTo(Session.class);
 
-        final String description = request.getParameter("description");
-        final String content = request.getParameter("content");
-        final String url = request.getParameter("url");
-        final boolean visible = Boolean.parseBoolean(request.getParameter("visible"));
-        final String[] keywords = request.getParameterValues("keywords");
+        final String configurationName = request.getParameter("configurationName");
+        final String header = request.getParameter("header");
+        final String footer = request.getParameter("footer");
         final String[] links = request.getParameterValues("links");
         final String[] scripts = request.getParameterValues("scripts");
-        final String configurationName = request.getParameter("configurationName");
-        System.out.println(configurationName);
-        final String pagePath = PublickConstants.PAGE_PATH + "/" + url;
+        final String pageConfPath = PublickConstants.PAGE_PATH_CONF + "/" + configurationName;
 
-        Resource existingNode = resolver.getResource(pagePath);
+        Resource existingNode = resolver.getResource(pageConfPath);
 
         Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put(JcrConstants.JCR_PRIMARYTYPE, PublickConstants.NODE_TYPE_PAGE);
-        properties.put(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY, PublickConstants.PAGE_TYPE_PAGE);
-        properties.put("visible", visible);
-        properties.put("content", content);
-        properties.put("description", description);
+//        properties.put(JcrConstants.JCR_PRIMARYTYPE, PublickConstants.NODE_TYPE_PAGE);
+//        properties.put(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY, PublickConstants.PAGE_TYPE_PAGE);
         properties.put("configurationName", configurationName);
-
-        if (keywords != null) {
-            properties.put("keywords", keywords);
-        }
+        properties.put("header", header);
+        properties.put("footer", footer);
 
         if (links != null) {
             properties.put("links", links);
@@ -99,17 +91,19 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
                 ModifiableValueMap existingProperties = existingNode.adaptTo(ModifiableValueMap.class);
                 existingProperties.putAll(properties);
             } else {
-                Node node = JcrResourceUtil.createPath(resolver.getResource(PublickConstants.CONTENT_PATH).adaptTo(Node.class), PAGE_ROOT, NodeType.NT_UNSTRUCTURED, NodeType.NT_UNSTRUCTURED, true);
+                Node node = JcrResourceUtil.createPath(resolver.getResource(PublickConstants.CONTENT_PATH).adaptTo(Node.class), PAGE_CONF_ROOT, NodeType.NT_UNSTRUCTURED, NodeType.NT_UNSTRUCTURED, true);
 
-                Resource page = resolver.create(resolver.getResource(node.getPath()), url, properties);
+                Resource page = resolver.create(resolver.getResource(node.getPath()), configurationName, properties);
+
                 Node pageNode = page.adaptTo(Node.class);
                 pageNode.addMixin(NodeType.MIX_CREATED);
             }
 
+
             resolver.commit();
             resolver.close();
 
-            response.sendRedirect(PublickConstants.ADMIN_PAGE_LIST_PATH + ".html");
+            response.sendRedirect(PublickConstants.ADMIN_PAGE_CONF_LIST_PATH + ".html");
         } catch (RepositoryException e) {
             LOGGER.error("Could not save page to repository.", e);
             response.sendRedirect(request.getHeader("referer"));

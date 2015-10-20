@@ -11,7 +11,7 @@
                 </tr>
                 </thead>
                 <tbody data-sly-list="${list.pages}">
-                <tr>
+                <tr>${item}
                     <td data-sly-text="${itemList.count}"></td>
                     <td><a href="${item.path}.html" target="_blank">${item.name}</a></td>
                     <td><a href="edit.html?post=${item.path}"><i class="glyphicon glyphicon-pencil"></i></a></td>
