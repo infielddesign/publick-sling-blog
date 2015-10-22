@@ -49,6 +49,7 @@
             <div class="form-group">
                 <label>Content</label>
                 <textarea class="blog-edit-content form-control" name="content">${page.content @ context='unsafe'}</textarea>
+                <input type="hidden" name="handle" data-sly-attribute.value="${page.handle}">
             </div>
             <button type="submit" class="btn btn-primary"
                     data-sly-attribute.disabled="${!page.authorable && 'disabled'}">Save</button>
