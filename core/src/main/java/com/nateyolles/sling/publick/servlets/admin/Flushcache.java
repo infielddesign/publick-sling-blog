@@ -18,7 +18,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-//curl -v -X POST -H "CQ-Action: Activate" -H "CQ-Handle: /page/capabilities.html" -H "Content-Length: 0" http://publickdisp.dev/dispatcher/invalidate.cache
+//e.g. - curl -v -X POST -H "CQ-Action: Activate" -H "CQ-Handle: /page/capabilities.html" -H "Content-Length: 0" http://publickdisp.dev/dispatcher/invalidate.cache
 
 @SlingServlet(paths = PublickConstants.SERVLET_PATH_ADMIN + "/flushcache")
 public class Flushcache extends AdminServlet {
@@ -31,7 +31,7 @@ public class Flushcache extends AdminServlet {
         URL obj = new URL(url);
         HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
-        //add reuqest header
+        //Add request header
         con.setRequestMethod("POST");
         con.setRequestProperty("CQ-Action", "Activate");
         con.setRequestProperty("CQ-Handle", handle);
@@ -41,8 +41,8 @@ public class Flushcache extends AdminServlet {
         con.setDoOutput(true);
 
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
+        logger.info("Sending 'POST' request to URL : " + url);
+        logger.info("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
@@ -53,8 +53,8 @@ public class Flushcache extends AdminServlet {
         }
         in.close();
 
-        //print result
-        System.out.println(response.toString());
+        //Print result
+        logger.info("Flushcache response: " + response.toString());
     }
 
     @Override
