@@ -49,8 +49,6 @@ public class PageConfigurationEdit extends WCMUse {
 
         if (pageconf != null) {
             Iterator<Resource> children = pageconf.listChildren();
-            System.out.println(children);
-            System.out.println("\n");
             while (children.hasNext()) {
                 Resource pageconfResource = children.next();
                 ValueMap properties = pageconfResource.adaptTo(ValueMap.class);

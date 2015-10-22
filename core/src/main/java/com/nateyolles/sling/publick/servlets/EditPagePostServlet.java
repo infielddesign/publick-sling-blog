@@ -61,7 +61,6 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
         final String[] links = request.getParameterValues("links");
         final String[] scripts = request.getParameterValues("scripts");
         final String configurationName = request.getParameter("configurationName");
-        System.out.println(configurationName);
         final String pagePath = PublickConstants.PAGE_PATH + "/" + url;
 
         Resource existingNode = resolver.getResource(pagePath);
