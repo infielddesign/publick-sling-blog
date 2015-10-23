@@ -33,6 +33,7 @@ app.controller('DispatcherController', function($scope, $attrs, SettingsService)
 
     SettingsService.updateSettings($scope.type, $scope.model)
       .then(function(result) {
+      console.log($scope.type)
           show(ALERT_SUCCESS_CLASS, result.data.header, result.data.message);
         }, function(result) {
           var header = 'Error',

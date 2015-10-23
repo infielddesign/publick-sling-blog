@@ -36,7 +36,8 @@ module.exports = function(grunt) {
           '<%=conf.dist%>/js/commentModalController.js',
           '<%=conf.dist%>/js/backupController.js',
           '<%=conf.dist%>/js/backupService.js',
-          '<%=conf.dist%>/js/backupModalController.js'
+          '<%=conf.dist%>/js/backupModalController.js',
+          '<%=conf.dist%>/js/dispatcherController.js'
         ],
         dest: '<%=conf.src%>/js/admin.js'
       }
