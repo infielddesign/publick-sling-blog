@@ -1,5 +1,7 @@
 package com.nateyolles.sling.publick.components.admin;
 
+import com.nateyolles.sling.publick.PublickConstants;
+
 import com.nateyolles.sling.publick.sightly.WCMUse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -45,7 +47,7 @@ public class PageConfigurationEdit extends WCMUse {
         }
 
         ResourceResolver resolver = resource.getResourceResolver();
-        Resource pageconf = resolver.getResource("/content/pageconf");
+        Resource pageconf = resolver.getResource(PublickConstants.PAGE_PATH_CONF);
 
         if (pageconf != null) {
             Iterator<Resource> children = pageconf.listChildren();
