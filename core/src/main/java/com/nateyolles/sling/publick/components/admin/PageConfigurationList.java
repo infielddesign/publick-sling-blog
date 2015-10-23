@@ -28,7 +28,6 @@ public class PageConfigurationList extends WCMUse {
     public void activate() {
         scriptHelper = getSlingScriptHelper();
         pageConfigurationService = scriptHelper.getService(PageConfigurationService.class);
-        System.out.print(pageConfigurationService);
     }
 
     /**

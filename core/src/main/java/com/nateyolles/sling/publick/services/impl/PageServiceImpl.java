@@ -70,8 +70,6 @@ public class PageServiceImpl implements PageService {
     public NodeIterator getPages(Long offset, Long limit) {
         NodeIterator nodes = null;
 
-        System.out.print(PATH_QUERY);
-        System.out.print(session);
         if (session != null) {
             try {
                 QueryManager queryManager = session.getWorkspace().getQueryManager();
@@ -88,8 +86,6 @@ public class PageServiceImpl implements PageService {
                 QueryResult result = query.execute();
                 nodes = result.getNodes();
 
-                System.out.print("\n" + result + "\n");
-                System.out.print("\n" + nodes + "\n");
             } catch (RepositoryException e) {
                 LOGGER.error("Could not search repository", e);
             }

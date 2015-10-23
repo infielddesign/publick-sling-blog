@@ -3,6 +3,7 @@ package com.nateyolles.sling.publick.components.foundation;
 import com.nateyolles.sling.publick.PublickConstants;
 import com.nateyolles.sling.publick.services.LinkRewriterService;
 import com.nateyolles.sling.publick.sightly.WCMUse;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -112,7 +113,7 @@ public class PageView extends WCMUse {
      */
     public String[] getConfScripts() {
         ResourceResolver resolver = resource.getResourceResolver();
-        Resource pageconf = resolver.getResource(PublickConstants.PAGE_PATH_CONF + configurationName);
+        Resource pageconf = resolver.getResource(PublickConstants.PAGE_PATH_CONF + "/" + configurationName);
         ValueMap properties = pageconf.adaptTo(ValueMap.class);
         String[] scripts = properties.get("scripts", String[].class);
 
@@ -126,7 +127,7 @@ public class PageView extends WCMUse {
      */
     public String[] getConfLinks() {
         ResourceResolver resolver = resource.getResourceResolver();
-        Resource pageconf = resolver.getResource(PublickConstants.PAGE_PATH_CONF + configurationName);
+        Resource pageconf = resolver.getResource(PublickConstants.PAGE_PATH_CONF + "/" + configurationName);
         ValueMap properties = pageconf.adaptTo(ValueMap.class);
         String[] links = properties.get("links", String[].class);
 
@@ -140,7 +141,7 @@ public class PageView extends WCMUse {
      */
     public String getFooter() {
         ResourceResolver resolver = resource.getResourceResolver();
-        Resource pageconf = resolver.getResource(PublickConstants.PAGE_PATH_CONF + configurationName);
+        Resource pageconf = resolver.getResource(PublickConstants.PAGE_PATH_CONF + "/" + configurationName);
         ValueMap properties = pageconf.adaptTo(ValueMap.class);
         String footer = properties.get("footer", String.class);
 
@@ -154,7 +155,7 @@ public class PageView extends WCMUse {
      */
     public String getHeader() {
         ResourceResolver resolver = resource.getResourceResolver();
-        Resource pageconf = resolver.getResource(PublickConstants.PAGE_PATH_CONF + configurationName);
+        Resource pageconf = resolver.getResource(PublickConstants.PAGE_PATH_CONF + "/" + configurationName);
         ValueMap properties = pageconf.adaptTo(ValueMap.class);
         String header = properties.get("header", String.class);
 
@@ -197,6 +198,18 @@ public class PageView extends WCMUse {
      */
     public String[] getKeywords() {
         return keywords;
+    }
+
+
+    /**
+     * Get the page keywords/tags set by the author.
+     *
+     * @return The page keywords/tags.
+     */
+    public String getKeywordsConcat() {
+        String keywordsConcat = StringUtils.join(keywords, ",");
+        keywordsConcat = "testR";
+        return keywordsConcat;
     }
 
     /**
