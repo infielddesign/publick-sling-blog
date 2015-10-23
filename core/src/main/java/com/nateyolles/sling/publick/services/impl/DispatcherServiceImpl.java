@@ -7,6 +7,10 @@ import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Map;
 
 /**
@@ -82,5 +86,45 @@ public class DispatcherServiceImpl implements DispatcherService {
      */
     public String getDispatcherInvalidateCacheUri() {
         return osgiService.getStringProperty(COMPONENT_PID, DISPATCHER_INVALIDATE_CACHE_URI, DISPATCHER_INVALIDATE_CACHE_URI_DEFAULT_VALUE);
+    }
+
+
+    /**
+     * Invalidate cache page.
+     *
+     * @param url
+     * @param handle
+     * @throws Exception
+     */
+    // HTTP POST request
+    public void invalidate(String url, String handle) throws Exception {
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        //Add request header
+        con.setRequestMethod("POST");
+        con.setRequestProperty("CQ-Action", "Activate");
+        con.setRequestProperty("CQ-Handle", handle);
+        con.setRequestProperty("Content-length", "0");
+
+        // Send post request
+        con.setDoOutput(true);
+
+        int responseCode = con.getResponseCode();
+        LOGGER.info("Sending 'POST' request to URL : " + url);
+        LOGGER.info("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //Print result
+        LOGGER.info("Flushcache response: " + response.toString());
     }
 }

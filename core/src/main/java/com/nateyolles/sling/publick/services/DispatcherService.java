@@ -41,4 +41,11 @@ public interface DispatcherService {
      * @return true if save was successful.
      */
     boolean setProperties(final Map<String, Object> properties);
+
+    /**
+     * Invalidate cache page.
+     * @param url
+     * @param handle
+     */
+    void invalidate(String url, String handle) throws Exception;
 }
