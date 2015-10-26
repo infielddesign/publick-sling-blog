@@ -200,18 +200,6 @@ public class PageView extends WCMUse {
         return keywords;
     }
 
-
-    /**
-     * Get the page keywords/tags set by the author.
-     *
-     * @return The page keywords/tags.
-     */
-    public String getKeywordsConcat() {
-        String keywordsConcat = StringUtils.join(keywords, ",");
-        keywordsConcat = "testR";
-        return keywordsConcat;
-    }
-
     /**
      * Get the page links set by the author.
      *
