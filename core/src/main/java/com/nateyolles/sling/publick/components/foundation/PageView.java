@@ -65,8 +65,6 @@ public class PageView extends WCMUse {
      */
     @Override
     public void activate() {
-        System.out.println("###########################################");
-        System.out.println("BOB");
         resource = getResource();
         request = getRequest();
         resolver = getResourceResolver();
@@ -74,12 +72,6 @@ public class PageView extends WCMUse {
         SlingScriptHelper scriptHelper = getSlingScriptHelper();
         linkRewriter = scriptHelper.getService(LinkRewriterService.class);
 
-        System.out.println(resource);
-        System.out.println(request);
-        System.out.println(resolver);
-        System.out.println(listView);
-        System.out.println(linkRewriter);
-        System.out.println("###########################################");
         getPage(resource);
     }
 

@@ -1,5 +1,6 @@
 package com.nateyolles.sling.publick.components.admin;
 
+import com.nateyolles.sling.publick.PublickConstants;
 import com.nateyolles.sling.publick.sightly.WCMUse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -25,6 +26,7 @@ public class PageEdit extends WCMUse {
     private String[] keywords;
     private String content;
     private String description;
+    private String handle;
 
     /**
      * Sightly component initialization.
@@ -59,6 +61,7 @@ public class PageEdit extends WCMUse {
             content = properties.get("content", String.class);
             description = properties.get("description", String.class);
             url = page.getName();
+            handle = StringUtils.removeStart(PublickConstants.PAGE_PATH + "/" + url, PublickConstants.CONTENT_PATH);
         }
     }
 
@@ -115,6 +118,7 @@ public class PageEdit extends WCMUse {
         return content;
     }
 
+
     /**
      * Get the description property.
      *
@@ -122,5 +126,14 @@ public class PageEdit extends WCMUse {
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Get the handle property.
+     *
+     * @return The handle property.
+     */
+    public String getHandle() {
+        return handle + ".html";
     }
 }

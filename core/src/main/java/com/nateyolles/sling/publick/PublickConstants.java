@@ -72,6 +72,9 @@ public final class PublickConstants {
     /** Admin email config path */
     public static final String EMAIL_CONFIG_PATH = ADMIN_CONFIG_PATH + "/email";
 
+    /** Admin dispatcher config path */
+    public static final String DISPATCHER_CONFIG_PATH = ADMIN_CONFIG_PATH + "/dispatcher";
+
     /** Node type base */
     private static final String NODE_TYPE = "publick";
 
