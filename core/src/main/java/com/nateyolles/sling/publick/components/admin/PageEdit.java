@@ -3,6 +3,7 @@ package com.nateyolles.sling.publick.components.admin;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.nateyolles.sling.publick.PublickConstants;
 import com.nateyolles.sling.publick.sightly.WCMUse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -11,6 +12,8 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.commons.json.JSONArray;
 
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 import java.util.Arrays;
 
 /**
@@ -31,6 +34,12 @@ public class PageEdit extends WCMUse {
     private String[] scripts;
     private String content;
     private String description;
+    private String primaryType;
+
+    /**
+     * Array of strings that represents primaryTypes.
+     */
+    private String[] primaryTypes;
 
     /**
      * Sightly component initialization.
@@ -68,6 +77,16 @@ public class PageEdit extends WCMUse {
             content = properties.get("content", String.class);
             description = properties.get("description", String.class);
             url = page.getName();
+
+            primaryType = properties.get("jcr:primaryType", String.class);
+
+//            Node node = page.adaptTo(Node.class);
+//            try {
+//                primaryType = node.getPrimaryNodeType().getName();
+//            }
+//            catch (RepositoryException e) {
+//                LOGGER.error("Could not get user.", e);
+//            }
         }
     }
 
@@ -158,5 +177,37 @@ public class PageEdit extends WCMUse {
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Get all primaryTypes.
+     *
+     * @return All primaryTypes.
+     */
+    public String[] getPrimaryTypes() {
+        primaryTypes[0] = PublickConstants.NODE_TYPE_FOLDER;
+        primaryTypes[1] = PublickConstants.NODE_TYPE_PAGE;
+
+        return primaryTypes;
+    }
+
+    /**
+     * Get the page's primaryType.
+     *
+     * @return The page's primaryType.
+     */
+    public String getPrimaryType() {
+        return primaryType;
+    }
+
+    /**
+     * Is a page or not.
+     *
+     * @return True is page.
+     */
+    public String displayPageForm() {
+        if(primaryType!=null && primaryType.equals("publick:page"))
+            return "";
+        return "hide";
     }
 }

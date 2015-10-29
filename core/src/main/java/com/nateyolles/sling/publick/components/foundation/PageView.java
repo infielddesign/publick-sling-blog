@@ -3,7 +3,6 @@ package com.nateyolles.sling.publick.components.foundation;
 import com.nateyolles.sling.publick.PublickConstants;
 import com.nateyolles.sling.publick.services.LinkRewriterService;
 import com.nateyolles.sling.publick.sightly.WCMUse;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -96,6 +95,7 @@ public class PageView extends WCMUse {
             description = properties.get("description", String.class);
             image = properties.get("image", String.class);
             configurationName = properties.get("configurationName", String.class);
+
 
             if (image != null) {
                 image = resolver.map(image);

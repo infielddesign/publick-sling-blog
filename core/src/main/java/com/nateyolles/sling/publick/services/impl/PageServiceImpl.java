@@ -39,6 +39,12 @@ public class PageServiceImpl implements PageService {
             PublickConstants.PAGE_TYPE_PAGE,
             JcrConstants.JCR_CREATED);
 
+//    private static final String PATH_QUERY = String.format("SELECT * FROM [%s] AS s WHERE "
+//                    + "ISDESCENDANTNODE([%s])",
+//            "nt:base",
+//            PublickConstants.PAGE_PATH,
+//            JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY);
+
 
     /**
      * The JCR session.

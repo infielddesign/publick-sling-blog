@@ -53,36 +53,46 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
         ResourceResolver resolver = request.getResourceResolver();
         Session session = resolver.adaptTo(Session.class);
 
-        final String description = request.getParameter("description");
-        final String content = request.getParameter("content");
+
         final String url = request.getParameter("url");
-        final boolean visible = Boolean.parseBoolean(request.getParameter("visible"));
-        final String[] keywords = request.getParameterValues("keywords");
-        final String[] links = request.getParameterValues("links");
-        final String[] scripts = request.getParameterValues("scripts");
-        final String configurationName = request.getParameter("configurationName");
         final String pagePath = PublickConstants.PAGE_PATH + "/" + url;
+        final String primarytype = request.getParameter("primarytype");
+
+        System.out.print(primarytype);
 
         Resource existingNode = resolver.getResource(pagePath);
 
+
         Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put(JcrConstants.JCR_PRIMARYTYPE, PublickConstants.NODE_TYPE_PAGE);
-        properties.put(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY, PublickConstants.PAGE_TYPE_PAGE);
-        properties.put("visible", visible);
-        properties.put("content", content);
-        properties.put("description", description);
-        properties.put("configurationName", configurationName);
+        properties.put(JcrConstants.JCR_PRIMARYTYPE, primarytype);
 
-        if (keywords != null) {
-            properties.put("keywords", keywords);
-        }
+        if(primarytype.equals("publick:page")) {
+            final String description = request.getParameter("description");
+            final String content = request.getParameter("content");
+            final boolean visible = Boolean.parseBoolean(request.getParameter("visible"));
+            final String[] keywords = request.getParameterValues("keywords");
+            final String[] links = request.getParameterValues("links");
+            final String[] scripts = request.getParameterValues("scripts");
+            final String configurationName = request.getParameter("configurationName");
+            final String resourcetype = PublickConstants.PAGE_TYPE_PAGE;
 
-        if (links != null) {
-            properties.put("links", links);
-        }
+            properties.put(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY, resourcetype);
+            properties.put("visible", visible);
+            properties.put("content", content);
+            properties.put("description", description);
+            properties.put("configurationName", configurationName);
 
-        if (scripts != null) {
-            properties.put("scripts", scripts);
+            if (keywords != null) {
+                properties.put("keywords", keywords);
+            }
+
+            if (links != null) {
+                properties.put("links", links);
+            }
+
+            if (scripts != null) {
+                properties.put("scripts", scripts);
+            }
         }
 
         try {

@@ -96,6 +96,12 @@ public final class PublickConstants {
     /** Comment node type */
     public static final String NODE_TYPE_COMMENT = NODE_TYPE + ":comment";
 
+    /** Unstructured node type */
+    public static final String NODE_TYPE_UNSTRUCTURED = "nt:unstructured";
+
+    /** Folder node type */
+    public static final String NODE_TYPE_FOLDER = "sling:Folder";
+
     /** Page base resource type */
     private static final String PAGE_TYPE = "publick/pages";
 

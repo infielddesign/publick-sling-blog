@@ -125,3 +125,7 @@
 .package-upload.hover-error {
   background: indianred;
 }
+
+.hide {
+  display: none;
+}
