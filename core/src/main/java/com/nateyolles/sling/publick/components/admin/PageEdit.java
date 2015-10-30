@@ -35,6 +35,8 @@ public class PageEdit extends WCMUse {
     private String content;
     private String description;
     private String primaryType;
+    private String parentPath;
+    private String parentNode;
 
     /**
      * Array of strings that represents primaryTypes.
@@ -50,9 +52,13 @@ public class PageEdit extends WCMUse {
         request = getRequest();
 
         String path = request.getParameter("post");
+        String parent = request.getParameter("post2");
+
+        System.out.print(path);
+        System.out.print(parent);
 
         if (StringUtils.isNotBlank(path)) {
-            getPage(path);
+            getPage(path, parent);
         }
     }
 
@@ -62,7 +68,7 @@ public class PageEdit extends WCMUse {
      *
      * @param path The resource path to the page.
      */
-    private void getPage(String path) {
+    private void getPage(String path, String parent) {
         ResourceResolver resolver = resource.getResourceResolver();
         Resource page = resolver.getResource(path);
 
@@ -79,15 +85,10 @@ public class PageEdit extends WCMUse {
             url = page.getName();
 
             primaryType = properties.get("jcr:primaryType", String.class);
-
-//            Node node = page.adaptTo(Node.class);
-//            try {
-//                primaryType = node.getPrimaryNodeType().getName();
-//            }
-//            catch (RepositoryException e) {
-//                LOGGER.error("Could not get user.", e);
-//            }
         }
+
+        parentPath = path;
+        parentNode = parent;
     }
 
     /**
@@ -209,5 +210,23 @@ public class PageEdit extends WCMUse {
         if(primaryType!=null && primaryType.equals("publick:page"))
             return "";
         return "hide";
+    }
+
+    /**
+     * Get the page parent path.
+     *
+     * @return The page's parent path.
+     */
+    public String getParentPath() {
+        return parentPath;
+    }
+
+    /**
+     * Get the page parent node.
+     *
+     * @return The page's parent node.
+     */
+    public String getParentNode() {
+        return parentNode;
     }
 }

@@ -8,7 +8,7 @@ app.controller('PageListController', function($scope, $http) {
   function get(page, depth) {
       return $http({
         method: 'GET',
-        url: "/page/" + page + "." + depth + ".json"
+        url: "/" + page + "." + depth + ".json"
       });
   }
 
@@ -16,8 +16,7 @@ app.controller('PageListController', function($scope, $http) {
     var tree = [];
 
     for(var obj in objects){
-
-        var childnodes = [];
+    var icon = "glyphicon glyphicon-file";
 
         var isObj = false;
 
@@ -25,16 +24,23 @@ app.controller('PageListController', function($scope, $http) {
         {
             for(obj1 in objects[obj])
             {
+                if(obj1 == "jcr:primaryType" && objects[obj][obj1]=="publick:page")
+                {
+                    icon = "glyphicon glyphicon-file";
+                }
+                else if(obj1 == "jcr:primaryType" && objects[obj][obj1]=="sling:Folder")
+                {
+                    icon = "glyphicon glyphicon-folder-open";
+                }
                 if((typeof(objects[obj][obj1]) == "object")){
                     isArr = (objects[obj][obj1].constructor === Array)
                     if(!isArr)
                     {
                         isObj = true;
-                        childnodes[obj1] = objects[obj][obj1];
                     }
                 }
             }
-            tree.push({"text" : obj, "properties" : objects[obj], "children" : isObj});
+            tree.push({"text" : obj, "icon" : icon, "properties" : objects[obj], "children" : isObj});
         }
     }
 
@@ -80,14 +86,10 @@ app.controller('PageListController', function($scope, $http) {
           "New" : {
               "label" : "New",
               "action" : function (obj) {
+                var parent = node["text"];
                 var path_string = $("#clbk").jstree("get_path", node,"/",false);
-
-                window.location.href = "edit.html?path=/" + path_string;
+                window.location.href = "edit.html?post=/" + path_string.replace("/" + parent, "") + "&post2=" + parent;
               }
-          },
-          "rename" : {
-             "label" : renameLabel,   //Different label (defined above) will be shown depending on node type
-             "action" : function () { console.log(renameLabel); }
           },
           "delete" : {
              "label" : "Delete File",
@@ -103,14 +105,14 @@ app.controller('PageListController', function($scope, $http) {
        return items;
     }
 
-  get("", "2").then(function(res){
+  get("page/", "2").then(function(res){
     var objects = res['data'];
     var tree = [];
     tree = translate(objects);
+    tree = [{"text" : "page", "properties" : "jcr:primaryType : nt:unstructured", "icon" : "glyphicon glyphicon-folder-open",  "children" : tree}];
 
     $('#clbk')
     .on('select_node.jstree', function (e, data) {
-
         jsonPrettyHighlightToId(data["node"]["original"]["properties"], 'pretty_json');
     }).jstree({
         'core' : {
@@ -120,9 +122,12 @@ app.controller('PageListController', function($scope, $http) {
                 }
                 else {
                     var path_string = $("#clbk").jstree("get_path", node,"/",false);
-                    get(path_string, "2").then(function(res){
-                        var tree = translate(res['data']);
-                        cb(tree);
+                    console.log(node);
+                    console.log(path_string);
+                    get(path_string, "2").then(
+                        function(res){
+                            var tree = translate(res['data']);
+                            cb(tree);
                     });
                 }
             }

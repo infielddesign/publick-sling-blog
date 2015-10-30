@@ -55,10 +55,10 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
 
 
         final String url = request.getParameter("url");
-        final String pagePath = PublickConstants.PAGE_PATH + "/" + url;
+        final String parentpath = request.getParameter("parentpath");
+        final String parentnode = request.getParameter("parentnode");
+        final String pagePath = parentpath + "/" + url;
         final String primarytype = request.getParameter("primarytype");
-
-        System.out.print(primarytype);
 
         Resource existingNode = resolver.getResource(pagePath);
 
@@ -108,7 +108,7 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
                 ModifiableValueMap existingProperties = existingNode.adaptTo(ModifiableValueMap.class);
                 existingProperties.putAll(properties);
             } else {
-                Node node = JcrResourceUtil.createPath(resolver.getResource(PublickConstants.CONTENT_PATH).adaptTo(Node.class), PAGE_ROOT, NodeType.NT_UNSTRUCTURED, NodeType.NT_UNSTRUCTURED, true);
+                Node node = JcrResourceUtil.createPath(resolver.getResource(PublickConstants.CONTENT_PATH + parentpath).adaptTo(Node.class), parentnode, NodeType.NT_UNSTRUCTURED, NodeType.NT_UNSTRUCTURED, true);
 
                 Resource page = resolver.create(resolver.getResource(node.getPath()), url, properties);
                 Node pageNode = page.adaptTo(Node.class);
