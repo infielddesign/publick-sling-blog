@@ -115,7 +115,7 @@ return tree;
  *  to change a node's name. This function is used in the DND
  *  feature.
 **/
-function renameNode(node, prefix_path, path_string, parent)
+function renameNode(prefix_path, path_string, parent, node)
 {
   var ref = treeroot.jstree(true),
   sel = ref.get_selected();
@@ -127,7 +127,7 @@ function renameNode(node, prefix_path, path_string, parent)
       var newText = node["text"];
       var params = {":operation": "move", ":dest": CONTENT_PATH + "/" + prefix_path + "/" + newText};
       var url = CONTENT_PATH + "/" + path_string;
-      console.log(newText);
+
       if(parent != newText){
         slingPostServlet(url, params);
       }
@@ -143,9 +143,6 @@ function renameNode(node, prefix_path, path_string, parent)
 **/
 function moveNode(old_path, new_path)
 {
-    var username = "admin";
-    var password = "admin";
-
     var params = {":operation": "move", ":applyTo": old_path, ":dest": new_path};
     var url = CONTENT_PATH + ROOT_PATH;
 
@@ -157,9 +154,36 @@ function moveNode(old_path, new_path)
 
 
 /**
+ *  This code sends a POST request to the Sling Post Servlet
+ *  to change a node's path. This function is used in the DND
+ *  feature.
+**/
+function deleteNode(path, prefix_path, node)
+{
+    var params = {":operation": "delete", ":applyTo": CONTENT_PATH + "/" + path};
+    var url = CONTENT_PATH + ROOT_PATH;
+    var fetched_node = treeroot.jstree(true).get_node(node).parent;
+    console.log(path);
+
+    slingPostServlet(url, params).then(
+         function(res1){
+                console.log(res1);
+
+             get(prefix_path, "2").then(
+             function(res2){
+                 var tree = translate(res2['data']);
+                 treeroot.jstree(true).refresh_node(fetched_node);
+             });
+         }
+    );
+}
+
+
+
+/**
  *  Context Functions
 **/
-function newNodeContext(obj) {
+function newNodeContext(obj, prefix_path, parent) {
     ngDialog.open({
         template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
         className : 'ngdialog-theme-plain',
@@ -169,7 +193,7 @@ function newNodeContext(obj) {
     });
 }
 
-function editNodeContext(obj) {
+function editNodeContext(obj, prefix_path, parent) {
   ngDialog.open({
       template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=edit",
       className : 'ngdialog-theme-default',
@@ -179,30 +203,12 @@ function editNodeContext(obj) {
   });
 }
 
-function renameNodeContext(obj) {
-    renameNode(node, prefix_path, path_string, parent);
+function renameNodeContext(obj, prefix_path, path, parent, node) {
+    renameNode(prefix_path, path, parent, node);
 }
 
-function deleteNodeContext(obj) {
-    slingPostServlet("/bin/admin/deletepage", {"deletePath": path_string}).then(
-        function(res1){
-            get(path_string.replace("/" + parent, ""), "2").then(
-            function(res2){
-                var tree = translate(res2['data']);
-                treeroot.jstree(true).refresh_node(treeroot.jstree(true).get_node(node).parent);
-            });
-
-        },
-        function(result) {
-             var header = 'Error',
-                 message = 'An error occured.';
-
-             if (typeof result !== 'undefined' && result.data) {
-               header = result.data.header;
-               message = result.data.message;
-             }
-        }
-    );
+function deleteNodeContext(obj, prefix_path, path, node) {
+    deleteNode(path, prefix_path, node);
 }
 
 
@@ -227,25 +233,25 @@ function customMenu(node) {
       "New" : {
           "label" : "New",
           "action" : function (obj) {
-            newNode(obj);
+            newNodeContext(obj, prefix_path, parent);
           }
       },
       "Edit" : {
         "label" : "Edit",
         "action" : function (obj) {
-            editNode(obj);
+            editNodeContext(obj, prefix_path, parent);
         }
       },
       "Rename" : {
           "label" : "Rename",
           "action" : function (obj) {
-            renameNodeContext(obj);
+            renameNodeContext(obj, prefix_path, path_string, parent, node);
           }
       },
       "Delete" : {
          "label" : "Delete",
          "action" : function (obj) {
-            deleteNodeContext(obj);
+            deleteNodeContext(obj, prefix_path, path_string, node);
           }
       }
    };
@@ -362,27 +368,27 @@ treeroot
 
 
   $("select[name='primarytype']").on("change", function(){
-              var typeValue = $(this).find(":selected").val()
-              console.log(typeValue);
+      var typeValue = $(this).find(":selected").val();
+      console.log(typeValue);
 
-              if(typeValue==="sling:Folder"){
-                  $("#configurationName").addClass("hide");
-                  $("#visible").addClass("hide");
-                  $("#keywords").addClass("hide");
-                  $("#links").addClass("hide");
-                  $("#scripts").addClass("hide");
-                  $("#description").addClass("hide");
-                  $("#contentfield").addClass("hide");
-              }
-              if(typeValue==="publick:page"){
-                  $("#configurationName").removeClass("hide");
-                  $("#visible").removeClass("hide");
-                  $("#keywords").removeClass("hide");
-                  $("#links").removeClass("hide");
-                  $("#scripts").removeClass("hide");
-                  $("#description").removeClass("hide");
-                  $("#contentfield").removeClass("hide");
-              }
-          });
+      if(typeValue==="sling:Folder"){
+          $("#configurationName").addClass("hide");
+          $("#visible").addClass("hide");
+          $("#keywords").addClass("hide");
+          $("#links").addClass("hide");
+          $("#scripts").addClass("hide");
+          $("#description").addClass("hide");
+          $("#contentfield").addClass("hide");
+      }
+      if(typeValue==="publick:page"){
+          $("#configurationName").removeClass("hide");
+          $("#visible").removeClass("hide");
+          $("#keywords").removeClass("hide");
+          $("#links").removeClass("hide");
+          $("#scripts").removeClass("hide");
+          $("#description").removeClass("hide");
+          $("#contentfield").removeClass("hide");
+      }
+  });
 
 });
