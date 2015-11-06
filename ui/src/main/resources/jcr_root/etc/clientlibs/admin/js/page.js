@@ -10,7 +10,7 @@ if($("#pageeditform").length!=0){
             $("#links").addClass("hide");
             $("#scripts").addClass("hide");
             $("#description").addClass("hide");
-            $("#content").addClass("hide");
+            $("#contentfield").addClass("hide");
         }
         if(typeValue==="publick:page"){
             $("#configurationName").removeClass("hide");
@@ -19,7 +19,7 @@ if($("#pageeditform").length!=0){
             $("#links").removeClass("hide");
             $("#scripts").removeClass("hide");
             $("#description").removeClass("hide");
-            $("#content").removeClass("hide");
+            $("#contentfield").removeClass("hide");
         }
     });
 }

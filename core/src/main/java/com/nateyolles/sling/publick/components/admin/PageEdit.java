@@ -37,6 +37,7 @@ public class PageEdit extends WCMUse {
     private String primaryType;
     private String parentPath;
     private String parentNode;
+    private String mode;
 
     /**
      * Array of strings that represents primaryTypes.
@@ -53,12 +54,10 @@ public class PageEdit extends WCMUse {
 
         String path = request.getParameter("post");
         String parent = request.getParameter("post2");
-
-        System.out.print(path);
-        System.out.print(parent);
+        String mode = request.getParameter("post3");
 
         if (StringUtils.isNotBlank(path)) {
-            getPage(path, parent);
+            getPage(path, parent, mode);
         }
     }
 
@@ -68,9 +67,13 @@ public class PageEdit extends WCMUse {
      *
      * @param path The resource path to the page.
      */
-    private void getPage(String path, String parent) {
+    private void getPage(String path, String parent, String Mode) {
         ResourceResolver resolver = resource.getResourceResolver();
-        Resource page = resolver.getResource(path);
+        Resource page = resolver.getResource(path + "/" + parent);
+
+        if(Mode.equals("new")) {
+            page = null;
+        }
 
         if (page != null) {
             ValueMap properties = page.adaptTo(ValueMap.class);
@@ -89,6 +92,7 @@ public class PageEdit extends WCMUse {
 
         parentPath = path;
         parentNode = parent;
+        mode = Mode;
     }
 
     /**
@@ -206,11 +210,11 @@ public class PageEdit extends WCMUse {
      *
      * @return True is page.
      */
-    public String displayPageForm() {
-        if(primaryType!=null && primaryType.equals("publick:page"))
-            return "";
-        return "hide";
-    }
+//    public String displayPageForm() {
+//        if(primaryType!=null && primaryType.equals("publick:page"))
+//            return "";
+//        return "hide";
+//    }
 
     /**
      * Get the page parent path.
@@ -228,5 +232,14 @@ public class PageEdit extends WCMUse {
      */
     public String getParentNode() {
         return parentNode;
+    }
+
+    /**
+     * Get the page's mode.
+     *
+     * @return The page's mode.
+     */
+    public String getMode() {
+        return mode;
     }
 }

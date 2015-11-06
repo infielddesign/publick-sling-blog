@@ -1,8 +1,6 @@
 package com.nateyolles.sling.publick.servlets;
 
 import com.nateyolles.sling.publick.PublickConstants;
-import com.nateyolles.sling.publick.services.FileUploadService;
-import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.jackrabbit.api.JackrabbitSession;
@@ -59,6 +57,7 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
         final String parentnode = request.getParameter("parentnode");
         final String pagePath = parentpath + "/" + url;
         final String primarytype = request.getParameter("primarytype");
+        final String mode = request.getParameter("mode");
 
         Resource existingNode = resolver.getResource(pagePath);
 
@@ -108,7 +107,7 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
                 ModifiableValueMap existingProperties = existingNode.adaptTo(ModifiableValueMap.class);
                 existingProperties.putAll(properties);
             } else {
-                Node node = JcrResourceUtil.createPath(resolver.getResource(PublickConstants.CONTENT_PATH + parentpath).adaptTo(Node.class), parentnode, NodeType.NT_UNSTRUCTURED, NodeType.NT_UNSTRUCTURED, true);
+                Node node = JcrResourceUtil.createPath(resolver.getResource(parentpath).adaptTo(Node.class), parentnode, NodeType.NT_UNSTRUCTURED, NodeType.NT_UNSTRUCTURED, true);
 
                 Resource page = resolver.create(resolver.getResource(node.getPath()), url, properties);
                 Node pageNode = page.adaptTo(Node.class);
