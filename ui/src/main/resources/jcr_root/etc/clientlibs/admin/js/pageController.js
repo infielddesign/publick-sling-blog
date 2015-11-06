@@ -5,11 +5,46 @@
  */
 app.controller('PageListController', function($scope, $http, formDataObject, ngDialog) {
 
-$scope.test = "test";
 var treeroot = $("#clbk");
 var CONTENT_PATH = "/content";
 var ROOT_PATH = "/page";
 
+
+
+/**
+ *  This code takes a JSON object, an id and inserts a pretty printed
+ *  and syntax highlighted JSON in your DOM.
+**/
+function jsonPrettyHighlightToId(jsonobj, id_to_send_to) {
+
+  var json = JSON.stringify(jsonobj, undefined, 2);
+
+  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  json = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+      var cls = 'color: darkorange;';
+      if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+              cls = 'color: red;';
+          } else {
+              cls = 'color: green;';
+          }
+      } else if (/true|false/.test(match)) {
+          cls = 'color: blue;';
+      } else if (/null/.test(match)) {
+          cls = 'color: magenta;';
+      }
+      return '<span style="' + cls + '">' + match + '</span>';
+  });
+
+  document.getElementById(id_to_send_to).innerHTML = json;
+
+}
+
+
+
+/**
+ *  This code gets the a tree starting a page of depth as a JSON object.
+**/
 function get(page, depth) {
   return $http({
     method: 'GET',
@@ -18,8 +53,11 @@ function get(page, depth) {
 }
 
 
-//curl -u admin:admin -X POST -F":operation=move" -F":dest=/content/page/teste/test2" http://33.33.33.13:8080/content/page/teste/test1
-function postRenameNode(url, params) {
+
+/**
+ *  This code allows you to POST to the Sling Post Servlet.
+**/
+function slingPostServlet(url, params) {
   return $http({
     method: 'POST',
     url: url,
@@ -29,16 +67,12 @@ function postRenameNode(url, params) {
 }
 
 
-function deletePage(params) {
-  return $http({
-    method: 'POST',
-    url: "/bin/admin/deletepage",
-    data: params,
-    transformRequest: formDataObject
-  });
-}
 
-
+/**
+ *  This code translates a Sling return JSON object into a jstree
+ *  accepted object. It filters out the properties and only allow
+ *  for node to be represented in the JSON main tree.
+**/
 function translate(objects){
 var tree = [];
 
@@ -75,33 +109,12 @@ return tree;
 }
 
 
-// Takes a JSON object, returns a pretty printed and syntax highlighted
-function jsonPrettyHighlightToId(jsonobj, id_to_send_to) {
 
-  var json = JSON.stringify(jsonobj, undefined, 2);
-
-  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  json = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-      var cls = 'color: darkorange;';
-      if (/^"/.test(match)) {
-          if (/:$/.test(match)) {
-              cls = 'color: red;';
-          } else {
-              cls = 'color: green;';
-          }
-      } else if (/true|false/.test(match)) {
-          cls = 'color: blue;';
-      } else if (/null/.test(match)) {
-          cls = 'color: magenta;';
-      }
-      return '<span style="' + cls + '">' + match + '</span>';
-  });
-
-  document.getElementById(id_to_send_to).innerHTML = json;
-
-}
-
-
+/**
+ *  This code sends a POST request to the Sling Post Servlet
+ *  to change a node's name. This function is used in the DND
+ *  feature.
+**/
 function renameNode(node, prefix_path, path_string, parent)
 {
   var ref = treeroot.jstree(true),
@@ -112,29 +125,91 @@ function renameNode(node, prefix_path, path_string, parent)
   sel = sel[0];
   ref.edit(sel, null, function(node, status){
       var newText = node["text"];
-      var params = {"username": "admin", "password": "admin", ":operation": "move", ":dest": CONTENT_PATH + "/" + prefix_path + "/" + newText};
+      var params = {":operation": "move", ":dest": CONTENT_PATH + "/" + prefix_path + "/" + newText};
       var url = CONTENT_PATH + "/" + path_string;
       console.log(newText);
       if(parent != newText){
-        postRenameNode(url, params);
+        slingPostServlet(url, params);
       }
   });
 }
 
 
+
+/**
+ *  This code sends a POST request to the Sling Post Servlet
+ *  to change a node's path. This function is used in the DND
+ *  feature.
+**/
 function moveNode(old_path, new_path)
 {
-    console.log(old_path);
-    console.log(new_path);
-    var params = {"username": "admin", "password": "admin", ":operation": "move", ":applyTo": old_path, ":dest": new_path};
+    var username = "admin";
+    var password = "admin";
+
+    var params = {":operation": "move", ":applyTo": old_path, ":dest": new_path};
     var url = CONTENT_PATH + ROOT_PATH;
 
     if(old_path != new_path){
-      postRenameNode(url, params);
+      slingPostServlet(url, params);
     }
 }
 
 
+
+/**
+ *  Context Functions
+**/
+function newNodeContext(obj) {
+    ngDialog.open({
+        template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
+        className : 'ngdialog-theme-plain',
+        controller : 'newPageController',
+        closeByEscape : true,
+        scope : $scope
+    });
+}
+
+function editNodeContext(obj) {
+  ngDialog.open({
+      template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=edit",
+      className : 'ngdialog-theme-default',
+      controller : 'newPageController',
+      closeByEscape : true,
+      scope : $scope
+  });
+}
+
+function renameNodeContext(obj) {
+    renameNode(node, prefix_path, path_string, parent);
+}
+
+function deleteNodeContext(obj) {
+    slingPostServlet("/bin/admin/deletepage", {"deletePath": path_string}).then(
+        function(res1){
+            get(path_string.replace("/" + parent, ""), "2").then(
+            function(res2){
+                var tree = translate(res2['data']);
+                treeroot.jstree(true).refresh_node(treeroot.jstree(true).get_node(node).parent);
+            });
+
+        },
+        function(result) {
+             var header = 'Error',
+                 message = 'An error occured.';
+
+             if (typeof result !== 'undefined' && result.data) {
+               header = result.data.header;
+               message = result.data.message;
+             }
+        }
+    );
+}
+
+
+
+/**
+ *  Context Functions
+**/
 function customMenu(node) {
 
    var parent = node["text"];
@@ -152,58 +227,25 @@ function customMenu(node) {
       "New" : {
           "label" : "New",
           "action" : function (obj) {
-
-            /* Modal code */
-            ngDialog.open({
-                template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
-                className : 'ngdialog-theme-plain',
-                controller : 'newPageController',
-                closeByEscape : true,
-                scope : $scope
-            });
+            newNode(obj);
           }
       },
       "Edit" : {
         "label" : "Edit",
         "action" : function (obj) {
-
-          /* Modal code */
-          ngDialog.open({
-              template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=edit",
-              className : 'ngdialog-theme-default',
-              controller : 'newPageController',
-              closeByEscape : true,
-              scope : $scope
-          });
+            editNode(obj);
         }
       },
       "Rename" : {
           "label" : "Rename",
           "action" : function (obj) {
-          console.log(node);
-            renameNode(node, prefix_path, path_string, parent);
+            renameNodeContext(obj);
           }
       },
       "Delete" : {
          "label" : "Delete",
          "action" : function (obj) {
-            deletePage({"deletePath": path_string}).then(function(res1){
-                get(path_string.replace("/" + parent, ""), "2").then(
-                    function(res2){
-                        var tree = translate(res2['data']);
-                        treeroot.jstree(true).refresh_node(treeroot.jstree(true).get_node(node).parent);
-                    });
-
-            }, function(result) {
-                 var header = 'Error',
-                     message = 'An error occured.';
-
-                 if (typeof result !== 'undefined' && result.data) {
-                   header = result.data.header;
-                   message = result.data.message;
-                 }
-             });
-
+            deleteNodeContext(obj);
           }
       }
    };
@@ -216,16 +258,22 @@ function customMenu(node) {
    return items;
 }
 
-  get("page/", "2").then(function(res){
-    var objects = res['data'];
-    var tree = [];
-    tree = translate(objects);
-    tree = [{"text" : "page", "properties" : "jcr:primaryType : nt:unstructured", "icon" : "glyphicon glyphicon-folder-open",  "children" : tree}];
+
+
+/**
+ *  The following code gets the sling resource tree (as JSON)
+ *  starting at the /page node with a depth of 2.
+ *  This code sets up the initial tree and initialises the jstree
+ *  plugins that are used such as contextmenu, dnd ...
+**/
+get("page/", "2").then(function(res){
+var objects = res['data'];
+var tree = [];
+tree = translate(objects);
+tree = [{"text" : "page", "properties" : "jcr:primaryType : nt:unstructured", "icon" : "glyphicon glyphicon-folder-open",  "children" : tree}];
 
     treeroot
-    .on('select_node.jstree', function (e, data) {
-        jsonPrettyHighlightToId(data["node"]["original"]["properties"], 'pretty_json');
-    }).jstree({
+    .jstree({
         'core' : {
             'data' : function (node, cb) {
                 if(node.id === "#") {
@@ -255,10 +303,28 @@ function customMenu(node) {
             }
         }
     });
-  });
+});
 
 
-//Double click on node and rename node
+
+/**
+ *  The following code listens for the select_node event.
+ *  If the event is triggered then it will pretty highlight
+ *  the JSON by providing it an ID.
+**/
+treeroot
+.on('select_node.jstree', function (e, data) {
+    jsonPrettyHighlightToId(data["node"]["original"]["properties"], 'pretty_json');
+});
+
+
+
+/**
+ *  The following code listens for the dblclick event.
+ *  If the event is triggered then it will let you rename
+ *  a new name for the node then it will call the sling
+ *  post servlet and update the resource tree.
+**/
 treeroot
 .on('dblclick', '.jstree-anchor', function (event, data) {
 
@@ -272,6 +338,15 @@ treeroot
 
 });
 
+
+
+/**
+ *  The following code listens for the move_node event.
+ *  If the event is triggered then it means you are
+ *  dragging and dropping a node to a new location so it
+ *  will update the frontend and then call the sling post
+ *  servlet and update the resource tree.
+**/
 treeroot
 .on("move_node.jstree", function (e, data) {
     node = data["node"];
