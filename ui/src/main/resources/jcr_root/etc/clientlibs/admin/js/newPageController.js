@@ -5,12 +5,11 @@
  */
 app.controller('newPageController', function($scope, ngDialog, $http) {
 
-//    console.log($scope.test);
-//    console.log($("#pageeditform").length);
-//    console.log(angular.element("select[name='primarytype']"));
+        console.log($("#ngdialog1").length);
+        console.log($("#pageeditform").length);
 //    if($("#pageeditform").length!=0){
-        $("select[name='primarytype']").on("change", function(){
-            var typeValue = $(this).find(":selected").val()
+        angular.element($("select[name='primarytype']")).on("change", function(){
+            var typeValue = angular.element($(this)).find(":selected").val()
             console.log(typeValue);
 
             if(typeValue==="sling:Folder"){

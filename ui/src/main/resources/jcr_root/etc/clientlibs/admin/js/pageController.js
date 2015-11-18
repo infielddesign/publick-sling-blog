@@ -70,7 +70,7 @@ function slingPostServlet(url, params) {
 
 /**
  *  This code translates a Sling return JSON object into a jstree
- *  accepted object. It filters out the properties and only allow
+ *  accepted object. It filters out the properties and only allows
  *  for node to be represented in the JSON main tree.
 **/
 function translate(objects){
@@ -81,7 +81,7 @@ var icon = "glyphicon glyphicon-file";
 
     var isObj = false;
 
-    if((typeof(objects[obj]) == "object"))
+    if(typeof(objects[obj]) == "object" && Object.prototype.toString.call(objects[obj]) != "[object Array]")
     {
         for(obj1 in objects[obj])
         {
@@ -93,8 +93,9 @@ var icon = "glyphicon glyphicon-file";
             {
                 icon = "glyphicon glyphicon-folder-open";
             }
+
             if((typeof(objects[obj][obj1]) == "object")){
-                isArr = (objects[obj][obj1].constructor === Array)
+                isArr = (Object.prototype.toString.call(objects[obj][obj1]) === "[object Array]")
                 if(!isArr)
                 {
                     isObj = true;
@@ -186,7 +187,7 @@ function deleteNode(path, prefix_path, node)
 function newNodeContext(obj, prefix_path, parent) {
     ngDialog.open({
         template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
-        className : 'ngdialog-theme-plain',
+        className : 'ngdialog-theme-default custom-width',
         controller : 'newPageController',
         closeByEscape : true,
         scope : $scope
@@ -196,7 +197,7 @@ function newNodeContext(obj, prefix_path, parent) {
 function editNodeContext(obj, prefix_path, parent) {
   ngDialog.open({
       template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=edit",
-      className : 'ngdialog-theme-default',
+      className : 'ngdialog-theme-default custom-width',
       controller : 'newPageController',
       closeByEscape : true,
       scope : $scope
