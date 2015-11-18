@@ -18,14 +18,14 @@
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>Primary Type</label><br>
-                <select name="primarytype">
+                <select name="primarytype" ng-model="model.primarytype" data-ng-init="model.primarytype = '${page.primaryType}'">
                     <option data-sly-attribute.selected="${page.primaryType == 'publick:page'}" value="publick:page">Page</option>
                     <option data-sly-attribute.selected="${page.primaryType == 'sling:Folder'}" value="sling:Folder">Folder</option>
                 </select>
             </div>
         </div>
     </div>
-    <div id="configurationName" class="row">
+    <div class="row">
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>Configuration</label><br>
@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div id="visible" class="row">
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>Publish</label><br>
@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <div id="keywords" class="row">
+    <div data-ng-show="model.primarytype === 'publick:page'"  class="row">
         <div class="col-lg-4 col-md-4">
             <div class="form-group" data-ng-controller="KeywordsController" data-ng-init="keywords = ${page.getKeywordsJSON}">
                 <label>Keywords</label>
@@ -60,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div id="links" class="row">
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-4 col-md-4">
             <div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${pageConf.getLinksJSON}">
                 <label>Links</label>
@@ -77,7 +77,7 @@
             </div>
         </div>
     </div>
-    <div id="scripts" class="row">
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-4 col-md-4">
             <div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${pageConf.getScriptsJSON}">
                 <label>Scripts</label>
@@ -94,7 +94,7 @@
             </div>
         </div>
     </div>
-    <div id="description" class="row">
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-12 col-md-12">
             <div class="form-group">
                 <label>Description</label>
@@ -105,7 +105,7 @@
     </div>
     <div class="row">
         <div id="contentfield" class="col-lg-12 col-md-12">
-            <div class="form-group">
+            <div data-ng-show="model.primarytype === 'publick:page'" class="form-group">
                 <label>Content</label>
                 <textarea class="blog-edit-content form-control" id="content" name="content">${page.content @ context='unsafe'}</textarea>
             </div>

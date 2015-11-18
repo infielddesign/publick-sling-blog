@@ -197,6 +197,7 @@ function newNodeContext(obj, prefix_path, parent) {
 function editNodeContext(obj, prefix_path, parent) {
   ngDialog.open({
       template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=edit",
+//      template : "templateId",
       className : 'ngdialog-theme-default custom-width',
       controller : 'newPageController',
       closeByEscape : true,
@@ -390,6 +391,17 @@ treeroot
           $("#description").removeClass("hide");
           $("#contentfield").removeClass("hide");
       }
+  });
+
+  $scope.$on('ngDialog.opened', function (e, $dialog) {
+//    var html = $('#templateId').text();
+//    var $el = $("div").append($.parseHTML(html));
+//    console.log($el, $el.find("form"));
+//    console.log($.parseHTML($('#templateId').text()));
+//    console.log($.parseHTML($('#templateId').text()).find("form"));
+//    console.log($('#templateId').html());
+//    console.log($($('#templateId').html()));
+//    console.log($($('#templateId').html()).filter('form'));
   });
 
 });
