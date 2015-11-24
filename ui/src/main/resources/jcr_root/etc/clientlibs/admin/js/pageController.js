@@ -3,7 +3,7 @@
  * success or failure message. Works with all settings components including
  * system settings, email config, and reCAPTcha config.
  */
-app.controller('PageListController', function($scope, $http, formDataObject, ngDialog) {
+app.controller('PageListController', function($scope, $http, formDataObject, ngDialog, $window) {
 
 var treeroot = $("#clbk");
 var CONTENT_PATH = "/content";
@@ -184,6 +184,11 @@ function deleteNode(path, prefix_path, node)
 /**
  *  Context Functions
 **/
+function openNodeContext(obj, prefix_path, parent) {
+    console.log("AEM changed");
+    $window.open('/' + prefix_path + '/' + parent + '.html', '_blank');
+}
+
 function newNodeContext(obj, prefix_path, parent) {
     ngDialog.open({
         template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
@@ -232,6 +237,12 @@ function customMenu(node) {
       var renameLabel = "Rename File";
    }
    var items = {
+      "Open" : {
+          "label" : "Open",
+          "action" : function (obj) {
+            openNodeContext(obj, prefix_path, parent);
+          }
+      },
       "New" : {
           "label" : "New",
           "action" : function (obj) {
@@ -391,17 +402,6 @@ treeroot
           $("#description").removeClass("hide");
           $("#contentfield").removeClass("hide");
       }
-  });
-
-  $scope.$on('ngDialog.opened', function (e, $dialog) {
-//    var html = $('#templateId').text();
-//    var $el = $("div").append($.parseHTML(html));
-//    console.log($el, $el.find("form"));
-//    console.log($.parseHTML($('#templateId').text()));
-//    console.log($.parseHTML($('#templateId').text()).find("form"));
-//    console.log($('#templateId').html());
-//    console.log($($('#templateId').html()));
-//    console.log($($('#templateId').html()).filter('form'));
   });
 
 });
