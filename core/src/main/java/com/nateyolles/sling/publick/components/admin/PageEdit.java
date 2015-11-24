@@ -91,7 +91,12 @@ public class PageEdit extends WCMUse {
         }
 
         parentPath = path;
-        parentNode = parent;
+        if(parentPath.equals(PublickConstants.PAGE_PATH)){
+            parentNode = "";
+        }
+        else {
+            parentNode = parent;
+        }
         mode = Mode;
     }
 

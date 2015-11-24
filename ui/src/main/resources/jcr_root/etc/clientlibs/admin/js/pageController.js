@@ -289,7 +289,7 @@ get("page/", "2").then(function(res){
 var objects = res['data'];
 var tree = [];
 tree = translate(objects);
-tree = [{"text" : "page", "properties" : "jcr:primaryType : nt:unstructured", "icon" : "glyphicon glyphicon-folder-open",  "children" : tree}];
+tree = [{"text" : "page", "properties" : "jcr:primaryType : sling:Folder", "icon" : "glyphicon glyphicon-folder-open",  "children" : tree}];
 
     treeroot
     .jstree({

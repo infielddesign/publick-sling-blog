@@ -60,8 +60,6 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
         final String mode = request.getParameter("mode");
 
         Resource existingNode = resolver.getResource(pagePath);
-
-
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(JcrConstants.JCR_PRIMARYTYPE, primarytype);
 
