@@ -11,7 +11,6 @@
     if (charsRemaining < 0) {
       message = "+" + Math.abs(charsRemaining) + " above recommended limit.";
       cssClass = "has-warning";
-      showWarning = true;
     } else {
       message = charsRemaining + " characters available.";
     }
