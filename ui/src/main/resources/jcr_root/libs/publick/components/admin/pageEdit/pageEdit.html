@@ -36,14 +36,15 @@
         </div>
     </div>
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-6 col-md-6">
+        <div class="col-lg-12 col-md-12">
             <div class="form-group" data-ng-class="SEOHintClass" data-ng-controller="SEOController">
-                <label>Page title</label><br>
+                <label>SEO Title</label><br>
                 <div class="input-group">
                     <input type="text" name="pagetitle" value="true" data-sly-attribute.value="${page.pageTitle}" class="form-control" data-ng-model="input" data-ng-change="SEOHintMaxLength(70, input.length)" ng-trim="false" autocomplete="off">
                     <span class="input-group-addon">{{charsRemaining || 70}}</span>
                 </div>
                 <span class="help-block seo-hint" data-ng-show="showSEOHintMessage" ng-cloak>You're above recommended limit.</span>
+                <span class="help-block">Displayed in &lsaquo;title&rsaquo; tag and used especially by search engines.</span>
             </div>
         </div>
     </div>
