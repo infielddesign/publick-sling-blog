@@ -4,18 +4,20 @@
  */
  app.controller('SEOController', function($scope){
   $scope.SEOHintMaxLength = function(maxLength, currentLength) {
-    var message,
+    var showSEOHintMessage,
         cssClass,
         charsRemaining = maxLength - currentLength;
     
     if (charsRemaining < 0) {
-      message = "+" + Math.abs(charsRemaining) + " above recommended limit.";
+      charsRemaining = "+" + Math.abs(charsRemaining);
+      showSEOHintMessage = true;
       cssClass = "has-warning";
-    } else {
-      message = charsRemaining + " characters available.";
+    } else if (charsRemaining === 0) {
+      charsRemaining = "0";
     }
     
-    $scope.SEOHintMaxLengthMessage = message;
+    $scope.charsRemaining = charsRemaining;
+    $scope.showSEOHintMessage = showSEOHintMessage;
     $scope.SEOHintClass = cssClass;
   }
 });
