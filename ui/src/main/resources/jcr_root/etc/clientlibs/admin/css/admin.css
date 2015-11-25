@@ -50,7 +50,7 @@
 
 
 /**
- * blogEdit
+ * pageEdit
  */
 .keywords-add-container {
   margin-top: 6px;
@@ -74,6 +74,25 @@
   clear: both;
 }
 
+.glyphicon-toggle {
+  width: 20px;
+}
+
+.glyphicon-toggle:before {
+    cursor: pointer;
+    opacity: 0.5;
+    position: relative;
+    top: -5px;
+    left: 1px;
+    visibility: visible;
+}
+.glyphicon-toggle.glyphicon-eye-close:checked:before {
+    content: "\e105";
+    opacity: 1;
+}
+input[type=checkbox].glyphicon-toggle {
+    visibility: hidden;
+}
 
 /**
  * Bootstrap modal scroll

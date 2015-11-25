@@ -133,7 +133,9 @@
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>Publish</label><br>
-                <input type="checkbox" name="visible" value="true" data-sly-attribute.checked="${page.visible}"> Show page
+                <input type="checkbox" name="visible" value="true" data-sly-attribute.checked="${page.visible}" 
+                        class="glyphicon glyphicon-toggle glyphicon-eye-close" ng-model="checkboxVisibility">
+                <input type="checkbox" name="visible" value="true" data-sly-attribute.checked="${page.visible}" ng-model="checkboxVisibility"> Show page
             </div>
         </div>
     </div>
