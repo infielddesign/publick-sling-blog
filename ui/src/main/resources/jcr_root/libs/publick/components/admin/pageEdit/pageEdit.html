@@ -79,7 +79,7 @@
         </div>
     </div>
     <div data-ng-show="model.primarytype === 'publick:page'"  class="row">
-        <div class="col-lg-4 col-md-4">
+        <div class="col-lg-12 col-md-12">
             <div class="form-group" data-ng-controller="KeywordsController" data-ng-init="keywords = ${page.getKeywordsJSON}">
                 <label>Keywords</label>
                 <div data-ng-repeat="keyword in keywords track by $index" class="input-group">
@@ -96,7 +96,7 @@
         </div>
     </div>
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-4 col-md-4">
+        <div class="col-lg-12 col-md-12">
             <div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${pageConf.getLinksJSON}">
                 <label>Links</label>
                 <div data-ng-repeat="link in links track by $index" class="input-group">
@@ -113,7 +113,7 @@
         </div>
     </div>
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-4 col-md-4">
+        <div class="col-lg-12 col-md-12">
             <div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${pageConf.getScriptsJSON}">
                 <label>Scripts</label>
                 <div data-ng-repeat="script in scripts track by $index" class="input-group">
