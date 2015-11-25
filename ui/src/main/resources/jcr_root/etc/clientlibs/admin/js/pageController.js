@@ -9,7 +9,7 @@ var treeroot = $("#clbk");
 var CONTENT_PATH = "/content";
 var ROOT_PATH = "/page";
 
-
+$scope.textcontent = "nicola";
 
 /**
  *  This code takes a JSON object, an id and inserts a pretty printed
