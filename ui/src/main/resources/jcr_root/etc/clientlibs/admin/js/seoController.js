@@ -11,7 +11,7 @@
     if (charsRemaining < 0) {
       charsRemaining = "+" + Math.abs(charsRemaining);
       showSEOHintMessage = true;
-      cssClass = "has-warning";
+      cssClass = "has-error";
     } else if (charsRemaining === 0) {
       charsRemaining = "0";
     }
