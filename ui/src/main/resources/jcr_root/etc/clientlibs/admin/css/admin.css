@@ -57,6 +57,15 @@
   margin-bottom: 6px;
 }
 
+.input-group-keywords .input-group[class*=col-] {
+  float: left;
+  padding-right: 6px;
+}
+
+.input-group-keywords + div {
+  clear: both;
+}
+
 /* bootstrap modal scroll */
 .modal-dialog{
   overflow-y: initial !important
