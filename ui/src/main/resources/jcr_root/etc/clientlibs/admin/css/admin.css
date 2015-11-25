@@ -45,13 +45,16 @@
 
 /* blogEdit */
 .keywords-add-container {
-  float: right;
-  margin-right: 14px;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .keywords-add-container i {
-  margin-left: 6px;
+  margin-left: 4px;
+  margin-right: 6px;
+}
+
+.added-input-field {
+  margin-bottom: 6px;
 }
 
 /* bootstrap modal scroll */
