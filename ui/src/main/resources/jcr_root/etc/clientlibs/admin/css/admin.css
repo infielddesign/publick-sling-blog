@@ -1,9 +1,14 @@
-/* blogList */
+/**
+ * blogList
+ */
 .table .column-small {
   width: 50px;
 }
 
-/* assetList */
+
+/**
+ * assetList
+ */
 .asset-thumbnail {
   text-align: center;
 }
@@ -43,7 +48,10 @@
   margin-right: 4px;
 }
 
-/* blogEdit */
+
+/**
+ * blogEdit
+ */
 .keywords-add-container {
   margin-top: 6px;
 }
@@ -66,7 +74,10 @@
   clear: both;
 }
 
-/* bootstrap modal scroll */
+
+/**
+ * Bootstrap modal scroll
+ */
 .modal-dialog{
   overflow-y: initial !important
 }
@@ -93,12 +104,18 @@
     padding: 28px 34px 29px;
 }
 
-/* system config */
+
+/**
+ * System config
+ */
 #apacheSample .modal-body {
   height: 60vh;
 }
 
-/* summernote */
+
+/**
+ * summernote
+ */
 .note-toolbar {
   margin-left: 0px !important;
 }
