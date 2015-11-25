@@ -73,6 +73,9 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
             final String configurationName = request.getParameter("configurationName");
             final String resourcetype = PublickConstants.PAGE_TYPE_PAGE;
 
+            System.out.print("content");
+            System.out.print(content);
+
             properties.put(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY, resourcetype);
             properties.put("visible", visible);
             properties.put("content", content);
