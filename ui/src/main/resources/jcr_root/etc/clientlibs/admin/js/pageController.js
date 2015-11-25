@@ -195,7 +195,8 @@ function newNodeContext(obj, prefix_path, parent) {
         className : 'ngdialog-theme-default custom-width',
         controller : 'newPageController',
         closeByEscape : true,
-        scope : $scope
+        scope : $scope,
+        preCloseCallback: function(value) { return preCloseCallback() }
     });
 }
 
@@ -206,10 +207,16 @@ function editNodeContext(obj, prefix_path, parent) {
       className : 'ngdialog-theme-default custom-width',
       controller : 'newPageController',
       closeByEscape : true,
-      scope : $scope
+      scope : $scope,
+      preCloseCallback: function(value) { return preCloseCallback() }
   });
 }
 
+function preCloseCallback() {
+  return confirm('Are you sure you want to close without saving your changes?') ?
+      true : false;
+}
+    
 function renameNodeContext(obj, prefix_path, path, parent, node) {
     renameNode(prefix_path, path, parent, node);
 }
