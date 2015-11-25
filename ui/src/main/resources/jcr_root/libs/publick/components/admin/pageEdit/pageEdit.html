@@ -37,9 +37,10 @@
     </div>
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-6 col-md-6">
-            <div class="form-group">
+            <div class="form-group" data-ng-class="SEOHintClass" data-ng-controller="SEOController">
                 <label>Page title</label><br>
-                <input type="text" name="pagetitle" value="true" data-sly-attribute.value="${page.pageTitle}"> Show page
+                <input type="text" name="pagetitle" value="true" data-sly-attribute.value="${page.pageTitle}" class="form-control" data-ng-model="input" data-ng-change="SEOHintMaxLength(70, input.length)" ng-trim="false" autocomplete="off">
+                <span class="help-block seo-hint" data-ng-bind="SEOHintMaxLengthMessage"></span>
             </div>
         </div>
     </div>
