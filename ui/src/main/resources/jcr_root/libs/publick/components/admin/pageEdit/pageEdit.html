@@ -134,6 +134,10 @@
             <div summernote data-ng-model="model.content" height="300" data-ng-show="model.primarytype === 'publick:page'" class="form-group">
             </div>
             <input type="hidden" data-ng-model="model.content" data-ng-init="model.content = '${page.content @ context='unsafe'}'" name="content" value="{{model.content}}" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
             <button type="submit" class="btn btn-primary"
                     data-sly-attribute.disabled="${!page.authorable && 'disabled'}">Save</button>
         </div>
