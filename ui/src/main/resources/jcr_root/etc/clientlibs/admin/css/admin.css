@@ -76,6 +76,11 @@
   width: 100%;
 }
 
+.ngdialog.ngdialog-theme-default.custom-width .ngdialog-content {
+    width: 700px;
+    padding: 28px 34px 29px;
+}
+
 /* system config */
 #apacheSample .modal-body {
   height: 60vh;
