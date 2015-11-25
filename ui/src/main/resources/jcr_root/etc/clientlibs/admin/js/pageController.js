@@ -213,8 +213,22 @@ function editNodeContext(obj, prefix_path, parent) {
 }
 
 function preCloseCallback() {
-  return confirm('Are you sure you want to close without saving your changes?') ?
-      true : false;
+  var nestedConfirmDialog = ngDialog.openConfirm({
+      template:'\
+          <div class="modal-header">\
+            <h4 class="modal-title">Attention</h4>\
+          </div>\
+          <div class="modal-body"><p>Close modal without saving your changes?</p></div>\
+          <div class="modal-footer">\
+              <button type="button" class="btn btn-primary" ng-click="confirm(1)">Yes</button>\
+              <button type="button" class="btn btn-default" ng-click="closeThisDialog(0)">Cancel</button>\
+          </div>',
+      plain: true,
+      closeByEscape : true,
+  });
+
+  // NOTE: return the promise from openConfirm
+  return nestedConfirmDialog;
 }
     
 function renameNodeContext(obj, prefix_path, path, parent, node) {
