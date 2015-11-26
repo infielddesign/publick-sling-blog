@@ -1,7 +1,7 @@
 <div data-ng-controller="newPageController" data-sly-use.page="com.nateyolles.sling.publick.components.admin.PageEdit" data-sly-unwrap></div>
 <div data-sly-use.pageconf="com.nateyolles.sling.publick.components.admin.PageConfigurationEdit" data-sly-unwrap></div>
 
-<form id="pageeditform" action="/bin/admin/editpage" method="post" enctype="multipart/form-data">
+<form id="pageeditform" name="pageeditform" action="/bin/admin/editpage" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
@@ -38,8 +38,7 @@
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-6 col-md-6">
             <div class="form-group" data-ng-class="SEOHintClass" data-ng-controller="SEOController">
-                <label>Page title</label><br>
-
+                <label>SEO title</label><br>
                 <div class="input-group">
                     <input type="text" name="pageTitle" data-sly-attribute.value="${page.pageTitle}" class="form-control"
                            data-ng-model="model.pagetitle" data-ng-init="model.pagetitle = '${page.pageTitle}'; SEOHintMaxLength(70, model.pagetitle.length)"
@@ -59,70 +58,11 @@
         </div>
     </div>
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-6 col-md-6">
-            <div class="form-group">
-                <label>Publish</label><br>
-                <input type="checkbox" name="visible" value="true" data-sly-attribute.checked="${page.visible}"> Show page
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'"  class="row">
-        <div class="col-lg-4 col-md-4">
-            <div class="form-group" data-ng-controller="KeywordsController" data-ng-init="keywords = ${page.getKeywordsJSON}">
-                <label>Keywords</label>
-                <div data-ng-repeat="keyword in keywords track by $index" class="input-group">
-                    <input type="text" name="keywords" class="form-control" data-ng-model="keywords[$index]">
-                    <div class="input-group-addon">
-                        <a href="#" data-ng-click="removeKeyword($event, $index)"><i class="fa fa-minus-circle"></i></a>
-                    </div>
-                </div>
-                <div class="input-group keywords-add-container">
-                    <a href="#" data-ng-click="addKeyword($event)">Add keyword<i class="fa fa-plus-circle"></i></a>
-                </div>
-                <span class="help-block clear">Used for tag clouds, meta tags, and searching.</span>
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-4 col-md-4">
-            <div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${pageConf.getLinksJSON}">
-                <label>Links</label>
-                <div data-ng-repeat="link in links track by $index" class="input-group">
-                    <input type="text" name="links" class="form-control" data-ng-model="links[$index]">
-                    <div class="input-group-addon">
-                        <a href="#" data-ng-click="removeLink($event, $index)"><i class="fa fa-minus-circle"></i></a>
-                    </div>
-                </div>
-                <div class="input-group keywords-add-container">
-                    <a href="#" data-ng-click="addLink($event)">Add link<i class="fa fa-plus-circle"></i></a>
-                </div>
-                <span class="help-block clear">Used for including CSS.</span>
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-4 col-md-4">
-            <div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${pageConf.getScriptsJSON}">
-                <label>Scripts</label>
-                <div data-ng-repeat="script in scripts track by $index" class="input-group">
-                    <input type="text" name="scripts" class="form-control" data-ng-model="scripts[$index]">
-                    <div class="input-group-addon">
-                        <a href="#" data-ng-click="removeScript($event, $index)"><i class="fa fa-minus-circle"></i></a>
-                    </div>
-                </div>
-                <div class="input-group keywords-add-container">
-                    <a href="#" data-ng-click="addScript($event)">Add script<i class="fa fa-plus-circle"></i></a>
-                </div>
-                <span class="help-block clear">Used for including JS.</span>
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-12 col-md-12">
             <div class="form-group" data-ng-class="SEOHintClass" data-ng-controller="SEOController">
                 <label>Description</label>
                 <div class="input-group">
-                    <textarea rows="2" type="text" name="description" data-sly-attribute.value="${page.description}" class="form-control" 
+                    <textarea rows="2" type="text" name="description" data-sly-attribute.value="${page.description}" class="form-control"
                               data-ng-model="model.description" data-ng-init="model.description = '${page.description}'; SEOHintMaxLength(155, model.description.length)"
                               data-ng-change="SEOHintMaxLength(155, model.description.length)" ng-trim="false" autocomplete="off"></textarea>
                     <span class="input-group-addon">{{charsRemaining || 155}}</span>
@@ -132,14 +72,77 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-12 col-md-12">
-            <div data-ng-show="model.primarytype === 'publick:page'">
-                <label>Content</label>
-                <div summernote data-ng-model="model.content" height="300" data-ng-show="model.primarytype === 'publick:page'" class="form-group">
-                </div>
-                <input type="hidden" data-ng-model="model.content" data-ng-init="model.content = '${page.content @ context='unsafe'}'" name="content" value="{{model.content}}" class="form-control">
+            <label>Content</label>
+            <div summernote data-ng-model="model.content" height="300" data-ng-show="model.primarytype === 'publick:page'" class="form-group">
             </div>
+            <input type="hidden" data-ng-model="model.content" data-ng-init="model.content = '${page.content @ context='unsafe'}'" name="content" value="{{model.content}}" class="form-control">
+        </div>
+    </div>
+    <div data-ng-show="model.primarytype === 'publick:page'"  class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group" data-ng-controller="KeywordsController" data-ng-init="keywords = ${page.getKeywordsJSON}">
+                <label>Keywords</label>
+                <div class="input-group-keywords">
+                    <div data-ng-repeat="keyword in keywords track by $index" class="input-group added-input-field col-xs-6 col-sm-4 col-md-3">
+                        <input type="text" name="keywords" class="form-control" data-ng-model="keywords[$index]">
+                        <div class="input-group-addon">
+                            <a href="#" data-ng-click="removeKeyword($event, $index)"><i class="fa fa-minus-circle"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group keywords-add-container">
+                    <a href="#" data-ng-click="addKeyword($event)"><i class="fa fa-plus-circle"></i>Add keyword</a>
+                </div>
+                <span class="help-block clear">Used for tag clouds, meta tags, and searching.</span>
+            </div>
+        </div>
+    </div>
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${pageConf.getLinksJSON}">
+                <label>Styles</label>
+                <div data-ng-repeat="link in links track by $index" class="input-group added-input-field">
+                    <input type="text" name="links" class="form-control" data-ng-model="links[$index]">
+                    <div class="input-group-addon">
+                        <a href="#" data-ng-click="removeLink($event, $index)"><i class="fa fa-minus-circle"></i></a>
+                    </div>
+                </div>
+                <div class="input-group keywords-add-container">
+                    <a href="#" data-ng-click="addLink($event)"><i class="fa fa-plus-circle"></i>Add link to CSS file</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${pageConf.getScriptsJSON}">
+                <label>Scripts</label>
+                <div data-ng-repeat="script in scripts track by $index" class="input-group added-input-field">
+                    <input type="text" name="scripts" class="form-control" data-ng-model="scripts[$index]">
+                    <div class="input-group-addon">
+                        <a href="#" data-ng-click="removeScript($event, $index)"><i class="fa fa-minus-circle"></i></a>
+                    </div>
+                </div>
+                <div class="input-group keywords-add-container">
+                    <a href="#" data-ng-click="addScript($event)"><i class="fa fa-plus-circle"></i>Add link to JavaScript file</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+        <div class="col-lg-6 col-md-6">
+            <div class="form-group">
+                <label>Publish</label><br>
+                <input type="checkbox" name="visible" value="true" data-sly-attribute.checked="${page.visible}" 
+                        class="glyphicon glyphicon-toggle glyphicon-eye-close" ng-model="checkboxVisibility">
+                <input type="checkbox" name="visible" value="true" data-sly-attribute.checked="${page.visible}" ng-model="checkboxVisibility"> Show page
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
             <button type="submit" class="btn btn-primary"
                 data-sly-attribute.disabled="${!page.authorable && 'disabled'}">Save</button>
         </div>

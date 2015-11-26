@@ -1,9 +1,14 @@
-/* blogList */
+/**
+ * blogList
+ */
 .table .column-small {
   width: 50px;
 }
 
-/* assetList */
+
+/**
+ * assetList
+ */
 .asset-thumbnail {
   text-align: center;
 }
@@ -43,18 +48,55 @@
   margin-right: 4px;
 }
 
-/* blogEdit */
+
+/**
+ * pageEdit
+ */
 .keywords-add-container {
-  float: right;
-  margin-right: 14px;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .keywords-add-container i {
-  margin-left: 6px;
+  margin-left: 4px;
+  margin-right: 6px;
 }
 
-/* bootstrap modal scroll */
+.added-input-field {
+  margin-bottom: 6px;
+}
+
+.input-group-keywords .input-group[class*=col-] {
+  float: left;
+  padding-right: 6px;
+}
+
+.input-group-keywords + div {
+  clear: both;
+}
+
+.glyphicon-toggle {
+  width: 20px;
+}
+
+.glyphicon-toggle:before {
+    cursor: pointer;
+    opacity: 0.5;
+    position: relative;
+    top: -5px;
+    left: 1px;
+    visibility: visible;
+}
+.glyphicon-toggle.glyphicon-eye-close:checked:before {
+    content: "\e105";
+    opacity: 1;
+}
+input[type=checkbox].glyphicon-toggle {
+    visibility: hidden;
+}
+
+/**
+ * Bootstrap modal scroll
+ */
 .modal-dialog{
   overflow-y: initial !important
 }
@@ -76,12 +118,23 @@
   width: 100%;
 }
 
-/* system config */
+.ngdialog.ngdialog-theme-default.custom-width .ngdialog-content {
+    width: 700px;
+    padding: 28px 34px 29px;
+}
+
+
+/**
+ * System config
+ */
 #apacheSample .modal-body {
   height: 60vh;
 }
 
-/* summernote */
+
+/**
+ * summernote
+ */
 .note-toolbar {
   margin-left: 0px !important;
 }
