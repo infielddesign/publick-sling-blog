@@ -40,6 +40,7 @@ public class PageEdit extends WCMUse {
     private String mode;
     private String pageTitle;
     private String navigationTitle;
+    private String[]elementsOfParentPath;
 
     /**
      * Array of strings that represents primaryTypes.
@@ -57,10 +58,8 @@ public class PageEdit extends WCMUse {
         String path = request.getParameter("post");
         String parent = request.getParameter("post2");
         String mode = request.getParameter("post3");
-        System.out.print(path);
 
         if (StringUtils.isNotBlank(path)) {
-            System.out.print("page23");
             getPage(path, parent, mode);
         }
     }
@@ -78,7 +77,6 @@ public class PageEdit extends WCMUse {
         if(Mode.equals("new")) {
             page = null;
         }
-        System.out.print(page);
 
         if (page != null) {
             ValueMap properties = page.adaptTo(ValueMap.class);
@@ -98,7 +96,10 @@ public class PageEdit extends WCMUse {
         }
 
         parentPath = path;
-        if(parentPath.equals(PublickConstants.PAGE_PATH)){
+        elementsOfParentPath = parentPath.split("/");
+        System.out.print(elementsOfParentPath[2]);
+        elementsOfParentPath[2] = "/" + elementsOfParentPath[2];
+        if(parentPath.equals(PublickConstants.PAGE_PATH) && elementsOfParentPath[2].equals(PublickConstants.PAGE_PATH)){
             parentNode = "";
         }
         else {

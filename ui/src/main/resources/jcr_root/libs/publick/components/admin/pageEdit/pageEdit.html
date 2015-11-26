@@ -119,14 +119,16 @@
             </div>
         </div>
     </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+    <div class="row">
         <div class="col-lg-12 col-md-12">
-            <label>Content</label>
-            <div summernote data-ng-model="model.content" height="300" data-ng-show="model.primarytype === 'publick:page'" class="form-group">
+            <div data-ng-show="model.primarytype === 'publick:page'">
+                <label>Content</label>
+                <div summernote data-ng-model="model.content" height="300" data-ng-show="model.primarytype === 'publick:page'" class="form-group">
+                </div>
+                <input type="hidden" data-ng-model="model.content" data-ng-init="model.content = '${page.content @ context='unsafe'}'" name="content" value="{{model.content}}" class="form-control">
             </div>
-            <input type="hidden" data-ng-model="model.content" data-ng-init="model.content = '${page.content @ context='unsafe'}'" name="content" value="{{model.content}}" class="form-control">
             <button type="submit" class="btn btn-primary"
-                    data-sly-attribute.disabled="${!page.authorable && 'disabled'}">Save</button>
+                data-sly-attribute.disabled="${!page.authorable && 'disabled'}">Save</button>
         </div>
     </div>
 </form>

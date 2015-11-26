@@ -190,6 +190,9 @@ function openNodeContext(obj, prefix_path, parent) {
 }
 
 function newNodeContext(obj, prefix_path, parent) {
+console.log(prefix_path);
+console.log(parent);
+console.log("parent");
     ngDialog.open({
         template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
         className : 'ngdialog-theme-default custom-width',
