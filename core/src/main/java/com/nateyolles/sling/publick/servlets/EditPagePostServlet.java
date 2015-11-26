@@ -71,6 +71,8 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
             final String[] links = request.getParameterValues("links");
             final String[] scripts = request.getParameterValues("scripts");
             final String configurationName = request.getParameter("configurationName");
+            final String pageTitle = request.getParameter("pageTitle");
+            final String navigationTitle = request.getParameter("navigationTitle");
             final String resourcetype = PublickConstants.PAGE_TYPE_PAGE;
 
             System.out.print("content");
@@ -81,6 +83,8 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
             properties.put("content", content);
             properties.put("description", description);
             properties.put("configurationName", configurationName);
+            properties.put("pageTitle", pageTitle);
+            properties.put("navigationTitle", navigationTitle);
 
             if (keywords != null) {
                 properties.put("keywords", keywords);

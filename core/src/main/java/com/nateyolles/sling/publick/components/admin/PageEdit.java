@@ -38,6 +38,8 @@ public class PageEdit extends WCMUse {
     private String parentPath;
     private String parentNode;
     private String mode;
+    private String pageTitle;
+    private String navigationTitle;
 
     /**
      * Array of strings that represents primaryTypes.
@@ -55,8 +57,10 @@ public class PageEdit extends WCMUse {
         String path = request.getParameter("post");
         String parent = request.getParameter("post2");
         String mode = request.getParameter("post3");
+        System.out.print(path);
 
         if (StringUtils.isNotBlank(path)) {
+            System.out.print("page23");
             getPage(path, parent, mode);
         }
     }
@@ -74,6 +78,7 @@ public class PageEdit extends WCMUse {
         if(Mode.equals("new")) {
             page = null;
         }
+        System.out.print(page);
 
         if (page != null) {
             ValueMap properties = page.adaptTo(ValueMap.class);
@@ -85,6 +90,8 @@ public class PageEdit extends WCMUse {
             scripts = properties.get("scripts", String[].class);
             content = properties.get("content", String.class);
             description = properties.get("description", String.class);
+            pageTitle = properties.get("pageTitle", String.class);
+            navigationTitle = properties.get("navigationTitle", String.class);
             url = page.getName();
 
             primaryType = properties.get("jcr:primaryType", String.class);
@@ -246,5 +253,23 @@ public class PageEdit extends WCMUse {
      */
     public String getMode() {
         return mode;
+    }
+
+    /**
+     * Get the page's pageTitle.
+     *
+     * @return The page's pageTitle.
+     */
+    public String getPageTitle() {
+        return pageTitle;
+    }
+
+    /**
+     * Get the page's navigationTitle.
+     *
+     * @return The page's navigationTitle.
+     */
+    public String getNavigationTitle() {
+        return navigationTitle;
     }
 }
