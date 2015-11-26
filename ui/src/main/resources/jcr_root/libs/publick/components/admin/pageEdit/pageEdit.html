@@ -41,7 +41,9 @@
                 <label>Page title</label><br>
 
                 <div class="input-group">
-                    <input type="text" name="pagetitle" value="true" data-sly-attribute.value="${page.pageTitle}" class="form-control" data-ng-model="input" data-ng-change="SEOHintMaxLength(70, input.length)" ng-trim="false" autocomplete="off">
+                    <input type="text" name="pageTitle" data-sly-attribute.value="${page.pageTitle}" class="form-control"
+                           data-ng-model="model.pagetitle" data-ng-init="model.pagetitle = '${page.pageTitle}'; SEOHintMaxLength(70, model.pagetitle.length)"
+                           data-ng-change="SEOHintMaxLength(70, model.pagetitle.length)" ng-trim="false" autocomplete="off">
                     <span class="input-group-addon">{{charsRemaining || 70}}</span>
                 </div>
                 <span class="help-block seo-hint" data-ng-show="showSEOHintMessage" ng-cloak>You're above recommended limit.</span>
@@ -52,7 +54,7 @@
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>Navigation title</label><br>
-                <input type="text" name="navigationTitle" value="true" data-sly-attribute.value="${page.navigationTitle}" class="form-control">
+                <input type="text" name="navigationTitle" data-sly-attribute.value="${page.navigationTitle}" class="form-control">
             </div>
         </div>
     </div>
@@ -121,7 +123,8 @@
                 <label>Description</label>
                 <div class="input-group">
                     <textarea rows="2" type="text" name="description" data-sly-attribute.value="${page.description}" class="form-control" 
-                              data-ng-model="input" data-ng-change="SEOHintMaxLength(155, input.length)" ng-trim="false" autocomplete="off"></textarea>
+                              data-ng-model="model.description" data-ng-init="model.description = '${page.description}'; SEOHintMaxLength(155, model.description.length)"
+                              data-ng-change="SEOHintMaxLength(155, model.description.length)" ng-trim="false" autocomplete="off"></textarea>
                     <span class="input-group-addon">{{charsRemaining || 155}}</span>
                 </div>
                 <span class="help-block seo-hint" data-ng-show="showSEOHintMessage" ng-cloak>You're above recommended limit.</span>
