@@ -3,7 +3,7 @@
  * success or failure message. Works with all settings components including
  * system settings, email config, and reCAPTcha config.
  */
-app.controller('PageListController', function($scope, $http, formDataObject, ngDialog, $window) {
+app.controller('PageListController', function($scope, $http, formDataObject, ngDialog, $window, $timeout) {
 
     $scope.pageList;
     
@@ -392,6 +392,36 @@ treeroot
 
 });
 
+    
+/**
+ *  The following code listens for the click event.
+ *  If the event is triggered then it will toggle child
+ *  nodes. But the toggle does not occur double-click.
+**/
+var clickToggle = false;
+var timer;
+treeroot
+.on('click', '.jstree-anchor', function (event, data) {
+    var that = this;
+    
+    if (!clickToggle) {
+        timer = $timeout(function() {
+            toggle_node(that);
+            clickToggle = false;
+        }, 500);
+        
+        clickToggle = true;
+    } else {
+        $timeout.cancel(timer);
+        
+        clickToggle = false;
+    }
+});
+
+function toggle_node(element) {
+    var instance = $.jstree.reference(element);
+    instance.toggle_node(element);
+}
 
 
 /**
