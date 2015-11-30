@@ -419,8 +419,10 @@ treeroot
 });
 
 function toggle_node(element) {
-    var instance = $.jstree.reference(element);
-    instance.toggle_node(element);
+    if ($.jstree !== undefined) {
+        var instance = $.jstree.reference(element);
+        instance.toggle_node(element);   
+    }
 }
 
 
