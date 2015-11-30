@@ -52,6 +52,8 @@ public class PageView extends WCMUse {
     private String configurationName;
     private String description;
     private boolean listView;
+    private String pageTitle;
+    private String navigationTitle;
 
     /**
      * The page post image's relative path
@@ -95,6 +97,8 @@ public class PageView extends WCMUse {
             description = properties.get("description", String.class);
             image = properties.get("image", String.class);
             configurationName = properties.get("configurationName", String.class);
+            pageTitle = properties.get("pageTitle", String.class);
+            navigationTitle = properties.get("navigationTitle", String.class);
 
 
             if (image != null) {
@@ -261,5 +265,23 @@ public class PageView extends WCMUse {
      */
     public String getImageAbsolutePath() {
         return imageAbsolutePath;
+    }
+
+    /**
+     * Get the page's pageTitle.
+     *
+     * @return The page's pageTitle.
+     */
+    public String getPageTitle() {
+        return pageTitle;
+    }
+
+    /**
+     * Get the page's navigationTitle.
+     *
+     * @return The page's navigationTitle.
+     */
+    public String getNavigationTitle() {
+        return navigationTitle;
     }
 }

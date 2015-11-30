@@ -190,12 +190,16 @@ function openNodeContext(obj, prefix_path, parent) {
 }
 
 function newNodeContext(obj, prefix_path, parent) {
+console.log(prefix_path);
+console.log(parent);
+console.log("parent");
     ngDialog.open({
         template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
         className : 'ngdialog-theme-default custom-width',
         controller : 'newPageController',
         closeByEscape : true,
-        scope : $scope
+        scope : $scope,
+        preCloseCallback: function(value) { return preCloseCallback() }
     });
 }
 
@@ -206,10 +210,30 @@ function editNodeContext(obj, prefix_path, parent) {
       className : 'ngdialog-theme-default custom-width',
       controller : 'newPageController',
       closeByEscape : true,
-      scope : $scope
+      scope : $scope,
+      preCloseCallback: function(value) { return preCloseCallback() }
   });
 }
 
+function preCloseCallback() {
+  var nestedConfirmDialog = ngDialog.openConfirm({
+      template:'\
+          <div class="modal-header">\
+            <h4 class="modal-title">Attention</h4>\
+          </div>\
+          <div class="modal-body"><p>Close modal without saving your changes?</p></div>\
+          <div class="modal-footer">\
+              <button type="button" class="btn btn-primary" ng-click="confirm(1)">Yes</button>\
+              <button type="button" class="btn btn-default" ng-click="closeThisDialog(0)">Cancel</button>\
+          </div>',
+      plain: true,
+      closeByEscape : true,
+  });
+
+  // NOTE: return the promise from openConfirm
+  return nestedConfirmDialog;
+}
+    
 function renameNodeContext(obj, prefix_path, path, parent, node) {
     renameNode(prefix_path, path, parent, node);
 }
