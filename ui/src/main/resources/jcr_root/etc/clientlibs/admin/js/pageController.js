@@ -13,35 +13,6 @@ var ROOT_PATH = "/page";
 
 $scope.textcontent = "nicola";
 
-/**
- *  This code takes a JSON object, an id and inserts a pretty printed
- *  and syntax highlighted JSON in your DOM.
-**/
-function jsonPrettyHighlightToId(jsonobj, id_to_send_to) {
-
-  var json = JSON.stringify(jsonobj, undefined, 2);
-
-  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  json = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-      var cls = 'color: darkorange;';
-      if (/^"/.test(match)) {
-          if (/:$/.test(match)) {
-              cls = 'color: red;';
-          } else {
-              cls = 'color: green;';
-          }
-      } else if (/true|false/.test(match)) {
-          cls = 'color: blue;';
-      } else if (/null/.test(match)) {
-          cls = 'color: magenta;';
-      }
-      return '<span style="' + cls + '">' + match + '</span>';
-  });
-
-  document.getElementById(id_to_send_to).innerHTML = json;
-
-}
-
 
 
 /**
@@ -360,8 +331,6 @@ tree = [{"text" : "page", "properties" : "jcr:primaryType : sling:Folder", "icon
 treeroot
 .on('select_node.jstree', function (e, data) {
     var properties = data["node"]["original"]["properties"];
-    
-//    jsonPrettyHighlightToId(properties, 'pretty_json');
     
     var filteredProperties = filterLevelTwoByPrimaryType(properties, "publick:page");    
     updatePageList(filteredProperties);
