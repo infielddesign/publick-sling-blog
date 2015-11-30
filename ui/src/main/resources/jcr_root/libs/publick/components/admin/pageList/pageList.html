@@ -43,8 +43,8 @@
             </thead>
             <tbody data-ng-repeat="list in pageList">
                 <tr>
-                    <td><a href="PLACEHOLDER.html" target="_blank">Title Placeholder</a> <span class="text-muted">/path-to/this-page</span></td>
-                    <td><i class="fa fa-eye"></i></i></td>
+                    <td><a href="/page/test/{{list.navigationTitle}}.html" target="_blank" title="Open page">{{list.pageTitle || "// No SEO title available" }}</a> <span class="text-muted">/page/test/{{list.navigationTitle}}.html</span></td>
+                    <td><i class="glyphicon" data-ng-class="list.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></i></td>
                     <td><a href="edit.html?post=PLACEHOLDER"><i class="glyphicon glyphicon-pencil"></i></a></td>
                 </tr>
             </tbody>

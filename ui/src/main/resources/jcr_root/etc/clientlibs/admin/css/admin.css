@@ -50,6 +50,14 @@
 
 
 /**
+ * pageList
+ */
+.glyphicon-eye-close {
+    opacity: 0.5;
+}
+
+
+/**
  * pageEdit
  */
 .keywords-add-container {

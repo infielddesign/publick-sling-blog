@@ -365,6 +365,8 @@ treeroot
     
     var filteredProperties = filterLevelTwoByPrimaryType(properties, "publick:page");    
     updatePageList(filteredProperties);
+    
+//    jsonPrettyHighlightToId(filteredProperties, 'pretty_json');
 });
 
 
