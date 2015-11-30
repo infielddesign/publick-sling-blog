@@ -28,7 +28,47 @@
         <!--</div>-->
     <!--</div>-->
     <div style="color: #337ab7;" id="clbk" class="demo"></div>
-    <div id="pretty_json"></div>
+
+    
+
+<div class="row" data-ng-show="pageList" ng-cloak>
+    <div class="col-lg-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Subpages</th>
+                    <th class="column-small"></th>
+                    <th class="column-small">Edit</th>
+                </tr>
+            </thead>
+            <tbody data-ng-repeat="list in pageList">
+                <tr>
+                    <td><a href="PLACEHOLDER.html" target="_blank">Title Placeholder</a> <span class="text-muted">/path-to/this-page</span></td>
+                    <td><i class="fa fa-eye"></i></i></td>
+                    <td><a href="edit.html?post=PLACEHOLDER"><i class="glyphicon glyphicon-pencil"></i></a></td>
+                </tr>
+            </tbody>
+<!--
+    <!--(list, value) in pageList
+    <!--<i class="fa fa-eye-slash"></i>
+    
+            <tbody data-sly-list="${list.blogs}">
+                <tr>
+                    <td data-sly-text="${itemList.count}"></td>
+                    <td><a href="${item.path}.html" target="_blank">${item.name}</a></td>
+                    <td><a href="edit.html?post=${item.path}"><i class="glyphicon glyphicon-pencil"></i></a></td>
+                    <td><i class="glyphicon glyphicon-trash ${!list.authorable && 'disabled'}"></i></td>
+                </tr>
+            </tbody>
+-->
+        </table>
+    </div>
+</div>
+
+
+<div id="pretty_json"></div>
+
+
 </div>
 
 <script type="text/ng-template" id="templateId">

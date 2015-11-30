@@ -5,6 +5,8 @@
  */
 app.controller('PageListController', function($scope, $http, formDataObject, ngDialog, $window) {
 
+    $scope.pageList;
+    
 var treeroot = $("#clbk");
 var CONTENT_PATH = "/content";
 var ROOT_PATH = "/page";
@@ -357,11 +359,51 @@ tree = [{"text" : "page", "properties" : "jcr:primaryType : sling:Folder", "icon
 **/
 treeroot
 .on('select_node.jstree', function (e, data) {
-    jsonPrettyHighlightToId(data["node"]["original"]["properties"], 'pretty_json');
+    var properties = data["node"]["original"]["properties"];
+    
+    jsonPrettyHighlightToId(properties, 'pretty_json');
+    
+    var filteredProperties = filterLevelTwoByPrimaryType(properties, "publick:page");    
+    updatePageList(filteredProperties);
 });
 
 
+/**
+ *  Return an object that only contains nodes of a specific type (e.g. "publick:page" or "sling:Folder")
+**/
+function filterLevelTwoByPrimaryType(object, primaryType) {
+    var filteredProperties = {};
+  
+    for (var key in object) {
+        if (object.hasOwnProperty(key)) {
+            var levelTwo = object[key];
+            
+            for (var keysTwo in levelTwo) {
+                if (levelTwo.hasOwnProperty(keysTwo) && keysTwo === "jcr:primaryType" && levelTwo["jcr:primaryType"] === primaryType) {
+                    filteredProperties[key] = object[key];
+                }
+            }
+        }
+    }
+    
+    return filteredProperties;
+}
 
+    
+/**
+ *  Update $scope.pageList.
+ *  $scope.apply() is needed to update the scope afterwards.
+**/
+function updatePageList(object) {
+    if (isEmpty(object)) {
+        object = undefined;
+    }
+    
+    $scope.pageList = object;
+    $scope.$apply();
+}
+
+    
 /**
  *  The following code listens for the dblclick event.
  *  If the event is triggered then it will let you rename
@@ -428,4 +470,14 @@ treeroot
       }
   });
 
+    /**
+     * Helper: Test if object is empty
+     */
+    function isEmpty(obj) {
+        for (var prop in obj) {
+            if (obj.hasOwnProperty(prop))
+                return false;
+        }
+        return true;
+    }
 });

@@ -182,3 +182,11 @@ input[type=checkbox].glyphicon-toggle {
 .hide {
   display: none;
 }
+
+/**
+ * This is used to prevent elements with ng-show from shortly
+ * "blinking" despite they have the ng-cloak attribute
+ */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
