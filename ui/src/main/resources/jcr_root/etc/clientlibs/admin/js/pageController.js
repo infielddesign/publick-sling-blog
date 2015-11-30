@@ -396,25 +396,25 @@ treeroot
 /**
  *  The following code listens for the click event.
  *  If the event is triggered then it will toggle child
- *  nodes. But the toggle does not occur double-click.
+ *  nodes. But the toggle does not occur on double-click.
 **/
-var clickToggle = false;
+var startedToggle = false;
 var timer;
 treeroot
 .on('click', '.jstree-anchor', function (event, data) {
     var that = this;
     
-    if (!clickToggle) {
+    if (!startedToggle) {
         timer = $timeout(function() {
             toggle_node(that);
-            clickToggle = false;
+            startedToggle = false;
         }, 500);
         
-        clickToggle = true;
+        startedToggle = true;
     } else {
         $timeout.cancel(timer);
         
-        clickToggle = false;
+        startedToggle = false;
     }
 });
 
