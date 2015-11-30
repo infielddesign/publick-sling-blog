@@ -361,12 +361,10 @@ treeroot
 .on('select_node.jstree', function (e, data) {
     var properties = data["node"]["original"]["properties"];
     
-    jsonPrettyHighlightToId(properties, 'pretty_json');
+//    jsonPrettyHighlightToId(properties, 'pretty_json');
     
     var filteredProperties = filterLevelTwoByPrimaryType(properties, "publick:page");    
     updatePageList(filteredProperties);
-    
-//    jsonPrettyHighlightToId(filteredProperties, 'pretty_json');
 });
 
 

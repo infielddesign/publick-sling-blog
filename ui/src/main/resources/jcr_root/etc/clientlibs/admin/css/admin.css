@@ -1,12 +1,4 @@
 /**
- * blogList
- */
-.table .column-small {
-  width: 50px;
-}
-
-
-/**
  * assetList
  */
 .asset-thumbnail {
@@ -141,6 +133,17 @@ input[type=checkbox].glyphicon-toggle {
 
 
 /**
+ * Table helpers
+ */
+.table .column-small {
+  width: 50px;
+}
+
+.table .column-extra-small {
+    width: 35px;
+}
+
+/**
  * summernote
  */
 .note-toolbar {
@@ -189,6 +192,14 @@ input[type=checkbox].glyphicon-toggle {
 
 .hide {
   display: none;
+}
+
+.scollable-x {
+    overflow-x: scroll;
+}
+
+.bottom-buffer {
+    margin-bottom: 10px;
 }
 
 /**

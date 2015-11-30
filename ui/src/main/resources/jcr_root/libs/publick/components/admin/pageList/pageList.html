@@ -1,73 +1,61 @@
 <div data-ng-controller="newPageController" data-sly-use.page="com.nateyolles.sling.publick.components.admin.PageEdit" data-sly-unwrap></div>
 <div data-sly-use.pageconf="com.nateyolles.sling.publick.components.admin.PageConfigurationEdit" data-sly-unwrap></div>
 <div data-ng-controller="PageListController" data-sly-use.list="com.nateyolles.sling.publick.components.admin.PageList">
-    <!--<div class="row">-->
-        <!--<div class="col-lg-12">-->
-            <!--<table class="table table-hover">-->
-                <!--<thead>-->
-                <!--<tr>-->
-                    <!--<th class="column-small">#</th>-->
-                    <!--<th>Page</th>-->
-                    <!--<th class="column-small">+Page</th>-->
-                    <!--<th class="column-small">+Dir</th>-->
-                    <!--<th class="column-small">Edit</th>-->
-                    <!--<th class="column-small">Delete</th>-->
-                <!--</tr>-->
-                <!--</thead>-->
-                <!--<tbody data-sly-list="${list.pages}">-->
-                <!--<tr>-->
-                    <!--<td data-sly-text="${itemList.count}"></td>-->
-                    <!--<td><a href="${item.path}.html" target="_blank">${item.name}</a></td>-->
-                    <!--<td><a href="edit.html?post=${item.path}&type=page"><i class="glyphicon glyphicon-file"></i></a></td>-->
-                    <!--<td><a href="edit.html?post=${item.path}&type=folder"><i class="glyphicon glyphicon-folder-open"></i></a></td>-->
-                    <!--<td><a href="edit.html?post=${item.path}"><i class="glyphicon glyphicon-pencil"></i></a></td>-->
-                    <!--<td><a href="#"><i data-ng-click="delete($event, '${item.path}')" class="glyphicon glyphicon-trash ${!list.authorable && 'disabled'}"></i></a></td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
-            <!--</table>-->
+        <!--<div class="row">-->
+            <!--<div class="col-lg-12">-->
+                <!--<table class="table table-hover">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                        <!--<th class="column-small">#</th>-->
+                        <!--<th>Page</th>-->
+                        <!--<th class="column-small">+Page</th>-->
+                        <!--<th class="column-small">+Dir</th>-->
+                        <!--<th class="column-small">Edit</th>-->
+                        <!--<th class="column-small">Delete</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody data-sly-list="${list.pages}">-->
+                    <!--<tr>-->
+                        <!--<td data-sly-text="${itemList.count}"></td>-->
+                        <!--<td><a href="${item.path}.html" target="_blank">${item.name}</a></td>-->
+                        <!--<td><a href="edit.html?post=${item.path}&type=page"><i class="glyphicon glyphicon-file"></i></a></td>-->
+                        <!--<td><a href="edit.html?post=${item.path}&type=folder"><i class="glyphicon glyphicon-folder-open"></i></a></td>-->
+                        <!--<td><a href="edit.html?post=${item.path}"><i class="glyphicon glyphicon-pencil"></i></a></td>-->
+                        <!--<td><a href="#"><i data-ng-click="delete($event, '${item.path}')" class="glyphicon glyphicon-trash ${!list.authorable && 'disabled'}"></i></a></td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
+            <!--</div>-->
         <!--</div>-->
-    <!--</div>-->
-    <div style="color: #337ab7;" id="clbk" class="demo"></div>
 
-    
+    <div class="row">
+        <div class="col-md-4 scollable-x bottom-buffer">
+            <div style="color: #337ab7;" id="clbk" class="demo"></div>
+        </div>
 
-<div class="row" data-ng-show="pageList" ng-cloak>
-    <div class="col-lg-12">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Subpages</th>
-                    <th class="column-small"></th>
-                    <th class="column-small">Edit</th>
-                </tr>
-            </thead>
-            <tbody data-ng-repeat="list in pageList">
-                <tr>
-                    <td><a href="/page/test/{{list.navigationTitle}}.html" target="_blank" title="Open page">{{list.pageTitle || "// No SEO title available" }}</a> <span class="text-muted">/page/test/{{list.navigationTitle}}.html</span></td>
-                    <td><i class="glyphicon" data-ng-class="list.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></i></td>
-                    <td><a href="edit.html?post=PLACEHOLDER"><i class="glyphicon glyphicon-pencil"></i></a></td>
-                </tr>
-            </tbody>
-<!--
-    <!--(list, value) in pageList
-    <!--<i class="fa fa-eye-slash"></i>
-    
-            <tbody data-sly-list="${list.blogs}">
-                <tr>
-                    <td data-sly-text="${itemList.count}"></td>
-                    <td><a href="${item.path}.html" target="_blank">${item.name}</a></td>
-                    <td><a href="edit.html?post=${item.path}"><i class="glyphicon glyphicon-pencil"></i></a></td>
-                    <td><i class="glyphicon glyphicon-trash ${!list.authorable && 'disabled'}"></i></td>
-                </tr>
-            </tbody>
--->
-        </table>
+        <div class="col-md-8 bottom-buffer" data-ng-show="pageList" ng-cloak>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Subpages</th>
+                        <th class="column-extra-small"></th>
+                        <th class="column-small">Edit</th>
+                    </tr>
+                </thead>
+                <tbody data-ng-repeat="list in pageList">
+                    <tr>
+                        <td><a href="/page/test/{{list.navigationTitle}}.html" target="_blank" title="Open page">{{list.pageTitle || "// No SEO title available" }}</a> <span class="text-muted">/page/test/{{list.navigationTitle}}.html</span></td>
+                        <td><i class="glyphicon" data-ng-class="list.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></i></td>
+                        <td><a href="edit.html?post=PLACEHOLDER"><i class="glyphicon glyphicon-pencil"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-
-<div id="pretty_json"></div>
-
+    <!-- When removing this, also remove the jsonPrettyHighlightToId function in pageController.js since it's no longer needed
+        <div id="pretty_json"></div>
+    -->
 
 </div>
 
