@@ -33,6 +33,7 @@
             <div style="color: #337ab7;" id="clbk" class="demo"></div>
         </div>
 
+        
         <div class="col-md-8 bottom-buffer" data-ng-show="pageList" ng-cloak>
             <table class="table table-hover">
                 <thead>
@@ -51,6 +52,39 @@
                 </tbody>
             </table>
         </div>
+
+
+        <div class="col-md-8 bottom-buffer" data-ng-show="pageContent" ng-cloak>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Page Preview</th>
+                        <th class="column-extra-small"></th>
+                        <th class="column-small">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="/page/test/{{pageContent.navigationTitle}}.html" target="_blank" title="Open page">
+                                {{pageContent.pageTitle || "// No SEO title available" }}
+                            </a> 
+                            <span class="text-muted">/page/test/{{pageContent.navigationTitle}}.html</span>
+                        </td>
+                        <td><i class="glyphicon" data-ng-class="pageContent.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></i></td>
+                        <td><a href="edit.html?post=PLACEHOLDER"><i class="glyphicon glyphicon-pencil"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" data-ng-show="pageContent.description">
+                            {{pageContent.description | limitTo: 450}}{{pageContent.description.length > 450 ? ' ...' : ''}}
+                        </td>
+                        <td colspan="3" data-ng-show="!pageContent.description && pageContent.content">
+                            {{pageContent.content | limitTo: 450}}{{pageContent.content.length > 450 ? ' ...' : ''}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
 

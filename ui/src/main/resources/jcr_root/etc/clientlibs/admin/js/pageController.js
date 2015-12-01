@@ -331,15 +331,33 @@ tree = [{"text" : "page", "properties" : "jcr:primaryType : sling:Folder", "icon
 treeroot
 .on('select_node.jstree', function (e, data) {
     var properties = data["node"]["original"]["properties"];
+    var filteredProperties;
     
-    var filteredProperties = filterLevelTwoByPrimaryType(properties, "publick:page");    
+    filteredProperties = filterLevelTwoByPrimaryType(properties, "publick:page");    
     updatePageList(filteredProperties);
+    
+    filteredProperties = filterLevelOneByPrimaryType(properties, "publick:page");    
+    updatePageContent(filteredProperties);
+    
+    $scope.$apply();
 });
 
 
 /**
  *  Return an object that only contains nodes of a specific type (e.g. "publick:page" or "sling:Folder")
 **/
+function filterLevelOneByPrimaryType(object, primaryType) {
+    var filteredProperties = {};
+  
+    if (object["jcr:primaryType"] === primaryType) {
+        for (var key in object) {
+            filteredProperties[key] = object[key];
+        }        
+    }
+
+    return filteredProperties;
+}
+    
 function filterLevelTwoByPrimaryType(object, primaryType) {
     var filteredProperties = {};
   
@@ -369,7 +387,18 @@ function updatePageList(object) {
     }
     
     $scope.pageList = object;
-    $scope.$apply();
+}
+
+/**
+ *  Update $scope.pageContent.
+ *  $scope.apply() is needed to update the scope afterwards.
+**/
+function updatePageContent(object) {
+    if (isEmpty(object)) {
+        object = undefined;
+    }
+    
+    $scope.pageContent = object;
 }
 
     
