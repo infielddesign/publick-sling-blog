@@ -44,7 +44,7 @@
 /**
  * pageList
  */
-.glyphicon-eye-close {
+.glyphicon-eye-close:before {
     opacity: 0.5;
 }
 
@@ -80,7 +80,6 @@
 
 .glyphicon-toggle:before {
     cursor: pointer;
-    opacity: 0.5;
     position: relative;
     top: -5px;
     left: 1px;
