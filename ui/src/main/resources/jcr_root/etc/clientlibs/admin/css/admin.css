@@ -47,6 +47,9 @@
 .glyphicon-eye-close:before {
     opacity: 0.5;
 }
+.pagelist-muted {
+    padding-left: 8px;
+}
 
 
 /**
