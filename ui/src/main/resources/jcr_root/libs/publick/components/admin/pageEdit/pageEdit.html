@@ -4,13 +4,12 @@
 <form id="pageeditform" name="pageeditform" action="/bin/admin/editpage" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-lg-6 col-md-6">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="url" data-sly-attribute.value="${page.url}" class="form-control">
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon" id="node-name-input">${page.parentPath}/</span>
                 <input type="hidden" name="parentpath" data-sly-attribute.value="${page.parentPath}" class="form-control">
                 <input type="hidden" name="parentnode" data-sly-attribute.value="${page.parentNode}" class="form-control">
                 <input type="hidden" name="mode" data-sly-attribute.value="${page.mode}" class="form-control">
-                <span class="help-block">The node name. Used in the post's URL.</span>
+                <input type="text" name="url" data-sly-attribute.value="${page.url}" class="form-control" aria-describedby="node-name-input">
             </div>
         </div>
     </div>
@@ -18,7 +17,7 @@
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>Primary Type</label><br>
-                <select name="primarytype" ng-model="model.primarytype" data-ng-init=" model.primarytype =  ${page.primaryType == null} ? 'publick:page' : '${page.primaryType}'">
+                <select class="form-control" name="primarytype" ng-model="model.primarytype" data-ng-init=" model.primarytype =  ${page.primaryType == null} ? 'publick:page' : '${page.primaryType}'">
                     <option data-sly-attribute.selected="${page.primaryType == 'publick:page'}" value="publick:page">Page</option>
                     <option data-sly-attribute.selected="${page.primaryType == 'sling:Folder'}" value="sling:Folder">Folder</option>
                 </select>
@@ -29,14 +28,22 @@
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>Configuration</label><br>
-                <select name="configurationName" data-sly-list="${pageconf.configurationNames}">
+                <select class="form-control" name="configurationName" data-sly-list="${pageconf.configurationNames}">
                     <option data-sly-attribute.selected="${page.configurationName == item}" value="${item}">${item}</option>
                 </select>
             </div>
         </div>
     </div>
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-6 col-md-6">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label>Main heading on page</label><br>
+                <input type="text" name="navigationTitle" data-sly-attribute.value="${page.navigationTitle}" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+        <div class="col-lg-12 col-md-12">
             <div class="form-group" data-ng-class="SEOHintClass" data-ng-controller="SEOController">
                 <label>SEO title</label><br>
                 <div class="input-group">
@@ -46,14 +53,6 @@
                     <span class="input-group-addon">{{charsRemaining || 70}}</span>
                 </div>
                 <span class="help-block seo-hint" data-ng-show="showSEOHintMessage" ng-cloak>You're above recommended limit.</span>
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-6 col-md-6">
-            <div class="form-group">
-                <label>Navigation title</label><br>
-                <input type="text" name="navigationTitle" data-sly-attribute.value="${page.navigationTitle}" class="form-control">
             </div>
         </div>
     </div>
