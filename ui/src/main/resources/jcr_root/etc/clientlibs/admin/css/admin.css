@@ -97,6 +97,12 @@ input[type=checkbox].glyphicon-toggle {
 }
 
 
+.jstree-default .jstree-clicked,
+.jstree-default .jstree-hovered {
+    background-color: #f8f8f8;
+    box-shadow: none;
+}
+
 ul.vakata-context.jstree-contextmenu.jstree-default-contextmenu {
     background-color: #fff;
     border: 1px solid #ccc;
