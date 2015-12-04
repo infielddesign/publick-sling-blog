@@ -1,12 +1,4 @@
 /**
- * blogList
- */
-.table .column-small {
-  width: 50px;
-}
-
-
-/**
  * assetList
  */
 .asset-thumbnail {
@@ -50,6 +42,17 @@
 
 
 /**
+ * pageList
+ */
+.glyphicon-eye-close:before {
+    opacity: 0.5;
+}
+.pagelist-muted {
+    padding-left: 8px;
+}
+
+
+/**
  * pageEdit
  */
 .keywords-add-container {
@@ -80,7 +83,6 @@
 
 .glyphicon-toggle:before {
     cursor: pointer;
-    opacity: 0.5;
     position: relative;
     top: -5px;
     left: 1px;
@@ -94,6 +96,34 @@ input[type=checkbox].glyphicon-toggle {
     visibility: hidden;
 }
 
+
+.jstree-default .jstree-clicked,
+.jstree-default .jstree-hovered {
+    background-color: #f8f8f8;
+    box-shadow: none;
+}
+
+ul.vakata-context.jstree-contextmenu.jstree-default-contextmenu {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175); 
+    margin-top: 2px;
+    padding: 5px 0;
+}
+
+.vakata-context li>a {
+    padding: 0 2.15em;
+}
+
+.vakata-context li>a:hover, .vakata-context li>a:focus {
+    background-color: #f5f5f5;
+    box-shadow: none;
+}
+
+    
 /**
  * Bootstrap modal scroll
  */
@@ -131,6 +161,17 @@ input[type=checkbox].glyphicon-toggle {
   height: 60vh;
 }
 
+
+/**
+ * Table helpers
+ */
+.table .column-small {
+  width: 50px;
+}
+
+.table .column-extra-small {
+    width: 35px;
+}
 
 /**
  * summernote
@@ -181,4 +222,20 @@ input[type=checkbox].glyphicon-toggle {
 
 .hide {
   display: none;
+}
+
+.scollable-x {
+    overflow-x: scroll;
+}
+
+.bottom-buffer {
+    margin-bottom: 10px;
+}
+
+/**
+ * This is used to prevent elements with ng-show from shortly
+ * "blinking" despite they have the ng-cloak attribute
+ */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
 }

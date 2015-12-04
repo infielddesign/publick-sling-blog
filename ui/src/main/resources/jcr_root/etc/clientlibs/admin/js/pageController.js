@@ -3,42 +3,15 @@
  * success or failure message. Works with all settings components including
  * system settings, email config, and reCAPTcha config.
  */
-app.controller('PageListController', function($scope, $http, formDataObject, ngDialog, $window) {
+app.controller('PageListController', function($scope, $http, formDataObject, ngDialog, $window, $timeout) {
 
+    $scope.pageList;
+    
 var treeroot = $("#clbk");
 var CONTENT_PATH = "/content";
 var ROOT_PATH = "/page";
 
 $scope.textcontent = "nicola";
-
-/**
- *  This code takes a JSON object, an id and inserts a pretty printed
- *  and syntax highlighted JSON in your DOM.
-**/
-function jsonPrettyHighlightToId(jsonobj, id_to_send_to) {
-
-  var json = JSON.stringify(jsonobj, undefined, 2);
-
-  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  json = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-      var cls = 'color: darkorange;';
-      if (/^"/.test(match)) {
-          if (/:$/.test(match)) {
-              cls = 'color: red;';
-          } else {
-              cls = 'color: green;';
-          }
-      } else if (/true|false/.test(match)) {
-          cls = 'color: blue;';
-      } else if (/null/.test(match)) {
-          cls = 'color: magenta;';
-      }
-      return '<span style="' + cls + '">' + match + '</span>';
-  });
-
-  document.getElementById(id_to_send_to).innerHTML = json;
-
-}
 
 
 
@@ -262,30 +235,35 @@ function customMenu(node) {
    }
    var items = {
       "Open" : {
+          "icon": "glyphicon glyphicon-new-window",
           "label" : "Open",
           "action" : function (obj) {
             openNodeContext(obj, prefix_path, parent);
           }
       },
       "New" : {
+          "icon": "fa fa-plus",
           "label" : "New",
           "action" : function (obj) {
             newNodeContext(obj, prefix_path, parent);
           }
       },
       "Edit" : {
-        "label" : "Edit",
-        "action" : function (obj) {
+          "icon": "fa fa-pencil",
+          "label" : "Edit",
+          "action" : function (obj) {
             editNodeContext(obj, prefix_path, parent);
-        }
+          }
       },
       "Rename" : {
+          "icon": "glyphicon glyphicon-text-color",
           "label" : "Rename",
           "action" : function (obj) {
             renameNodeContext(obj, prefix_path, path_string, parent, node);
           }
       },
       "Delete" : {
+          "icon": "fa fa-trash",
          "label" : "Delete",
          "action" : function (obj) {
             deleteNodeContext(obj, prefix_path, path_string, node);
@@ -357,11 +335,78 @@ tree = [{"text" : "page", "properties" : "jcr:primaryType : sling:Folder", "icon
 **/
 treeroot
 .on('select_node.jstree', function (e, data) {
-    jsonPrettyHighlightToId(data["node"]["original"]["properties"], 'pretty_json');
+    var properties = data["node"]["original"]["properties"];
+    var filteredProperties;
+    
+    filteredProperties = filterLevelTwoByPrimaryType(properties, "publick:page");    
+    updatePageList(filteredProperties);
+    
+    filteredProperties = filterLevelOneByPrimaryType(properties, "publick:page");    
+    updatePageContent(filteredProperties);
+    
+    $scope.$apply();
 });
 
 
+/**
+ *  Return an object that only contains nodes of a specific type (e.g. "publick:page" or "sling:Folder")
+**/
+function filterLevelOneByPrimaryType(object, primaryType) {
+    var filteredProperties = {};
+  
+    if (object["jcr:primaryType"] === primaryType) {
+        for (var key in object) {
+            filteredProperties[key] = object[key];
+        }        
+    }
 
+    return filteredProperties;
+}
+    
+function filterLevelTwoByPrimaryType(object, primaryType) {
+    var filteredProperties = {};
+  
+    for (var key in object) {
+        if (object.hasOwnProperty(key)) {
+            var levelTwo = object[key];
+            
+            for (var keysTwo in levelTwo) {
+                if (levelTwo.hasOwnProperty(keysTwo) && keysTwo === "jcr:primaryType" && levelTwo["jcr:primaryType"] === primaryType) {
+                    filteredProperties[key] = object[key];
+                }
+            }
+        }
+    }
+    
+    return filteredProperties;
+}
+
+    
+/**
+ *  Update $scope.pageList.
+ *  $scope.apply() is needed to update the scope afterwards.
+**/
+function updatePageList(object) {
+    if (isEmpty(object)) {
+        object = undefined;
+    }
+    
+    $scope.pageList = object;
+}
+
+/**
+ *  Update $scope.pageContent.
+ *  $scope.apply() is needed to update the scope afterwards.
+**/
+function updatePageContent(object) {
+    if (isEmpty(object)) {
+        object = undefined;
+    }
+    
+    $scope.pageContent = object;
+}
+
+    
 /**
  *  The following code listens for the dblclick event.
  *  If the event is triggered then it will let you rename
@@ -381,6 +426,38 @@ treeroot
 
 });
 
+    
+/**
+ *  The following code listens for the click event.
+ *  If the event is triggered then it will toggle child
+ *  nodes. But the toggle does not occur on double-click.
+**/
+var startedToggle = false;
+var timer;
+treeroot
+.on('click', '.jstree-anchor', function (event, data) {
+    var that = this;
+    
+    if (!startedToggle) {
+        timer = $timeout(function() {
+            toggle_node(that);
+            startedToggle = false;
+        }, 500);
+        
+        startedToggle = true;
+    } else {
+        $timeout.cancel(timer);
+        
+        startedToggle = false;
+    }
+});
+
+function toggle_node(element) {
+    if ($.jstree !== undefined) {
+        var instance = $.jstree.reference(element);
+        instance.toggle_node(element);   
+    }
+}
 
 
 /**
@@ -428,4 +505,14 @@ treeroot
       }
   });
 
+    /**
+     * Helper: Test if object is empty
+     */
+    function isEmpty(obj) {
+        for (var prop in obj) {
+            if (obj.hasOwnProperty(prop))
+                return false;
+        }
+        return true;
+    }
 });
