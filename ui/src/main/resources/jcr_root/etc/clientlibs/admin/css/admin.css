@@ -114,6 +114,33 @@ input[type=checkbox].glyphicon-toggle {
     top: 1px;
 }
 
+.jstree-default .jstree-clicked,
+.jstree-default .jstree-hovered {
+    background-color: #f8f8f8;
+    box-shadow: none;
+}
+
+ul.vakata-context.jstree-contextmenu.jstree-default-contextmenu {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175); 
+    margin-top: 2px;
+    padding: 5px 0;
+}
+
+.vakata-context li>a {
+    padding: 0 2.15em;
+}
+
+.vakata-context li>a:hover, .vakata-context li>a:focus {
+    background-color: #f5f5f5;
+    box-shadow: none;
+}
+
+
 /**
  * Bootstrap modal scroll
  */

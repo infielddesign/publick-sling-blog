@@ -235,30 +235,35 @@ function customMenu(node) {
    }
    var items = {
       "Open" : {
+          "icon": "glyphicon glyphicon-new-window",
           "label" : "Open",
           "action" : function (obj) {
             openNodeContext(obj, prefix_path, parent);
           }
       },
       "New" : {
+          "icon": "fa fa-plus",
           "label" : "New",
           "action" : function (obj) {
             newNodeContext(obj, prefix_path, parent);
           }
       },
       "Edit" : {
-        "label" : "Edit",
-        "action" : function (obj) {
+          "icon": "fa fa-pencil",
+          "label" : "Edit",
+          "action" : function (obj) {
             editNodeContext(obj, prefix_path, parent);
-        }
+          }
       },
       "Rename" : {
+          "icon": "glyphicon glyphicon-text-color",
           "label" : "Rename",
           "action" : function (obj) {
             renameNodeContext(obj, prefix_path, path_string, parent, node);
           }
       },
       "Delete" : {
+          "icon": "fa fa-trash",
          "label" : "Delete",
          "action" : function (obj) {
             deleteNodeContext(obj, prefix_path, path_string, node);
