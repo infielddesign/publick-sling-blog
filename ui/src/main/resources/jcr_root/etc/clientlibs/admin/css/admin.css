@@ -55,6 +55,10 @@
 /**
  * pageEdit
  */
+.ngdialog-overlay, .ngdialog-content {
+    z-index: 1; /* Bugfix for Chrome */
+}
+
 .pageedit-label-small {
     font-size: 0.75em;
 }
