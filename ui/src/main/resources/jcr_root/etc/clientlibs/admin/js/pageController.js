@@ -189,6 +189,18 @@ function editNodeContext(obj, prefix_path, parent) {
 }
 
 function preCloseCallback() {
+  var pageEditForm = document.getElementById("pageeditform");
+  // Note: Only show dialog when form has been updated
+  if (pageEditForm.length > 0 &&
+      pageEditForm.classList.length > 0 &&
+      pageEditForm.classList.contains("ng-dirty")) {
+    return nestedConfirmDialog();
+  } else {
+    return true;
+  }
+}
+  
+function nestedConfirmDialog() {
   var nestedConfirmDialog = ngDialog.openConfirm({
       template:'\
           <div class="modal-header">\
