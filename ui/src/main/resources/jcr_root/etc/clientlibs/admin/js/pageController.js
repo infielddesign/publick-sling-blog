@@ -188,12 +188,21 @@ function editNodeContext(obj, prefix_path, parent) {
   });
 }
 
-function preCloseCallback() {
+function isFormEdited() {
   var pageEditForm = document.getElementById("pageeditform");
-  // Note: Only show dialog when form has been updated
+  
   if (pageEditForm.length > 0 &&
       pageEditForm.classList.length > 0 &&
       pageEditForm.classList.contains("ng-dirty")) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function preCloseCallback() {
+  // Note: Show dialog when form has been updated
+  if (isFormEdited()) {
     return nestedConfirmDialog();
   } else {
     return true;
@@ -227,6 +236,19 @@ function deleteNodeContext(obj, prefix_path, path, node) {
     deleteNode(path, prefix_path, node);
 }
 
+$window.onbeforeunload = function (event) {
+  // Note: Don't show dialog when form has not been updated
+  if (!isFormEdited()) return null;
+  
+  var message = "Looks like you haven't saved your changes.";
+  if (typeof event == 'undefined') {
+    event = window.event;
+  }
+  if (event) {
+    event.returnValue = message;
+  }
+  return message;
+}
 
 
 /**
