@@ -25,7 +25,7 @@
         <div class="col-xs-12 col-md-6 col-md-pull-3">
             <label class="pageedit-label-small">Name/URL</label>
             <div class="form-group input-group">
-                <span class="input-group-addon input-sm" id="node-name-input">${page.parentPath}/</span>
+                <!--<span class="input-group-addon input-sm" id="node-name-input">${page.parentPath}/</span>-->
                 <input type="hidden" name="parentpath" data-sly-attribute.value="${page.parentPath}" class="form-control">
                 <input type="hidden" name="parentnode" data-sly-attribute.value="${page.parentNode}" class="form-control">
                 <input type="hidden" name="mode" data-sly-attribute.value="${page.mode}" class="form-control">
@@ -101,7 +101,7 @@
     </div>
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-12 col-md-12">
-            <div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${pageConf.getLinksJSON}">
+            <div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${page.getLinks}">
                 <label>Styles</label>
                 <div data-ng-repeat="link in links track by $index" class="input-group added-input-field">
                     <input type="text" name="links" class="form-control" data-ng-model="links[$index]">
@@ -117,7 +117,7 @@
     </div>
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-12 col-md-12">
-            <div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${pageConf.getScriptsJSON}">
+            <div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${page.getScripts}">
                 <label>Scripts</label>
                 <div data-ng-repeat="script in scripts track by $index" class="input-group added-input-field">
                     <input type="text" name="scripts" class="form-control" data-ng-model="scripts[$index]">

@@ -149,8 +149,17 @@ public class PageEdit extends WCMUse {
      *
      * @return The multi-value link property.
      */
-    public String[] getLinks() {
-        return links;
+    public String getLinks() {
+
+        JSONArray jsonArray = null;
+
+        if (links != null) {
+            jsonArray = new JSONArray(Arrays.asList(links));
+        } else {
+            jsonArray = new JSONArray();
+        }
+
+        return jsonArray.toString();
     }
 
     /**
@@ -158,8 +167,17 @@ public class PageEdit extends WCMUse {
      *
      * @return The multi-value script property.
      */
-    public String[] getScripts() {
-        return scripts;
+    public String getScripts() {
+
+        JSONArray jsonArray = null;
+
+        if (scripts != null) {
+            jsonArray = new JSONArray(Arrays.asList(scripts));
+        } else {
+            jsonArray = new JSONArray();
+        }
+
+        return jsonArray.toString();
     }
 
     /**
