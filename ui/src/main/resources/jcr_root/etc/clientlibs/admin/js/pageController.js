@@ -158,14 +158,10 @@ function deleteNode(path, prefix_path, node)
  *  Context Functions
 **/
 function openNodeContext(obj, prefix_path, parent) {
-    console.log("AEM changed");
     $window.open('/' + prefix_path + '/' + parent + '.html', '_blank');
 }
 
 function newNodeContext(obj, prefix_path, parent) {
-console.log(prefix_path);
-console.log(parent);
-console.log("parent");
     ngDialog.open({
         template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
         className : 'ngdialog-theme-default custom-width',
@@ -337,11 +333,26 @@ treeroot
 .on('select_node.jstree', function (e, data) {
     var properties = data["node"]["original"]["properties"];
     var filteredProperties;
-    
-    filteredProperties = filterLevelTwoByPrimaryType(properties, "publick:page");    
+    var selectedNode = data["node"]["text"];
+
+    var node = data["node"];
+    var parent = node["text"];
+    var prefix_path = "/" + treeroot.jstree("get_path", node,"/",false).replace("/" + parent, "") + "/";
+    var prefix_path_child = "/" + treeroot.jstree("get_path", node,"/",false) + "/";
+    console.log(prefix_path);
+    console.log(prefix_path_child);
+
+    $scope.prefix_path = prefix_path;
+    $scope.prefix_path_child = prefix_path_child;
+
+//    console.log("data");
+//    console.log(data);
+//    console.log("data");
+
+    filteredProperties = filterLevelTwoByPrimaryType(selectedNode, properties, "publick:page");
     updatePageList(filteredProperties);
     
-    filteredProperties = filterLevelOneByPrimaryType(properties, "publick:page");    
+    filteredProperties = filterLevelOneByPrimaryType(selectedNode, properties, "publick:page");
     updatePageContent(filteredProperties);
     
     $scope.$apply();
@@ -351,10 +362,11 @@ treeroot
 /**
  *  Return an object that only contains nodes of a specific type (e.g. "publick:page" or "sling:Folder")
 **/
-function filterLevelOneByPrimaryType(object, primaryType) {
+function filterLevelOneByPrimaryType(selectedNode, object, primaryType) {
     var filteredProperties = {};
-  
+
     if (object["jcr:primaryType"] === primaryType) {
+        filteredProperties["selectedNode"] = selectedNode;
         for (var key in object) {
             filteredProperties[key] = object[key];
         }        
@@ -363,13 +375,17 @@ function filterLevelOneByPrimaryType(object, primaryType) {
     return filteredProperties;
 }
     
-function filterLevelTwoByPrimaryType(object, primaryType) {
+function filterLevelTwoByPrimaryType(selectedNode, object, primaryType) {
     var filteredProperties = {};
-  
+
     for (var key in object) {
         if (object.hasOwnProperty(key)) {
+//            filteredProperties["selectedNode"] = selectedNode;
             var levelTwo = object[key];
-            
+            if (typeof(levelTwo) == "object")
+            {
+                levelTwo["text"] = key
+            }
             for (var keysTwo in levelTwo) {
                 if (levelTwo.hasOwnProperty(keysTwo) && keysTwo === "jcr:primaryType" && levelTwo["jcr:primaryType"] === primaryType) {
                     filteredProperties[key] = object[key];
@@ -377,6 +393,7 @@ function filterLevelTwoByPrimaryType(object, primaryType) {
             }
         }
     }
+//    filteredProperties["selectedNode"] = object["node"]["text"];
     
     return filteredProperties;
 }
@@ -390,7 +407,8 @@ function updatePageList(object) {
     if (isEmpty(object)) {
         object = undefined;
     }
-    
+
+    console.log(object);
     $scope.pageList = object;
 }
 
@@ -402,7 +420,8 @@ function updatePageContent(object) {
     if (isEmpty(object)) {
         object = undefined;
     }
-    
+
+    console.log(object);
     $scope.pageContent = object;
 }
 
@@ -475,15 +494,12 @@ treeroot
     var old_path = CONTENT_PATH + "/" + treeroot.jstree("get_path", data["old_parent"],"/",false) + "/" + parent;
     var new_path = CONTENT_PATH + "/" + prefix_path;
 
-    console.log(prefix_path);
-
     moveNode(old_path, new_path + "/");
 });
 
 
   $("select[name='primarytype']").on("change", function(){
       var typeValue = $(this).find(":selected").val();
-      console.log(typeValue);
 
       if(typeValue==="sling:Folder"){
           $("#configurationName").addClass("hide");
