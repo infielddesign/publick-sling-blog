@@ -6,8 +6,10 @@
 app.controller('PageListController', function($scope, $http, formDataObject, ngDialog, $window, $timeout) {
 
     $scope.pageList;
-    
-var treeroot = $("#clbk");
+
+var rootname = "clbk"
+var rootid = "#" + rootname;
+var treeroot = $(rootid);
 var CONTENT_PATH = "/content";
 var ROOT_PATH = "/page";
 
@@ -137,11 +139,9 @@ function deleteNode(path, prefix_path, node)
     var params = {":operation": "delete", ":applyTo": CONTENT_PATH + "/" + path};
     var url = CONTENT_PATH + ROOT_PATH;
     var fetched_node = treeroot.jstree(true).get_node(node).parent;
-    console.log(path);
 
     slingPostServlet(url, params).then(
          function(res1){
-                console.log(res1);
 
              get(prefix_path, "2").then(
              function(res2){
@@ -235,6 +235,17 @@ function customMenu(node) {
           "label" : "Open",
           "action" : function (obj) {
             openNodeContext(obj, prefix_path, parent);
+          },
+          "_disabled": function (obj){
+            var nodeType = node["original"]["properties"]["jcr:primaryType"];
+
+            //If the node selected is a folder then disable option of opening it.
+            if(nodeType == "sling:Folder"){
+                return true;
+            }
+            else{
+                return false;
+            }
           }
       },
       "New" : {
@@ -287,7 +298,7 @@ get("page/", "2").then(function(res){
 var objects = res['data'];
 var tree = [];
 tree = translate(objects);
-tree = [{"text" : "page", "properties" : "jcr:primaryType : sling:Folder", "icon" : "glyphicon glyphicon-folder-open",  "children" : tree}];
+tree = [{"text" : "page", "properties" : "jcr:primaryType : sling:Folder", "icon" : "glyphicon glyphicon-folder-open", "state" : {"opened" : true, "disabled" : true, "selected" : false},"children" : tree}];
 
     treeroot
     .jstree({
@@ -339,15 +350,9 @@ treeroot
     var parent = node["text"];
     var prefix_path = "/" + treeroot.jstree("get_path", node,"/",false).replace("/" + parent, "") + "/";
     var prefix_path_child = "/" + treeroot.jstree("get_path", node,"/",false) + "/";
-    console.log(prefix_path);
-    console.log(prefix_path_child);
 
     $scope.prefix_path = prefix_path;
     $scope.prefix_path_child = prefix_path_child;
-
-//    console.log("data");
-//    console.log(data);
-//    console.log("data");
 
     filteredProperties = filterLevelTwoByPrimaryType(selectedNode, properties, "publick:page");
     updatePageList(filteredProperties);
@@ -407,8 +412,6 @@ function updatePageList(object) {
     if (isEmpty(object)) {
         object = undefined;
     }
-
-    console.log(object);
     $scope.pageList = object;
 }
 
@@ -420,8 +423,6 @@ function updatePageContent(object) {
     if (isEmpty(object)) {
         object = undefined;
     }
-
-    console.log(object);
     $scope.pageContent = object;
 }
 
@@ -441,7 +442,7 @@ treeroot
     var parent = node["text"];
     var prefix_path = path_string.replace("/" + parent, "");
 
-    renameNode(node, prefix_path, path_string, parent);
+    renameNode(prefix_path, path_string, parent, node);
 
 });
 
@@ -496,6 +497,7 @@ treeroot
 
     moveNode(old_path, new_path + "/");
 });
+
 
 
   $("select[name='primarytype']").on("change", function(){
