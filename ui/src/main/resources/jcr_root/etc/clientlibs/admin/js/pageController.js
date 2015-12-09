@@ -239,6 +239,7 @@ function customMenu(node) {
           "_disabled": function (obj){
             var nodeType = node["original"]["properties"]["jcr:primaryType"];
 
+            console.log(node);
             //If the node selected is a folder then disable option of opening it.
             if(nodeType == "sling:Folder"){
                 return true;
@@ -253,28 +254,76 @@ function customMenu(node) {
           "label" : "New",
           "action" : function (obj) {
             newNodeContext(obj, prefix_path, parent);
-          }
+          },
+         "_disabled": function (obj){
+           var parentId = node["parent"];
+
+           console.log(parentId);
+           //If the node selected is a folder then disable option of opening it.
+           if(parentId == "#"){
+               return true;
+           }
+           else{
+               return false;
+           }
+         }
       },
       "Edit" : {
-          "icon": "fa fa-pencil",
-          "label" : "Edit",
-          "action" : function (obj) {
-            editNodeContext(obj, prefix_path, parent);
-          }
+            "icon": "fa fa-pencil",
+            "label" : "Edit",
+            "action" : function (obj) {
+                editNodeContext(obj, prefix_path, parent);
+            },
+            "_disabled": function (obj){
+              var parentId = node["parent"];
+
+              console.log(parentId);
+              //If the node selected is a folder then disable option of opening it.
+              if(parentId == "#"){
+                  return true;
+              }
+              else{
+                  return false;
+              }
+            }
       },
       "Rename" : {
-          "icon": "glyphicon glyphicon-text-color",
-          "label" : "Rename",
-          "action" : function (obj) {
+        "icon": "glyphicon glyphicon-text-color",
+        "label" : "Rename",
+        "action" : function (obj) {
             renameNodeContext(obj, prefix_path, path_string, parent, node);
+        },
+        "_disabled": function (obj){
+          var parentId = node["parent"];
+
+          console.log(parentId);
+          //If the node selected is a folder then disable option of opening it.
+          if(parentId == "#"){
+              return true;
           }
+          else{
+              return false;
+          }
+        }
       },
       "Delete" : {
-          "icon": "fa fa-trash",
-         "label" : "Delete",
-         "action" : function (obj) {
+        "icon": "fa fa-trash",
+        "label" : "Delete",
+        "action" : function (obj) {
             deleteNodeContext(obj, prefix_path, path_string, node);
+        },
+        "_disabled": function (obj){
+          var parentId = node["parent"];
+
+          console.log(parentId);
+          //If the node selected is a folder then disable option of opening it.
+          if(parentId == "#"){
+              return true;
           }
+          else{
+              return false;
+          }
+        }
       }
    };
 
@@ -298,7 +347,7 @@ get("page/", "2").then(function(res){
 var objects = res['data'];
 var tree = [];
 tree = translate(objects);
-tree = [{"text" : "page", "properties" : "jcr:primaryType : sling:Folder", "icon" : "glyphicon glyphicon-folder-open", "state" : {"opened" : true, "disabled" : true, "selected" : false},"children" : tree}];
+tree = [{"text" : "page", "properties" : {"jcr:primaryType" : "sling:Folder"}, "icon" : "glyphicon glyphicon-folder-open", "state" : {"opened" : true, "disabled" : true, "selected" : false},"children" : tree}];
 
     treeroot
     .jstree({
