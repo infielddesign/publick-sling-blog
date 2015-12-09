@@ -1,0 +1,60 @@
+<div data-sly-use.header="com.infielddigital.sling.publick.components.foundation.IdHeader">
+    <section role="header">
+        <header class="nav-wrapper">
+            <nav class="nav" nav="">
+                <ul class="nav-title-area">
+                    <li class="nav-header">
+                        <a href="#" class="header-link">
+                            <span class="header-link-logo">${header.logo}</span>
+                            <span class="header-link-text">${header.text}</span>
+                        </a>
+                    </li>
+                    <li class="nav-toggle">
+                        <a menu-toggle-button="">
+                            <span class="nav-toggle-icon"></span>
+                        </a>
+                    </li>
+                </ul>
+                ${properties.pageTitle}
+                <section class="nav-menu" nav-menu="">
+                    <ul class="nav-primary ">
+                        <li><a href="http://www.infielddesign.com/capabilities/">Capabilities</a></li>
+                        <li>
+                            <a href="http://www.infielddesign.com/technology/">Technology</a>
+                            <ul class="nav-primary-sub">
+                                <li>
+                                    <a href="http://www.infielddesign.com/technology/adobe-experience-manager/">Adobe Experience Manager</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.infielddesign.com/technology/elastic-path/">Elastic Path</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.infielddesign.com/technology/apache-solr/">Apache Solr</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="http://www.infielddesign.com/work/">Work</a>
+                        </li>
+                        <li>
+                            <a href="http://www.infielddesign.com/team/">Team</a>
+                            <ul class="nav-primary-sub">
+                                <li>
+                                    <a href="http://www.infielddesign.com/team/jobs/">Jobs</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.infielddesign.com/team/news/">News</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="http://www.infielddesign.com/contact/">Contact</a>
+                        </li>
+                        <!--${header.menu @ context='unsafe'}-->
+                    </ul>
+                </section>
+                <a nav-menu-exit=""></a>
+            </nav>
+        </header>
+    </section>
+</div>
