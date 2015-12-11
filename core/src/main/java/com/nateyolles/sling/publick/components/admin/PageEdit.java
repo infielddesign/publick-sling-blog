@@ -41,6 +41,7 @@ public class PageEdit extends WCMUse {
     private String pageTitle;
     private String navigationTitle;
     private String[]elementsOfParentPath;
+    private String checksElements;
 
     /**
      * Array of strings that represents primaryTypes.
@@ -97,9 +98,10 @@ public class PageEdit extends WCMUse {
 
         parentPath = path;
         elementsOfParentPath = parentPath.split("/");
-        System.out.print(elementsOfParentPath[2]);
-        elementsOfParentPath[2] = "/" + elementsOfParentPath[2];
-        if(parentPath.equals(PublickConstants.PAGE_PATH) && elementsOfParentPath[2].equals(PublickConstants.PAGE_PATH)){
+        checksElements = "/" + elementsOfParentPath[1] + "/" + elementsOfParentPath[2];
+        System.out.println("checksElements = " + checksElements + " == " + PublickConstants.PAGE_PATH);
+        System.out.println("parentPath = " + parentPath);
+        if(parentPath.equals(PublickConstants.PAGE_PATH) && checksElements.equals(PublickConstants.PAGE_PATH)){
             parentNode = "";
         }
         else {
