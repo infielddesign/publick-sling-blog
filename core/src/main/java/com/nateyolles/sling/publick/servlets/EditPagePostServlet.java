@@ -70,7 +70,10 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
             final String[] keywords = request.getParameterValues("keywords");
             final String[] links = request.getParameterValues("links");
             final String[] scripts = request.getParameterValues("scripts");
-            final String configurationName = request.getParameter("configurationName");
+
+//            The following configuration feature has been removed for the moment but may be reinstated in the future
+//            final String configurationName = request.getParameter("configurationName");
+
             final String pageTitle = request.getParameter("pageTitle");
             final String navigationTitle = request.getParameter("navigationTitle");
             final String resourcetype = PublickConstants.PAGE_TYPE_PAGE;
@@ -82,7 +85,10 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
             properties.put("visible", visible);
             properties.put("content", content);
             properties.put("description", description);
-            properties.put("configurationName", configurationName);
+
+//            The following configuration feature has been removed for the moment but may be reinstated in the future
+//            properties.put("configurationName", configurationName);
+
             properties.put("pageTitle", pageTitle);
             properties.put("navigationTitle", navigationTitle);
 

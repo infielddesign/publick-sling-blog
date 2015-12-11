@@ -15,12 +15,13 @@
             </div>
         </div>
         <div class="col-xs-6 col-md-3 col-md-push-6">
-            <div class="form-group">
-                <label class="pageedit-label-small">Template</label>
-                <select class="form-control input-sm" name="configurationName" data-sly-list="${pageconf.configurationNames}">
-                    <option data-sly-attribute.selected="${page.configurationName == item}" value="${item}">${item}</option>
-                </select>
-            </div>
+            <!-- The following configuration feature has been removed for the moment but may be reinstated in the future-->
+            <!--<div class="form-group">-->
+                <!--<label class="pageedit-label-small">Template</label>-->
+                <!--<select class="form-control input-sm" name="configurationName" data-sly-list="${pageconf.configurationNames}">-->
+                    <!--<option data-sly-attribute.selected="${page.configurationName == item}" value="${item}">${item}</option>-->
+                <!--</select>-->
+            <!--</div>-->
         </div>
         <div class="col-xs-12 col-md-6 col-md-pull-3">
             <label class="pageedit-label-small">Name/URL</label>
