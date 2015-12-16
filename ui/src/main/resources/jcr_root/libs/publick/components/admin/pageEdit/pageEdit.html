@@ -1,5 +1,7 @@
 <div data-ng-controller="newPageController" data-sly-use.page="com.nateyolles.sling.publick.components.admin.PageEdit" data-sly-unwrap></div>
-<div data-sly-use.pageconf="com.nateyolles.sling.publick.components.admin.PageConfigurationEdit" data-sly-unwrap></div>
+<div data-sly-use.idheader="com.infielddigital.sling.publick.components.admin.IdHeader" data-sly-unwrap></div>
+<div data-sly-use.idfooter="com.infielddigital.sling.publick.components.admin.IdFooter" data-sly-unwrap></div>
+<!--<div data-sly-use.pageconf="com.nateyolles.sling.publick.components.admin.PageConfigurationEdit" data-sly-unwrap></div>-->
 
 <form id="pageeditform" name="pageeditform" action="/bin/admin/editpage" method="post" enctype="multipart/form-data">
     
@@ -144,6 +146,57 @@
             </div>
         </div>
     </div>
+
+
+
+    <!-- Start Header fields-->
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+        <hr class="pageedit-separator">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label>Header logo</label><br>
+                <input type="text" name="header-logo" data-sly-attribute.value="${idheader.headerLogo}" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+        <hr class="pageedit-separator">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label>Header text</label><br>
+                <input type="text" name="header-text" data-sly-attribute.value="${idheader.headerText}" class="form-control">
+            </div>
+        </div>
+    </div>
+    <!-- End Header fields-->
+
+
+
+
+
+    <!-- Start Footer fields-->
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+        <hr class="pageedit-separator">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label>Footer logo</label><br>
+                <input type="text" name="footer-logo" data-sly-attribute.value="${idfooter.footerLogo}" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+        <hr class="pageedit-separator">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label>Footer text</label><br>
+                <input type="text" name="footer-text" data-sly-attribute.value="${idfooter.footerText}" class="form-control">
+            </div>
+        </div>
+    </div>
+    <!-- End Footer fields-->
+
+
+
     <div class="row">
         <div class="col-lg-6 col-md-6">
             <button type="submit" class="btn btn-primary"
