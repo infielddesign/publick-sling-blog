@@ -1,8 +1,8 @@
-package com.infielddigital.sling.publick.components.admin;
+package com.infielddigital.sling.publick.components.foundation;
 
+import com.nateyolles.sling.publick.PublickConstants;
 import com.nateyolles.sling.publick.services.LinkRewriterService;
 import com.nateyolles.sling.publick.sightly.WCMUse;
-import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -16,12 +16,12 @@ import java.util.Arrays;
 /**
  * Sightly component to display a single page.
  */
-public class IdHeader extends WCMUse {
+public class IdHeaderView extends WCMUse {
 
     /**
      * Logger instance to log and debug errors.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(IdHeader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IdHeaderView.class);
 
     /**
      * Link Rewriter to create proper display paths for meta
@@ -68,15 +68,7 @@ public class IdHeader extends WCMUse {
         listView = Arrays.asList(request.getRequestPathInfo().getSelectors()).contains(LIST_VIEW_SELECTOR);
         SlingScriptHelper scriptHelper = getSlingScriptHelper();
         linkRewriter = scriptHelper.getService(LinkRewriterService.class);
-
-        String path = request.getParameter("post");
-        String parent = request.getParameter("post2");
-        String mode = request.getParameter("post3");
-        System.out.println(path);
-
-        if (StringUtils.isNotBlank(path)) {
-            getPage(path, parent, mode);
-        }
+        getPage(resource);
     }
 
     /**
@@ -84,25 +76,13 @@ public class IdHeader extends WCMUse {
      *
      * @param page The page post resource.
      */
-    private void getPage(String path, String parent, String Mode) {
-        ResourceResolver resolver = resource.getResourceResolver();
-        Resource page = resolver.getResource(path + "/" + parent);
-
-        if(Mode.equals("new")) {
-            page = null;
-        }
-
+    private void getPage(Resource page) {
         if (page != null) {
             ValueMap properties = page.adaptTo(ValueMap.class);
             logo = properties.get("header-logo", String.class);
             text = properties.get("header-text", String.class);
-            System.out.println(resource);
-            System.out.println(page);
-            System.out.println(logo);
-            System.out.println(text);
         }
     }
-
 
     /**
      * Get the headers header-link-logo.
@@ -130,5 +110,4 @@ public class IdHeader extends WCMUse {
     public boolean getListView() {
         return listView;
     }
-
 }
