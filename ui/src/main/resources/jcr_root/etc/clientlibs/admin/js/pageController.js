@@ -257,15 +257,13 @@ function customMenu(node) {
           },
          "_disabled": function (obj){
            var parentId = node["parent"];
-
-           console.log(parentId);
            //If the node selected is a folder then disable option of opening it.
-           if(parentId == "#"){
-               return true;
-           }
-           else{
-               return false;
-           }
+//           if(parentId == "#"){
+//               return true;
+//           }
+//           else{
+//               return false;
+//           }
          }
       },
       "Edit" : {
@@ -315,7 +313,6 @@ function customMenu(node) {
         "_disabled": function (obj){
           var parentId = node["parent"];
 
-          console.log(parentId);
           //If the node selected is a folder then disable option of opening it.
           if(parentId == "#"){
               return true;
