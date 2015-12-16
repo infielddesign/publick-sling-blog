@@ -1,14 +1,13 @@
-package com.infielddigital.sling.publick.components.foundation;
+package com.infielddigital.sling.publick.components.admin;
 
-import com.nateyolles.sling.publick.PublickConstants;
 import com.nateyolles.sling.publick.services.LinkRewriterService;
 import com.nateyolles.sling.publick.sightly.WCMUse;
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.apache.sling.commons.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +44,6 @@ public class IdHeader extends WCMUse {
     private SlingHttpServletRequest request;
     private String logo;
     private String text;
-    private String[] menu;
     private boolean listView;
 
     /**
@@ -70,7 +68,14 @@ public class IdHeader extends WCMUse {
         listView = Arrays.asList(request.getRequestPathInfo().getSelectors()).contains(LIST_VIEW_SELECTOR);
         SlingScriptHelper scriptHelper = getSlingScriptHelper();
         linkRewriter = scriptHelper.getService(LinkRewriterService.class);
-        getPage(resource);
+
+        String path = request.getParameter("post");
+        String parent = request.getParameter("post2");
+        String mode = request.getParameter("post3");
+
+        if (StringUtils.isNotBlank(path)) {
+            getPage(path, parent, mode);
+        }
     }
 
     /**
@@ -78,12 +83,18 @@ public class IdHeader extends WCMUse {
      *
      * @param page The page post resource.
      */
-    private void getPage(Resource page) {
+    private void getPage(String path, String parent, String Mode) {
+        ResourceResolver resolver = resource.getResourceResolver();
+        Resource page = resolver.getResource(path + "/" + parent);
+
+        if(Mode.equals("new")) {
+            page = null;
+        }
+
         if (page != null) {
             ValueMap properties = page.adaptTo(ValueMap.class);
-            logo = properties.get("header-link-logo", String.class);
-            text = properties.get("header-link-text", String.class);
-            menu = properties.get("menu", String[].class);
+            logo = properties.get("header-logo", String.class);
+            text = properties.get("header-text", String.class);
         }
     }
 
@@ -93,7 +104,7 @@ public class IdHeader extends WCMUse {
      *
      * @return The header's header-link-logo.
      */
-    public String getLogo() {
+    public String getHeaderLogo() {
         return logo;
     }
 
@@ -102,28 +113,8 @@ public class IdHeader extends WCMUse {
      *
      * @return The header's header-link-text.
      */
-    public String getText() {
+    public String getHeaderText() {
         return text;
-    }
-
-    /**
-     * Get the header's menu.
-     *
-     * @return The header's menu.
-     */
-    public JSONArray getMenu() {
-        String[][] fakemenu = new String[20][3];
-        fakemenu[0][0] = "";
-
-        JSONArray jsonArray = null;
-
-        if (fakemenu != null) {
-            jsonArray = new JSONArray(Arrays.asList(fakemenu));
-        } else {
-            jsonArray = new JSONArray();
-        }
-
-        return jsonArray;
     }
 
     /**

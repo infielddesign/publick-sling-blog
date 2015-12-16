@@ -1,8 +1,5 @@
 package com.nateyolles.sling.publick.components.admin;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import com.nateyolles.sling.publick.PublickConstants;
 import com.nateyolles.sling.publick.sightly.WCMUse;
 import org.apache.commons.lang.StringUtils;
@@ -12,8 +9,6 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.commons.json.JSONArray;
 
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
 import java.util.Arrays;
 
 /**
@@ -99,8 +94,6 @@ public class PageEdit extends WCMUse {
         parentPath = path;
         elementsOfParentPath = parentPath.split("/");
         checksElements = "/" + elementsOfParentPath[1] + "/" + elementsOfParentPath[2];
-        System.out.println("checksElements = " + checksElements + " == " + PublickConstants.PAGE_PATH);
-        System.out.println("parentPath = " + parentPath);
         if(parentPath.equals(PublickConstants.PAGE_PATH) && checksElements.equals(PublickConstants.PAGE_PATH)){
             parentNode = "";
         }

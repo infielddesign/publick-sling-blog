@@ -1,17 +1,14 @@
-package com.infielddigital.sling.publick.components.foundation;
+package com.infielddigital.sling.publick.components.admin;
 
 import com.nateyolles.sling.publick.services.LinkRewriterService;
-import com.nateyolles.sling.publick.sightly.WCMUse;
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.apache.sling.commons.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
 
 /**
  * Sightly component to display a single page.
@@ -42,6 +39,8 @@ public class IdFooter extends IdHeader {
 
     private Resource resource;
     private SlingHttpServletRequest request;
+    private String logo;
+    private String text;
 
     /**
      * The page post image's relative path
@@ -64,7 +63,14 @@ public class IdFooter extends IdHeader {
         resolver = getResourceResolver();
         SlingScriptHelper scriptHelper = getSlingScriptHelper();
         linkRewriter = scriptHelper.getService(LinkRewriterService.class);
-        getPage(resource);
+
+        String path = request.getParameter("post");
+        String parent = request.getParameter("post2");
+        String mode = request.getParameter("post3");
+
+        if (StringUtils.isNotBlank(path)) {
+            getPage(path, parent, mode);
+        }
     }
 
     /**
@@ -72,10 +78,38 @@ public class IdFooter extends IdHeader {
      *
      * @param page The page post resource.
      */
-    private void getPage(Resource page) {
+    private void getPage(String path, String parent, String Mode) {
+        ResourceResolver resolver = resource.getResourceResolver();
+        Resource page = resolver.getResource(path + "/" + parent);
+
+        if(Mode.equals("new")) {
+            page = null;
+        }
+
         if (page != null) {
             ValueMap properties = page.adaptTo(ValueMap.class);
+            logo = properties.get("footer-logo", String.class);
+            text = properties.get("footer-text", String.class);
         }
+    }
+
+
+    /**
+     * Get the headers header-link-logo.
+     *
+     * @return The header's header-link-logo.
+     */
+    public String getFooterLogo() {
+        return logo;
+    }
+
+    /**
+     * Get the headers header-link-text.
+     *
+     * @return The header's header-link-text.
+     */
+    public String getFooterText() {
+        return text;
     }
 
 }

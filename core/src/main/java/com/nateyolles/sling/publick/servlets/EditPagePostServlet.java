@@ -52,43 +52,69 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
         Session session = resolver.adaptTo(Session.class);
 
 
+        /**
+         * Path properties
+         */
         final String url = request.getParameter("url");
         final String parentpath = request.getParameter("parentpath");
         final String parentnode = request.getParameter("parentnode");
         final String pagePath = parentpath + "/" + url;
         final String primarytype = request.getParameter("primarytype");
-        final String mode = request.getParameter("mode");
 
         Resource existingNode = resolver.getResource(pagePath);
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(JcrConstants.JCR_PRIMARYTYPE, primarytype);
 
         if(primarytype.equals("publick:page")) {
+
+            /**
+             * Header properties
+             */
+            final String header_logo = request.getParameter("header-logo");
+            final String header_text = request.getParameter("header-text");
+
+            /**
+             * Set header properties
+             */
+            properties.put("header-logo", header_logo);
+            properties.put("header-text", header_text);
+
+
+
+
+            /**
+             * Footer properties
+             */
+            final String footer_logo = request.getParameter("footer-logo");
+            final String footer_text = request.getParameter("footer-text");
+
+            /**
+             * Set footer properties
+             */
+            properties.put("footer-logo", footer_logo);
+            properties.put("footer-text", footer_text);
+
+
+
+
+            /**
+             * Content and page behavior properties
+             */
             final String description = request.getParameter("description");
             final String content = request.getParameter("content");
             final boolean visible = Boolean.parseBoolean(request.getParameter("visible"));
             final String[] keywords = request.getParameterValues("keywords");
-            final String[] links = request.getParameterValues("links");
-            final String[] scripts = request.getParameterValues("scripts");
-
-//            The following configuration feature has been removed for the moment but may be reinstated in the future
-//            final String configurationName = request.getParameter("configurationName");
-
             final String pageTitle = request.getParameter("pageTitle");
             final String navigationTitle = request.getParameter("navigationTitle");
             final String resourcetype = PublickConstants.PAGE_TYPE_PAGE;
 
-            System.out.print("content");
-            System.out.print(content);
-
+            /**
+             * Set content and page behavior properties
+             */
             properties.put(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY, resourcetype);
             properties.put("visible", visible);
             properties.put("content", content);
             properties.put("description", description);
-
-//            The following configuration feature has been removed for the moment but may be reinstated in the future
-//            properties.put("configurationName", configurationName);
-
             properties.put("pageTitle", pageTitle);
             properties.put("navigationTitle", navigationTitle);
 
@@ -96,13 +122,22 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
                 properties.put("keywords", keywords);
             }
 
-            if (links != null) {
-                properties.put("links", links);
-            }
 
-            if (scripts != null) {
-                properties.put("scripts", scripts);
-            }
+
+
+            /*
+            * The following configuration feature has been removed for the moment but may be reinstated in the future
+             */
+            //final String[] links = request.getParameterValues("links");
+            // final String[] scripts = request.getParameterValues("scripts");
+            //if (links != null) {
+            //    properties.put("links", links);
+            //}
+            //if (scripts != null) {
+            //    properties.put("scripts", scripts);
+            //}
+            //final String configurationName = request.getParameter("configurationName");
+            //properties.put("configurationName", configurationName);
         }
 
         try {
