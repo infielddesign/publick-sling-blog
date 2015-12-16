@@ -100,38 +100,38 @@
             </div>
         </div>
     </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${page.getLinks}">
-                <label>Styles</label>
-                <div data-ng-repeat="link in links track by $index" class="input-group added-input-field">
-                    <input type="text" name="links" class="form-control" data-ng-model="links[$index]">
-                    <div class="input-group-addon">
-                        <a href="#" data-ng-click="removeLink($event, $index)"><i class="fa fa-minus-circle"></i></a>
-                    </div>
-                </div>
-                <div class="input-group keywords-add-container">
-                    <a href="#" data-ng-click="addLink($event)"><i class="fa fa-plus-circle"></i>Add link to CSS file</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${page.getScripts}">
-                <label>Scripts</label>
-                <div data-ng-repeat="script in scripts track by $index" class="input-group added-input-field">
-                    <input type="text" name="scripts" class="form-control" data-ng-model="scripts[$index]">
-                    <div class="input-group-addon">
-                        <a href="#" data-ng-click="removeScript($event, $index)"><i class="fa fa-minus-circle"></i></a>
-                    </div>
-                </div>
-                <div class="input-group keywords-add-container">
-                    <a href="#" data-ng-click="addScript($event)"><i class="fa fa-plus-circle"></i>Add link to JavaScript file</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div data-ng-show="model.primarytype === 'publick:page'" class="row">-->
+        <!--<div class="col-lg-12 col-md-12">-->
+            <!--<div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${page.getLinks}">-->
+                <!--<label>Styles</label>-->
+                <!--<div data-ng-repeat="link in links track by $index" class="input-group added-input-field">-->
+                    <!--<input type="text" name="links" class="form-control" data-ng-model="links[$index]">-->
+                    <!--<div class="input-group-addon">-->
+                        <!--<a href="#" data-ng-click="removeLink($event, $index)"><i class="fa fa-minus-circle"></i></a>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="input-group keywords-add-container">-->
+                    <!--<a href="#" data-ng-click="addLink($event)"><i class="fa fa-plus-circle"></i>Add link to CSS file</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div data-ng-show="model.primarytype === 'publick:page'" class="row">-->
+        <!--<div class="col-lg-12 col-md-12">-->
+            <!--<div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${page.getScripts}">-->
+                <!--<label>Scripts</label>-->
+                <!--<div data-ng-repeat="script in scripts track by $index" class="input-group added-input-field">-->
+                    <!--<input type="text" name="scripts" class="form-control" data-ng-model="scripts[$index]">-->
+                    <!--<div class="input-group-addon">-->
+                        <!--<a href="#" data-ng-click="removeScript($event, $index)"><i class="fa fa-minus-circle"></i></a>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="input-group keywords-add-container">-->
+                    <!--<a href="#" data-ng-click="addScript($event)"><i class="fa fa-plus-circle"></i>Add link to JavaScript file</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <div data-ng-show="model.primarytype === 'publick:page'" class="row">
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
