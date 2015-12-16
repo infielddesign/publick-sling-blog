@@ -3,7 +3,10 @@
 
     <div class="cf" id="wrapper">
         <script data-sly-include="header.html" data-sly-unwrap></script>
-        <div data-sly-resource="${@ resourceType='publick/components/foundation/bodyView'}" data-sly-unwrap></div>
+        <section class="main" role="main" style="margin-top: 66px;">
+            <div data-sly-resource="${@ resourceType='publick/components/foundation/idBanner'}" data-sly-unwrap></div>
+            <div data-sly-resource="${@ resourceType='publick/components/foundation/idBody'}" data-sly-unwrap></div>
+        </section>
         <script data-sly-include="footer.html" data-sly-unwrap></script>
     </div>
 
