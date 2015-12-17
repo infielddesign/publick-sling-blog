@@ -95,18 +95,18 @@ public class IdFooter extends IdHeader {
 
 
     /**
-     * Get the headers header-link-logo.
+     * Get the footers footer-link-logo.
      *
-     * @return The header's header-link-logo.
+     * @return The footer's footer-link-logo.
      */
     public String getFooterLogo() {
         return logo;
     }
 
     /**
-     * Get the headers header-link-text.
+     * Get the footers footer-link-text.
      *
-     * @return The header's header-link-text.
+     * @return The footer's footer-link-text.
      */
     public String getFooterText() {
         return text;
