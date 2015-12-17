@@ -5,225 +5,251 @@
 <!--<div data-sly-use.pageconf="com.nateyolles.sling.publick.components.admin.PageConfigurationEdit" data-sly-unwrap></div>-->
 
 <form id="pageeditform" name="pageeditform" action="/bin/admin/editpage" method="post" enctype="multipart/form-data">
-    
-    
-    <div id="primarytype" class="row">
-        <div class="col-xs-6 col-md-3">
-            <div class="form-group">
-                <label class="pageedit-label-small">Node type</label>
-                <select class="form-control input-sm" name="primarytype" ng-model="model.primarytype" data-ng-init=" model.primarytype =  ${page.primaryType == null} ? 'publick:page' : '${page.primaryType}'">
-                    <option data-sly-attribute.selected="${page.primaryType == 'publick:page'}" value="publick:page">Page</option>
-                    <option data-sly-attribute.selected="${page.primaryType == 'sling:Folder'}" value="sling:Folder">Folder</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3 col-md-push-6">
-            <!-- The following configuration feature has been removed for the moment but may be reinstated in the future-->
-            <!--<div class="form-group">-->
-                <!--<label class="pageedit-label-small">Template</label>-->
-                <!--<select class="form-control input-sm" name="configurationName" data-sly-list="${pageconf.configurationNames}">-->
-                    <!--<option data-sly-attribute.selected="${page.configurationName == item}" value="${item}">${item}</option>-->
-                <!--</select>-->
-            <!--</div>-->
-        </div>
-        <div class="col-xs-12 col-md-6 col-md-pull-3">
-            <label class="pageedit-label-small">Name/URL</label>
-            <div class="form-group input-group">
-                <!--<span class="input-group-addon input-sm" id="node-name-input">${page.parentPath}/</span>-->
-                <input type="hidden" name="parentpath" data-sly-attribute.value="${page.parentPath}" class="form-control">
-                <input type="hidden" name="parentnode" data-sly-attribute.value="${page.parentNode}" class="form-control">
-                <input type="hidden" name="mode" data-sly-attribute.value="${page.mode}" class="form-control">
-                <input type="text" name="url" data-sly-attribute.value="${page.url}" class="form-control input-sm" aria-describedby="node-name-input">
-            </div>
-        </div>
-    </div>
-    
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <hr class="pageedit-separator">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group">
-                <label>Main heading on page</label><br>
-                <input type="text" name="navigationTitle" data-sly-attribute.value="${page.navigationTitle}" class="form-control">
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group" data-ng-class="SEOHintClass" data-ng-controller="SEOController">
-                <label>SEO title</label><br>
-                <div class="input-group">
-                    <input type="text" name="pageTitle" data-sly-attribute.value="${page.pageTitle}" class="form-control"
-                           data-ng-model="model.pagetitle" data-ng-init="model.pagetitle = '${page.pageTitle}'; SEOHintMaxLength(70, model.pagetitle.length)"
-                           data-ng-change="SEOHintMaxLength(70, model.pagetitle.length)" ng-trim="false" autocomplete="off">
-                    <span class="input-group-addon">{{charsRemaining || 70}}</span>
-                </div>
-                <span class="help-block seo-hint" data-ng-show="showSEOHintMessage" ng-cloak>You're above recommended limit.</span>
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group" data-ng-class="SEOHintClass" data-ng-controller="SEOController">
-                <label>Description</label>
-                <div class="input-group">
-                    <textarea rows="2" type="text" name="description" data-sly-attribute.value="${page.description}" class="form-control"
-                              data-ng-model="model.description" data-ng-init="model.description = '${page.description}'; SEOHintMaxLength(155, model.description.length)"
-                              data-ng-change="SEOHintMaxLength(155, model.description.length)" ng-trim="false" autocomplete="off"></textarea>
-                    <span class="input-group-addon">{{charsRemaining || 155}}</span>
-                </div>
-                <span class="help-block seo-hint" data-ng-show="showSEOHintMessage" ng-cloak>You're above recommended limit.</span>
-                <span class="help-block">Used as the description of the page for SEO in meta tags and when shared on Twitter, LinkedIn or Facebook.</span>
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-12 col-md-12">
-            <label>Content</label>
-            <div summernote data-ng-model="model.content" height="300" data-ng-show="model.primarytype === 'publick:page'" class="form-group">
-            </div>
-            <input type="hidden" data-ng-model="model.content" data-ng-init="model.content = '${page.content @ context='unsafe'}'" name="content" value="{{model.content}}" class="form-control">
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'"  class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group" data-ng-controller="KeywordsController" data-ng-init="keywords = ${page.getKeywordsJSON}">
-                <label>Keywords</label>
-                <div class="input-group-keywords">
-                    <div data-ng-repeat="keyword in keywords track by $index" class="input-group added-input-field col-xs-6 col-sm-4 col-md-3">
-                        <input type="text" name="keywords" class="form-control" data-ng-model="keywords[$index]">
-                        <div class="input-group-addon">
-                            <a href="#" data-ng-click="removeKeyword($event, $index)"><i class="fa fa-minus-circle"></i></a>
-                        </div>
+
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a data-target="#general" data-toggle="tab">General</a></li>
+        <li><a data-target="#header" data-toggle="tab">Header</a></li>
+        <li><a data-target="#banner" data-toggle="tab">Banner</a></li>
+        <li><a data-target="#content" data-toggle="tab">Content</a></li>
+        <li><a data-target="#footer" data-toggle="tab">Footer</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="general">
+            <div id="primarytype" class="row">
+                <div class="col-xs-6 col-md-3">
+                    <div class="form-group">
+                        <label class="pageedit-label-small">Node type</label>
+                        <select class="form-control input-sm" name="primarytype" ng-model="model.primarytype" data-ng-init=" model.primarytype =  ${page.primaryType == null} ? 'publick:page' : '${page.primaryType}'">
+                            <option data-sly-attribute.selected="${page.primaryType == 'publick:page'}" value="publick:page">Page</option>
+                            <option data-sly-attribute.selected="${page.primaryType == 'sling:Folder'}" value="sling:Folder">Folder</option>
+                        </select>
                     </div>
                 </div>
-                <div class="input-group keywords-add-container">
-                    <a href="#" data-ng-click="addKeyword($event)"><i class="fa fa-plus-circle"></i>Add keyword</a>
+                <div class="col-xs-6 col-md-3 col-md-push-6">
+                    <!-- The following configuration feature has been removed for the moment but may be reinstated in the future-->
+                    <!--<div class="form-group">-->
+                    <!--<label class="pageedit-label-small">Template</label>-->
+                    <!--<select class="form-control input-sm" name="configurationName" data-sly-list="${pageconf.configurationNames}">-->
+                    <!--<option data-sly-attribute.selected="${page.configurationName == item}" value="${item}">${item}</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
                 </div>
-                <span class="help-block clear">Used for tag clouds, meta tags, and searching.</span>
+                <div class="col-xs-12 col-md-6 col-md-pull-3">
+                    <label class="pageedit-label-small">Name/URL</label>
+                    <div class="form-group input-group">
+                        <!--<span class="input-group-addon input-sm" id="node-name-input">${page.parentPath}/</span>-->
+                        <input type="hidden" name="parentpath" data-sly-attribute.value="${page.parentPath}" class="form-control">
+                        <input type="hidden" name="parentnode" data-sly-attribute.value="${page.parentNode}" class="form-control">
+                        <input type="hidden" name="mode" data-sly-attribute.value="${page.mode}" class="form-control">
+                        <input type="text" name="url" data-sly-attribute.value="${page.url}" class="form-control input-sm" aria-describedby="node-name-input">
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <!--<div data-ng-show="model.primarytype === 'publick:page'" class="row">-->
-        <!--<div class="col-lg-12 col-md-12">-->
+
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <hr class="pageedit-separator">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label>Main heading on page</label><br>
+                        <input type="text" name="navigationTitle" data-sly-attribute.value="${page.navigationTitle}" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group" data-ng-class="SEOHintClass" data-ng-controller="SEOController">
+                        <label>SEO title</label><br>
+                        <div class="input-group">
+                            <input type="text" name="pageTitle" data-sly-attribute.value="${page.pageTitle}" class="form-control"
+                                   data-ng-model="model.pagetitle" data-ng-init="model.pagetitle = '${page.pageTitle}'; SEOHintMaxLength(70, model.pagetitle.length)"
+                                   data-ng-change="SEOHintMaxLength(70, model.pagetitle.length)" ng-trim="false" autocomplete="off">
+                            <span class="input-group-addon">{{charsRemaining || 70}}</span>
+                        </div>
+                        <span class="help-block seo-hint" data-ng-show="showSEOHintMessage" ng-cloak>You're above recommended limit.</span>
+                    </div>
+                </div>
+            </div>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group" data-ng-class="SEOHintClass" data-ng-controller="SEOController">
+                        <label>Description</label>
+                        <div class="input-group">
+                        <textarea rows="2" type="text" name="description" data-sly-attribute.value="${page.description}" class="form-control"
+                                  data-ng-model="model.description" data-ng-init="model.description = '${page.description}'; SEOHintMaxLength(155, model.description.length)"
+                                  data-ng-change="SEOHintMaxLength(155, model.description.length)" ng-trim="false" autocomplete="off"></textarea>
+                            <span class="input-group-addon">{{charsRemaining || 155}}</span>
+                        </div>
+                        <span class="help-block seo-hint" data-ng-show="showSEOHintMessage" ng-cloak>You're above recommended limit.</span>
+                        <span class="help-block">Used as the description of the page for SEO in meta tags and when shared on Twitter, LinkedIn or Facebook.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div data-ng-show="model.primarytype === 'publick:page'"  class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group" data-ng-controller="KeywordsController" data-ng-init="keywords = ${page.getKeywordsJSON}">
+                        <label>Keywords</label>
+                        <div class="input-group-keywords">
+                            <div data-ng-repeat="keyword in keywords track by $index" class="input-group added-input-field col-xs-6 col-sm-4 col-md-3">
+                                <input type="text" name="keywords" class="form-control" data-ng-model="keywords[$index]">
+                                <div class="input-group-addon">
+                                    <a href="#" data-ng-click="removeKeyword($event, $index)"><i class="fa fa-minus-circle"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group keywords-add-container">
+                            <a href="#" data-ng-click="addKeyword($event)"><i class="fa fa-plus-circle"></i>Add keyword</a>
+                        </div>
+                        <span class="help-block clear">Used for tag clouds, meta tags, and searching.</span>
+                    </div>
+                </div>
+            </div>
+            <!--<div data-ng-show="model.primarytype === 'publick:page'" class="row">-->
+            <!--<div class="col-lg-12 col-md-12">-->
             <!--<div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${page.getLinks}">-->
-                <!--<label>Styles</label>-->
-                <!--<div data-ng-repeat="link in links track by $index" class="input-group added-input-field">-->
-                    <!--<input type="text" name="links" class="form-control" data-ng-model="links[$index]">-->
-                    <!--<div class="input-group-addon">-->
-                        <!--<a href="#" data-ng-click="removeLink($event, $index)"><i class="fa fa-minus-circle"></i></a>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="input-group keywords-add-container">-->
-                    <!--<a href="#" data-ng-click="addLink($event)"><i class="fa fa-plus-circle"></i>Add link to CSS file</a>-->
-                <!--</div>-->
+            <!--<label>Styles</label>-->
+            <!--<div data-ng-repeat="link in links track by $index" class="input-group added-input-field">-->
+            <!--<input type="text" name="links" class="form-control" data-ng-model="links[$index]">-->
+            <!--<div class="input-group-addon">-->
+            <!--<a href="#" data-ng-click="removeLink($event, $index)"><i class="fa fa-minus-circle"></i></a>-->
             <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div data-ng-show="model.primarytype === 'publick:page'" class="row">-->
-        <!--<div class="col-lg-12 col-md-12">-->
+            <!--</div>-->
+            <!--<div class="input-group keywords-add-container">-->
+            <!--<a href="#" data-ng-click="addLink($event)"><i class="fa fa-plus-circle"></i>Add link to CSS file</a>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div data-ng-show="model.primarytype === 'publick:page'" class="row">-->
+            <!--<div class="col-lg-12 col-md-12">-->
             <!--<div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${page.getScripts}">-->
-                <!--<label>Scripts</label>-->
-                <!--<div data-ng-repeat="script in scripts track by $index" class="input-group added-input-field">-->
-                    <!--<input type="text" name="scripts" class="form-control" data-ng-model="scripts[$index]">-->
-                    <!--<div class="input-group-addon">-->
-                        <!--<a href="#" data-ng-click="removeScript($event, $index)"><i class="fa fa-minus-circle"></i></a>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="input-group keywords-add-container">-->
-                    <!--<a href="#" data-ng-click="addScript($event)"><i class="fa fa-plus-circle"></i>Add link to JavaScript file</a>-->
-                <!--</div>-->
+            <!--<label>Scripts</label>-->
+            <!--<div data-ng-repeat="script in scripts track by $index" class="input-group added-input-field">-->
+            <!--<input type="text" name="scripts" class="form-control" data-ng-model="scripts[$index]">-->
+            <!--<div class="input-group-addon">-->
+            <!--<a href="#" data-ng-click="removeScript($event, $index)"><i class="fa fa-minus-circle"></i></a>-->
             <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <div class="col-lg-6 col-md-6">
-            <div class="form-group">
-                <label>Publish</label><br>
-                <label class="cursor-pointer">
-                    <input type="checkbox" name="visible" value="true" data-sly-attribute.checked="${page.visible}" 
-                            class="glyphicon glyphicon-toggle glyphicon-eye-close">
-                    <span class="pageedit-checkbox-label">Show page</span>
-                </label>
+            <!--</div>-->
+            <!--<div class="input-group keywords-add-container">-->
+            <!--<a href="#" data-ng-click="addScript($event)"><i class="fa fa-plus-circle"></i>Add link to JavaScript file</a>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label>Publish</label><br>
+                        <label class="cursor-pointer">
+                            <input type="checkbox" name="visible" value="true" data-sly-attribute.checked="${page.visible}"
+                                   class="glyphicon glyphicon-toggle glyphicon-eye-close">
+                            <span class="pageedit-checkbox-label">Show page</span>
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="tab-pane" id="header">
 
-
-
-    <!-- Start Header fields-->
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <hr class="pageedit-separator">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group">
-                <label>Header logo</label><br>
-                <input type="text" name="header-logo" data-sly-attribute.value="${idheader.headerLogo}" class="form-control">
+            <!-- Start Header fields-->
+            <h2>Header</h2>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <hr class="pageedit-separator">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label>Logo</label><br>
+                        <input type="text" name="header-logo" data-sly-attribute.value="${idheader.headerLogo}" class="form-control">
+                    </div>
+                </div>
             </div>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <hr class="pageedit-separator">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label>Text</label><br>
+                        <input type="text" name="header-text" data-sly-attribute.value="${idheader.headerText}" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <!-- End Header fields-->
+
+        </div>
+        <div class="tab-pane" id="banner">
+
+            <!-- Start Banner fields-->
+            <h2>Banner</h2>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <hr class="pageedit-separator">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label>Backgound Image URL</label><br>
+                        <input type="text" name="banner-background-image-url" data-sly-attribute.value="${idbanner.bannerBackgroundImageUrl}" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <hr class="pageedit-separator">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label>Title</label><br>
+                        <input type="text" name="banner-title" data-sly-attribute.value="${idbanner.bannerTitle}" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <hr class="pageedit-separator">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label>Text</label><br>
+                        <input type="text" name="banner-text" data-sly-attribute.value="${idbanner.bannerText}" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <!-- End Banner fields-->
+
+        </div>
+        <div class="tab-pane" id="content">
+
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div summernote data-ng-model="model.content" height="300" data-ng-show="model.primarytype === 'publick:page'" class="form-group">
+                    </div>
+                    <input type="hidden" data-ng-model="model.content" data-ng-init="model.content = '${page.content @ context='unsafe'}'" name="content" value="{{model.content}}" class="form-control">
+                </div>
+            </div>
+
+        </div>
+        <div class="tab-pane" id="footer">
+
+            <!-- Start Footer fields-->
+            <h2>Footer</h2>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <hr class="pageedit-separator">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label>Logo</label><br>
+                        <input type="text" name="footer-logo" data-sly-attribute.value="${idfooter.footerLogo}" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <hr class="pageedit-separator">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label>Text</label><br>
+                        <input type="text" name="footer-text" data-sly-attribute.value="${idfooter.footerText}" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <!-- End Footer fields-->
+
         </div>
     </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <hr class="pageedit-separator">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group">
-                <label>Header text</label><br>
-                <input type="text" name="header-text" data-sly-attribute.value="${idheader.headerText}" class="form-control">
-            </div>
-        </div>
-    </div>
-    <!-- End Header fields-->
-
-
-
-    <!-- Start Banner fields-->
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <hr class="pageedit-separator">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group">
-                <label>Banner title</label><br>
-                <input type="text" name="banner-title" data-sly-attribute.value="${idbanner.bannerTitle}" class="form-control">
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <hr class="pageedit-separator">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group">
-                <label>Banner text</label><br>
-                <input type="text" name="banner-text" data-sly-attribute.value="${idbanner.bannerText}" class="form-control">
-            </div>
-        </div>
-    </div>
-    <!-- End Banner fields-->
-
-
-
-
-    <!-- Start Footer fields-->
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <hr class="pageedit-separator">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group">
-                <label>Footer logo</label><br>
-                <input type="text" name="footer-logo" data-sly-attribute.value="${idfooter.footerLogo}" class="form-control">
-            </div>
-        </div>
-    </div>
-    <div data-ng-show="model.primarytype === 'publick:page'" class="row">
-        <hr class="pageedit-separator">
-        <div class="col-lg-12 col-md-12">
-            <div class="form-group">
-                <label>Footer text</label><br>
-                <input type="text" name="footer-text" data-sly-attribute.value="${idfooter.footerText}" class="form-control">
-            </div>
-        </div>
-    </div>
-    <!-- End Footer fields-->
-
-
-
     <div class="row">
         <div class="col-lg-6 col-md-6">
             <button type="submit" class="btn btn-primary"
-                data-sly-attribute.disabled="${!page.authorable && 'disabled'}">Save</button>
+                    data-sly-attribute.disabled="${!page.authorable && 'disabled'}">Save</button>
         </div>
     </div>
 </form>
