@@ -8,10 +8,10 @@
 
     <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a data-target="#general" data-toggle="tab">General</a></li>
-        <li><a data-target="#header" data-toggle="tab">Header</a></li>
-        <li><a data-target="#banner" data-toggle="tab">Banner</a></li>
-        <li><a data-target="#content" data-toggle="tab">Content</a></li>
-        <li><a data-target="#footer" data-toggle="tab">Footer</a></li>
+        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#header" data-toggle="tab">Header</a></li>
+        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#banner" data-toggle="tab">Banner</a></li>
+        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#content" data-toggle="tab">Content</a></li>
+        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#footer" data-toggle="tab">Footer</a></li>
     </ul>
 
     <div class="tab-content">
@@ -150,6 +150,7 @@
                 </div>
             </div>
         </div>
+
         <div class="tab-pane" id="header">
 
             <!-- Start Header fields-->
