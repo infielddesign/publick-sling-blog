@@ -1,4 +1,4 @@
-<div data-sly-use.page="com.nateyolles.sling.publick.components.foundation.PageView" data-sly-unwrap>
+<div data-sly-use.banner="com.infielddigital.sling.publick.components.foundation.IdBannerView" data-sly-unwrap>
     <div class="hero-wrapper" parallax-wrapper="">
         <div class="hero">
 
@@ -13,11 +13,11 @@
                 <!--  CONTENT ELEMENT, uid:27/text [begin] -->
                 <div id="c27" class="csc-default tool">
                     <!--  Header: [begin] -->
-                    <header class="csc-header csc-header-n1"><h1 class="csc-header-alignment-left csc-firstHeader">Technology</h1></header>
+                    <header class="csc-header csc-header-n1"><h1 class="csc-header-alignment-left csc-firstHeader">${banner.bannerTitle}</h1></header>
                     <!--  Header: [end] -->
 
                     <!--  Text: [begin] -->
-                    <p class="bodytext">When you understand a problem the solution presents itself. When you understand technology the tools present themselves.&nbsp;</p>
+                    <p class="bodytext">${banner.bannerText}</p>
                     <!--  Text: [end] -->
                 </div>
                 <!--  CONTENT ELEMENT, uid:27/text [end] -->
