@@ -190,6 +190,18 @@
                 </div>
             </div>
             <div data-ng-show="model.primarytype === 'publick:page'" class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label>Banner Message</label><br>
+                        <label class="cursor-pointer">
+                            <input type="checkbox" name="banner-is-text" value="true" data-sly-attribute.checked="${idbanner.isText}"
+                                   class="glyphicon glyphicon-toggle glyphicon-eye-close">
+                            <span class="pageedit-checkbox-label">Show banner message</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div data-ng-show="model.primarytype === 'publick:page'" class="row">
                 <hr class="pageedit-separator">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
