@@ -85,12 +85,14 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
             /**
              * Banner properties
              */
+            final String banner_background_image = request.getParameter("banner-background-image-url");
             final String banner_title = request.getParameter("banner-title");
             final String banner_text = request.getParameter("banner-text");
 
             /**
              * Set Banner properties
              */
+            properties.put("banner-background-image-url", banner_background_image);
             properties.put("banner-title", banner_title);
             properties.put("banner-text", banner_text);
 

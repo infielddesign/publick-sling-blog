@@ -10,7 +10,7 @@
         <li class="active"><a data-target="#general" data-toggle="tab">General</a></li>
         <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#header" data-toggle="tab">Header</a></li>
         <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#banner" data-toggle="tab">Banner</a></li>
-        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#content" data-toggle="tab">Content</a></li>
+        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#text-content" data-toggle="tab">Content</a></li>
         <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#footer" data-toggle="tab">Footer</a></li>
     </ul>
 
@@ -185,7 +185,7 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
                         <label>Backgound Image URL</label><br>
-                        <input type="text" name="banner-background-image-url" data-sly-attribute.value="${idbanner.bannerBackgroundImageUrl}" class="form-control">
+                        <input type="text" name="banner-background-image-url" data-sly-attribute.value="${idbanner.bannerImageBackground}" class="form-control">
                     </div>
                 </div>
             </div>
@@ -210,13 +210,14 @@
             <!-- End Banner fields-->
 
         </div>
-        <div class="tab-pane" id="content">
+        <div class="tab-pane" id="text-content">
 
             <div data-ng-show="model.primarytype === 'publick:page'" class="row">
                 <div class="col-lg-12 col-md-12">
-                    <div summernote data-ng-model="model.content" height="300" data-ng-show="model.primarytype === 'publick:page'" class="form-group">
+                    <div class="form-group">
+                        <label>Content</label>
+                        <textarea class="blog-edit-content form-control" name="content">${page.content @ context='unsafe'}</textarea>
                     </div>
-                    <input type="hidden" data-ng-model="model.content" data-ng-init="model.content = '${page.content @ context='unsafe'}'" name="content" value="{{model.content}}" class="form-control">
                 </div>
             </div>
 
@@ -247,6 +248,7 @@
 
         </div>
     </div>
+
     <div class="row">
         <div class="col-lg-6 col-md-6">
             <button type="submit" class="btn btn-primary"

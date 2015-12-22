@@ -41,6 +41,7 @@ public class IdBannerView extends WCMUse {
 
     private Resource resource;
     private SlingHttpServletRequest request;
+    private String image_url;
     private String title;
     private String text;
     private boolean listView;
@@ -78,9 +79,20 @@ public class IdBannerView extends WCMUse {
     private void getPage(Resource page) {
         if (page != null) {
             ValueMap properties = page.adaptTo(ValueMap.class);
+            image_url = properties.get("banner-background-image-url", String.class);
             title = properties.get("banner-title", String.class);
             text = properties.get("banner-text", String.class);
         }
+    }
+
+
+    /**
+     * Get the banners banner-background-image-url.
+     *
+     * @return The banner's banner-background-image-url.
+     */
+    public String getBannerImageBackground() {
+        return image_url;
     }
 
     /**
