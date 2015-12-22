@@ -1,0 +1,77 @@
+/*******************************************************************************************************/
+/* #media #query ~ 496px */
+/******************************************************************************************************/
+
+@media only screen and (min-width: 31em) {
+
+
+    .case-study-teaser .csc-header > * {
+        font-size: 22px;
+    }
+
+    .case-study-teaser .csc-textpic {
+        margin: 0;
+    }
+
+	.logo-bar-wrapper {
+		margin-top:inherit;
+	}
+
+	.hero-wrapper .hero-bg img {
+		min-width: 800px;
+	}
+
+    .hero-overlay h1,
+	.hero-overlay h2,
+	.hero-overlay h2{
+        font-size: 36px;
+        margin-bottom:10px;
+    }
+
+    /* #team-grid start */
+
+    .team-grid .csc-textpic-imagerow {
+        width: 30.7%;
+    }
+
+    /* team-grid end*/
+
+	.footer-contact,
+	.footer-connect,
+	.footer-services,
+	.footer-tools{
+		border-bottom: none;
+	}
+
+    /* image grid start */
+
+    .image-grid {
+        width: 432px;
+    }
+
+    .image-grid-item {
+        width: 216px;
+        height: 216px;
+    }
+
+    .image-grid-item .csc-textpic-text > * {
+        font-size: 16px;
+    }
+
+    /* image grid end */
+
+    /* textpic-images start */
+    .textpic-images.col-3 .csc-textpic-imagerow {
+        width: 32%;
+        margin-right: 2%;
+        margin-bottom: 1%;
+    }
+
+    .textpic-images.col-3 .csc-textpic-imagerow:nth-of-type(3n) {
+        margin-right: 0;
+    }
+    /* textpic-images end */
+
+
+
+}
