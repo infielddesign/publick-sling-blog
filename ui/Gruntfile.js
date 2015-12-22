@@ -43,7 +43,7 @@ module.exports = function(grunt) {
           '<%=conf.dist%>/js/page.js',
           '<%=conf.dist%>/js/pageController.js',
           '<%=conf.dist%>/js/pageService.js',
-          '<%=conf.dist%>/js/newPageController.js'
+          '<%=conf.dist%>/js/newPageController.js',
           '<%=conf.dist%>/js/dispatcherController.js'
         ],
         dest: '<%=conf.src%>/js/admin.js'
