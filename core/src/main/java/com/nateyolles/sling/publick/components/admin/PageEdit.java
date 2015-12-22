@@ -42,6 +42,7 @@ public class PageEdit extends WCMUse {
      * Array of strings that represents primaryTypes.
      */
     private String[] primaryTypes;
+    private String handle;
 
     /**
      * Sightly component initialization.
@@ -96,6 +97,7 @@ public class PageEdit extends WCMUse {
         checksElements = "/" + elementsOfParentPath[1] + "/" + elementsOfParentPath[2];
         if(parentPath.equals(PublickConstants.PAGE_PATH) && checksElements.equals(PublickConstants.PAGE_PATH)){
             parentNode = "";
+            handle = StringUtils.removeStart(PublickConstants.PAGE_PATH + "/" + url, PublickConstants.CONTENT_PATH);
         }
         else {
             parentNode = parent;
@@ -201,6 +203,7 @@ public class PageEdit extends WCMUse {
         return content;
     }
 
+
     /**
      * Get the description property.
      *
@@ -211,6 +214,7 @@ public class PageEdit extends WCMUse {
     }
 
     /**
+<<<<<<< HEAD
      * Get all primaryTypes.
      *
      * @return All primaryTypes.
@@ -285,5 +289,13 @@ public class PageEdit extends WCMUse {
      */
     public String getNavigationTitle() {
         return navigationTitle;
+    }
+
+     /* Get the handle property.
+     *
+     * @return The handle property.
+     */
+    public String getHandle() {
+        return handle + ".html";
     }
 }

@@ -60,5 +60,20 @@
                 }
             }
         }
+    },
+    "dispatcher" : {
+        "jcr:primaryType": "publick:page",
+        "sling:resourceType" : "publick/pages/adminSecurePage",
+        "title" : "Dispatcher configuration",
+        "jcr:content" : {
+            "mainContent" : {
+                "jcr:primaryType": "nt:unstructured",
+                "sling:resourceType" : "publick/components/foundation/parsys",
+                "dispatcherConfig" : {
+                    "jcr:primaryType": "nt:unstructured",
+                    "sling:resourceType" : "publick/components/admin/dispatcherConfig"
+                }
+            }
+        }
     }
 }

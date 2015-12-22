@@ -1,5 +1,6 @@
 package com.nateyolles.sling.publick.services.impl;
 
+import com.nateyolles.sling.publick.PublickConstants;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -86,7 +87,7 @@ public class LinkRewriterServiceImpl implements LinkRewriterService {
             if (linkHost == null || linkHost.equals(requestHost)) {
                 String path = uri.getPath();
 
-                path = StringUtils.removeStart(path, "/content");
+                path = StringUtils.removeStart(path, PublickConstants.CONTENT_PATH);
 
                 if (systemSettingsService != null && systemSettingsService.getExtensionlessUrls()
                         && StringUtils.isNotBlank(link)) {

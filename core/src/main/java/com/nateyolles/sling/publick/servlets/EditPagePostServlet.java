@@ -24,6 +24,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 /**
  * Servlet to save pages.
  */
@@ -180,9 +188,16 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
             }
 
             resolver.commit();
+
+            /**
+             * Call the Flushcache servlet to invalidate the cache as the page has been edited and saved
+             * and we need to re-cache the page again to reflect the changes made to the page
+             */
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/bin/admin/flushcache");
+            dispatcher.forward(request, response);
+
             resolver.close();
 
-            response.sendRedirect(PublickConstants.ADMIN_PAGE_LIST_PATH + ".html");
         } catch (RepositoryException e) {
             LOGGER.error("Could not save page to repository.", e);
             response.sendRedirect(request.getHeader("referer"));
