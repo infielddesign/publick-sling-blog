@@ -186,6 +186,7 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
                 Node pageNode = page.adaptTo(Node.class);
                 pageNode.addMixin(NodeType.MIX_CREATED);
             }
+            System.out.print("TESTTEST");
 
             resolver.commit();
 
@@ -198,6 +199,7 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
 
             resolver.close();
 
+            response.sendRedirect(PublickConstants.ADMIN_PAGE_LIST_PATH + ".html");
         } catch (RepositoryException e) {
             LOGGER.error("Could not save page to repository.", e);
             response.sendRedirect(request.getHeader("referer"));
