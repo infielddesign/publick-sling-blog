@@ -1,15 +1,17 @@
 <!-- This is the body template of the page component -->
-<body>
+<div data-sly-use.page="com.nateyolles.sling.publick.components.foundation.PageView" data-sly-unwrap>
+    <body class="${page.navigationTitle}">
+    
+        <div class="cf" id="wrapper">
+            <script data-sly-include="header.html" data-sly-unwrap></script>
+            <section class="main" role="main" style="margin-top: 66px;">
+                <div data-sly-resource="${@ resourceType='publick/components/foundation/idBanner'}" data-sly-unwrap></div>
+                <div data-sly-resource="${@ resourceType='publick/components/foundation/idBody'}" data-sly-unwrap></div>
+            </section>
+            <script data-sly-include="footer.html" data-sly-unwrap></script>
+        </div>
 
-    <div class="cf" id="wrapper">
-        <script data-sly-include="header.html" data-sly-unwrap></script>
-        <section class="main" role="main" style="margin-top: 66px;">
-            <div data-sly-resource="${@ resourceType='publick/components/foundation/idBanner'}" data-sly-unwrap></div>
-            <div data-sly-resource="${@ resourceType='publick/components/foundation/idBody'}" data-sly-unwrap></div>
-        </section>
-        <script data-sly-include="footer.html" data-sly-unwrap></script>
-    </div>
+        <script data-sly-include="scripts.html" data-sly-unwrap></script>
 
-    <script data-sly-include="scripts.html" data-sly-unwrap></script>
-
-</body>
+    </body>
+</div>
