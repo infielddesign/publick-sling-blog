@@ -1,6 +1,8 @@
 package com.nateyolles.sling.publick.servlets;
 
 import com.nateyolles.sling.publick.PublickConstants;
+import com.nateyolles.sling.publick.services.DispatcherService;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.jackrabbit.api.JackrabbitSession;
@@ -38,6 +40,10 @@ import java.net.URL;
 @SlingServlet(paths = PublickConstants.SERVLET_PATH_ADMIN + "/editpage")
 public class EditPagePostServlet extends SlingAllMethodsServlet {
 
+    @Reference
+    DispatcherService dispatcherService;
+
+
     /**
      * The logger.
      */
@@ -58,7 +64,6 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
         ResourceResolver resolver = request.getResourceResolver();
         Session session = resolver.adaptTo(Session.class);
-
 
         /**
          * Path properties
@@ -186,7 +191,10 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
                 Node pageNode = page.adaptTo(Node.class);
                 pageNode.addMixin(NodeType.MIX_CREATED);
             }
-            System.out.print("TESTTEST");
+
+//            System.out.println(request.getParameter("handle"));
+//            System.out.println(dispatcherService.getDispatcherHost());
+//            System.out.println(dispatcherService.getDispatcherInvalidateCacheUri());
 
             resolver.commit();
 
@@ -194,12 +202,17 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
              * Call the Flushcache servlet to invalidate the cache as the page has been edited and saved
              * and we need to re-cache the page again to reflect the changes made to the page
              */
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/bin/admin/flushcache");
-            dispatcher.forward(request, response);
+//            try {
+//                dispatcherService.invalidate(dispatcherService.getDispatcherHost() + dispatcherService.getDispatcherInvalidateCacheUri(), request.getParameter("handle"));
+//            } catch (Exception e) {
+//                LOGGER.error("Flushcache servlet exception: " + e.getMessage());
+//            }
+//            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/bin/admin/flushcache");
+//            dispatcher.forward(request, response);
 
             resolver.close();
 
-            response.sendRedirect(PublickConstants.ADMIN_PAGE_LIST_PATH + ".html");
+            response.sendRedirect(PublickConstants.ADMIN_PAGE_LIST_PAGE_PATH + ".html");
         } catch (RepositoryException e) {
             LOGGER.error("Could not save page to repository.", e);
             response.sendRedirect(request.getHeader("referer"));

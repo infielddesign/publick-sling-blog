@@ -5,7 +5,9 @@
  */
 app.controller('PageListController', function($scope, $http, formDataObject, ngDialog, $window, $timeout) {
 
-    $scope.pageList;
+//var dispatcherURL = ;
+//var dispatcherURI = ;
+
 
 var rootname = "clbk"
 var rootid = "#" + rootname;
@@ -32,10 +34,11 @@ function get(page, depth) {
 /**
  *  This code allows you to POST to the Sling Post Servlet.
 **/
-function slingPostServlet(url, params) {
+function slingPostServlet(url, params, headers) {
   return $http({
     method: 'POST',
     url: url,
+    headers: headers,
     data: params,
     transformRequest: formDataObject
   });
@@ -105,7 +108,7 @@ function renameNode(prefix_path, path_string, parent, node)
       var url = CONTENT_PATH + "/" + path_string;
 
       if(parent != newText){
-        slingPostServlet(url, params);
+        slingPostServlet(url, params, null);
       }
   });
 }
@@ -123,7 +126,7 @@ function moveNode(old_path, new_path)
     var url = CONTENT_PATH + ROOT_PATH;
 
     if(old_path != new_path){
-      slingPostServlet(url, params);
+      slingPostServlet(url, params, null);
     }
 }
 
@@ -140,7 +143,7 @@ function deleteNode(path, prefix_path, node)
     var url = CONTENT_PATH + ROOT_PATH;
     var fetched_node = treeroot.jstree(true).get_node(node).parent;
 
-    slingPostServlet(url, params).then(
+    slingPostServlet(url, params, null).then(
          function(res1){
 
              get(prefix_path, "2").then(
@@ -150,6 +153,35 @@ function deleteNode(path, prefix_path, node)
              });
          }
     );
+}
+
+
+
+/**
+ *  This code sends a POST request to the dispatcher
+ *  to invalidate the page or folder in the handle path.
+ *
+ *  To solve the CORS issues you need to set the
+ *  following values in your dispatcher.
+ *
+ *  Header add Access-Control-Allow-Origin "*"
+ *  Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type, CQ-Path, CQ-Action, CQ-Handle"
+ *  Header add Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
+ *
+**/
+function clearCache(url, params, handle)
+{
+    headers = {
+    'CQ-Action': 'DELETE',
+    'CQ-Handle': handle,
+    'CQ-Path': handle,
+    'Content-Type': 'application/octet-stream'
+    }
+    slingPostServlet(url, params, headers).then(
+             function(cache){
+                console.log(cache);
+             }
+        );
 }
 
 
@@ -320,6 +352,36 @@ function customMenu(node) {
           else{
               return false;
           }
+        }
+      },
+      "Clear Cache" : {
+          "icon": "fa fa-trash",
+          "label" : "Clear Cache",
+          "action" : function (obj) {
+
+            var url = $scope.model.dispatcherHost + $scope.model.dispatcherInvalidateCacheUri
+            var nodeType = node["original"]["properties"]["jcr:primaryType"];
+
+            if(nodeType == "publick:page")
+            {
+                var extension = ".html";
+            }
+            else{
+                var extension = "/";
+            }
+
+            clearCache(url, null, "/" + path_string + extension);
+          },
+          "_disabled": function (obj){
+            var parentId = node["parent"];
+
+            //If the node selected is a folder then disable option of opening it.
+            if(parentId == "#"){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
       }
    };

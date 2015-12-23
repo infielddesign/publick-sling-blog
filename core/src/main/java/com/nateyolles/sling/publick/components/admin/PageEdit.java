@@ -92,12 +92,13 @@ public class PageEdit extends WCMUse {
             primaryType = properties.get("jcr:primaryType", String.class);
         }
 
+        handle = StringUtils.removeStart(path + "/" + url, PublickConstants.CONTENT_PATH);
+
         parentPath = path;
         elementsOfParentPath = parentPath.split("/");
         checksElements = "/" + elementsOfParentPath[1] + "/" + elementsOfParentPath[2];
         if(parentPath.equals(PublickConstants.PAGE_PATH) && checksElements.equals(PublickConstants.PAGE_PATH)){
             parentNode = "";
-            handle = StringUtils.removeStart(PublickConstants.PAGE_PATH + "/" + url, PublickConstants.CONTENT_PATH);
         }
         else {
             parentNode = parent;
@@ -214,7 +215,6 @@ public class PageEdit extends WCMUse {
     }
 
     /**
-<<<<<<< HEAD
      * Get all primaryTypes.
      *
      * @return All primaryTypes.

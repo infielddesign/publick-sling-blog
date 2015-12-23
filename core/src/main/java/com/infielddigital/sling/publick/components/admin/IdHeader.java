@@ -72,7 +72,6 @@ public class IdHeader extends WCMUse {
         String path = request.getParameter("post");
         String parent = request.getParameter("post2");
         String mode = request.getParameter("post3");
-        System.out.println(path);
 
         if (StringUtils.isNotBlank(path)) {
             getPage(path, parent, mode);
@@ -96,10 +95,6 @@ public class IdHeader extends WCMUse {
             ValueMap properties = page.adaptTo(ValueMap.class);
             logo = properties.get("header-logo", String.class);
             text = properties.get("header-text", String.class);
-            System.out.println(resource);
-            System.out.println(page);
-            System.out.println(logo);
-            System.out.println(text);
         }
     }
 

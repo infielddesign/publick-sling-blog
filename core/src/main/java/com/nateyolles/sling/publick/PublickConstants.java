@@ -39,6 +39,9 @@ public final class PublickConstants {
     /** Admin page list path */
     public static final String ADMIN_PAGE_LIST_PATH = ADMIN_PAGE_PATH + "/list";
 
+    /** Admin page list page path */
+    public static final String ADMIN_PAGE_LIST_PAGE_PATH = "/admin" + "/page" + "/list";
+
     /** Admin page configuration path */
     public static final String ADMIN_PAGE_CONF_PATH = ADMIN_PATH + "/pageconf";
 
