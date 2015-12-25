@@ -56,6 +56,7 @@ public class PreviewFilter implements Filter {
 
     /** Place to insert component in page */
     private static final String INSERTION_TAG = "<body>";
+    private static final String INSERTION_PAGE_TAG = "<previewheader/>";
 
     @Override
     public void init(FilterConfig fc) throws ServletException {
@@ -67,11 +68,11 @@ public class PreviewFilter implements Filter {
 
     /**
      * Handle blog posts that are not published. If the user is authenticated,
-     * display a preview bar. If the user is anonymous, seve a 404.
+     * display a preview bar. If the user is anonymous, serve a 404.
      *
      * @param request The Sling HTTP Servlet Request.
      * @param response The Sling HTTP Servlet Response.
-     * @param chain The Filter Chain to continue processin the response.
+     * @param chain The Filter Chain to continue processing the response.
      */
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response,
@@ -88,15 +89,26 @@ public class PreviewFilter implements Filter {
 
         response.setCharacterEncoding(CharEncoding.UTF_8);
 
-        if ("GET".equals(method) && PublickConstants.PAGE_TYPE_BLOG.equals(resourceType)) {
+//        System.out.println("====================");
+//        System.out.println(resource.getValueMap().get("visible"));
+//        System.out.println(resourceType);
+//        System.out.println("====================");
+
+        if ("GET".equals(method) && (PublickConstants.PAGE_TYPE_BLOG.equals(resourceType) || PublickConstants.PAGE_TYPE_PAGE.equals(resourceType))) {
+
+            System.out.println("ONE");
 
             if (!resource.getValueMap().get("visible", false)) {
                 final boolean authorable = userService.isAuthorable(slingRequest.getResourceResolver().adaptTo(Session.class));
+
+                System.out.println("TWO");
 
                 /* If user is logged in and page isn't published, inject a preview bar. */
                 if (authorable) {
                     PrintWriter out = response.getWriter();
                     CharResponseWrapper responseWrapper = new CharResponseWrapper((HttpServletResponse)response);
+
+                    System.out.println("THREE");
 
                     try {
                       chain.doFilter(request, responseWrapper);
@@ -108,12 +120,19 @@ public class PreviewFilter implements Filter {
                     final String servletResponse = new String(responseWrapper.toString());
                     final String previewHeader = getPreviewHeader(slingRequest, PREVIEW_HEADER_PATH);
 
+                    if(servletResponse != null && servletResponse.contains(INSERTION_PAGE_TAG)){
+                        String[] html = servletResponse.split(INSERTION_PAGE_TAG);
+
+                        out.write(html[0] + previewHeader + html[1]);
+                    }
                     /* Insert component before body close tag. Append to end if body close tag doesn't exist. */
-                    if (servletResponse != null && servletResponse.contains(INSERTION_TAG)) {
+                    else if (servletResponse != null && servletResponse.contains(INSERTION_TAG)) {
                         String[] html = servletResponse.split(INSERTION_TAG);
 
                         out.write(html[0] + INSERTION_TAG + previewHeader + html[1]);
                     } else {
+                        System.out.println("FIVE");
+                        System.out.println(servletResponse + previewHeader);
                         out.write(servletResponse + previewHeader);
                     }
                 } else {
