@@ -17,8 +17,6 @@ var ROOT_PATH = "/page";
 
 $scope.textcontent = "nicola";
 
-
-
 /**
  *  This code gets the a tree starting a page of depth as a JSON object.
 **/
@@ -271,7 +269,6 @@ function customMenu(node) {
           "_disabled": function (obj){
             var nodeType = node["original"]["properties"]["jcr:primaryType"];
 
-            console.log(node);
             //If the node selected is a folder then disable option of opening it.
             if(nodeType == "sling:Folder"){
                 return true;
@@ -307,7 +304,6 @@ function customMenu(node) {
             "_disabled": function (obj){
               var parentId = node["parent"];
 
-              console.log(parentId);
               //If the node selected is a folder then disable option of opening it.
               if(parentId == "#"){
                   return true;
