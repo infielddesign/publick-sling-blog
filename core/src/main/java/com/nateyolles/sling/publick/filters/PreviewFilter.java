@@ -89,14 +89,12 @@ public class PreviewFilter implements Filter {
 
         response.setCharacterEncoding(CharEncoding.UTF_8);
 
-//        System.out.println("====================");
-//        System.out.println(resource.getValueMap().get("visible"));
-//        System.out.println(resourceType);
-//        System.out.println("====================");
 
         if ("GET".equals(method) && (PublickConstants.PAGE_TYPE_BLOG.equals(resourceType) || PublickConstants.PAGE_TYPE_PAGE.equals(resourceType))) {
 
             System.out.println("ONE");
+//            System.out.println(resource.getValueMap());
+            System.out.println(resourceType);
 
             if (!resource.getValueMap().get("visible", false)) {
                 final boolean authorable = userService.isAuthorable(slingRequest.getResourceResolver().adaptTo(Session.class));
@@ -133,7 +131,8 @@ public class PreviewFilter implements Filter {
                     } else {
                         System.out.println("FIVE");
                         System.out.println(servletResponse + previewHeader);
-                        out.write(servletResponse + previewHeader);
+//                        out.write(servletResponse + previewHeader);
+                        out.write(servletResponse);
                     }
                 } else {
                     /* If user is not logged in and page isn't published, forward to 404. */
