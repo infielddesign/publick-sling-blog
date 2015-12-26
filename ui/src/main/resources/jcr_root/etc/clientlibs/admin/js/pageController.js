@@ -14,8 +14,8 @@ var rootid = "#" + rootname;
 var treeroot = $(rootid);
 var CONTENT_PATH = "/content";
 var ROOT_PATH = "/page";
+$scope.content_path = CONTENT_PATH;
 
-$scope.textcontent = "nicola";
 
 /**
  *  This code gets the a tree starting a page of depth as a JSON object.
@@ -187,11 +187,11 @@ function clearCache(url, params, handle)
 /**
  *  Context Functions
 **/
-function openNodeContext(obj, prefix_path, parent) {
+function openNodeContext(prefix_path, parent) {
     $window.open('/' + prefix_path + '/' + parent + '.html', '_blank');
 }
 
-function newNodeContext(obj, prefix_path, parent) {
+function newNodeContext(prefix_path, parent) {
     ngDialog.open({
         template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
         className : 'ngdialog-theme-default custom-width',
@@ -202,7 +202,7 @@ function newNodeContext(obj, prefix_path, parent) {
     });
 }
 
-function editNodeContext(obj, prefix_path, parent) {
+function editNodeContext(prefix_path, parent) {
   ngDialog.open({
       template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=edit",
 //      template : "templateId",
@@ -212,6 +212,10 @@ function editNodeContext(obj, prefix_path, parent) {
       scope : $scope,
       preCloseCallback: function(value) { return preCloseCallback() }
   });
+}
+
+$scope.editNodeContext = function(prefix_path, parent){
+    editNodeContext(prefix_path, parent)
 }
 
 function preCloseCallback() {
@@ -264,7 +268,7 @@ function customMenu(node) {
           "icon": "glyphicon glyphicon-new-window",
           "label" : "Open",
           "action" : function (obj) {
-            openNodeContext(obj, prefix_path, parent);
+            openNodeContext(prefix_path, parent);
           },
           "_disabled": function (obj){
             var nodeType = node["original"]["properties"]["jcr:primaryType"];
@@ -282,7 +286,7 @@ function customMenu(node) {
           "icon": "fa fa-plus",
           "label" : "New",
           "action" : function (obj) {
-            newNodeContext(obj, prefix_path, parent);
+            newNodeContext(prefix_path, parent);
           },
          "_disabled": function (obj){
            var parentId = node["parent"];
@@ -299,7 +303,7 @@ function customMenu(node) {
             "icon": "fa fa-pencil",
             "label" : "Edit",
             "action" : function (obj) {
-                editNodeContext(obj, prefix_path, parent);
+                editNodeContext(prefix_path, parent);
             },
             "_disabled": function (obj){
               var parentId = node["parent"];

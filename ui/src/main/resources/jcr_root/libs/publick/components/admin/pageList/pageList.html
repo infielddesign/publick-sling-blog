@@ -1,5 +1,5 @@
 <div data-ng-controller="newPageController" data-sly-use.page="com.nateyolles.sling.publick.components.admin.PageEdit" data-sly-unwrap></div>
-<div data-sly-use.pageconf="com.nateyolles.sling.publick.components.admin.PageConfigurationEdit" data-sly-unwrap></div>
+<!--<div data-sly-use.pageconf="com.nateyolles.sling.publick.components.admin.PageConfigurationEdit" data-sly-unwrap></div>-->
 <div data-sly-use.config="com.nateyolles.sling.publick.components.admin.DispatcherConfig" data-sly-unwrap></div>
 <div data-ng-controller="PageListController" data-sly-use.list="com.nateyolles.sling.publick.components.admin.PageList">
 
@@ -26,7 +26,7 @@
                         <tr>
                             <td><a href="{{prefix_path_child}}{{list.text}}.html" target="_blank" title="Open page">{{list.pageTitle || "// No SEO title available" }}</a> <span class="text-muted pagelist-muted">{{prefix_path_child}}{{list.text}}.html</span></td>
                             <td><i class="glyphicon" data-ng-class="list.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></i></td>
-                            <td><a href="edit.html?post=PLACEHOLDER"><i class="glyphicon glyphicon-pencil"></i></a></td>
+                            <td><a data-ng-click="editNodeContext(prefix_path_child, list.text)"><i style="cursor:pointer" class="glyphicon glyphicon-pencil"></i></a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -48,8 +48,8 @@
                                 </a>
                                 <span class="text-muted pagelist-muted">{{prefix_path}}{{pageContent.selectedNode}}.html</span>
                             </td>
-                            <td><i class="glyphicon" data-ng-class="${pageContent.visible} ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></i></td>
-                            <td><a href="edit.html?post=PLACEHOLDER"><i class="glyphicon glyphicon-pencil"></i></a></td>
+                            <td><i class="glyphicon" data-ng-class="pageContent.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></i></td>
+                            <td><a data-ng-click="editNodeContext(prefix_path, pageContent.selectedNode)"><i style="cursor:pointer" class="glyphicon glyphicon-pencil"></i></a></td>
                         </tr>
                         <tr>
                             <td colspan="3" data-ng-show="pageContent.description">
