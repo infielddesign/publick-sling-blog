@@ -1,8 +1,7 @@
 <div data-ng-controller="newPageController" data-sly-use.page="com.nateyolles.sling.publick.components.admin.PageEdit" data-sly-unwrap></div>
 <div data-sly-use.pageconf="com.nateyolles.sling.publick.components.admin.PageConfigurationEdit" data-sly-unwrap></div>
+<div data-sly-use.config="com.nateyolles.sling.publick.components.admin.DispatcherConfig" data-sly-unwrap></div>
 <div data-ng-controller="PageListController" data-sly-use.list="com.nateyolles.sling.publick.components.admin.PageList">
-    <div class="row" data-settings-type="dispatcher"
-         data-sly-use.config="com.nateyolles.sling.publick.components.admin.DispatcherConfig">
 
     <input type="hidden" name="dispatcherHost" data-ng-model="model.dispatcherHost" data-ng-init="model.dispatcherHost = '${config.dispatcherHost}'">
     <input type="hidden" name="dispatcherInvalidateCacheUri" data-ng-model="model.dispatcherInvalidateCacheUri" data-ng-init="model.dispatcherInvalidateCacheUri = '${config.dispatcherInvalidateCacheUri}'">
