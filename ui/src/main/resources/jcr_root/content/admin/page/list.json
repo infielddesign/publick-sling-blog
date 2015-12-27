@@ -1,7 +1,7 @@
 {
   "jcr:primaryType": "publick:page",
   "sling:resourceType" : "publick/pages/adminSecurePage",
-  "title" : "Page List",
+  "title" : "CRXDE ZERO",
   "jcr:content" : {
     "mainContent" : {
       "jcr:primaryType": "nt:unstructured",

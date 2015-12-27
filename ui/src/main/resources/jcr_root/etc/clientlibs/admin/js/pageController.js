@@ -206,8 +206,8 @@ function clearCache(url, params, handle)
 /**
  *  Context Functions
 **/
-function openNodeContext(prefix_path, parent) {
-    $window.open('/' + prefix_path + '/' + parent + '.html', '_blank');
+function openNodeContext(url, prefix_path, parent) {
+    $window.open(url + '/' + prefix_path + '/' + parent + '.html', '_blank');
 }
 
 function newNodeContext(prefix_path, parent) {
@@ -287,7 +287,7 @@ function customMenu(node) {
           "icon": "glyphicon glyphicon-new-window",
           "label" : "Open",
           "action" : function (obj) {
-            openNodeContext(prefix_path, parent);
+            openNodeContext("", prefix_path, parent);
           },
           "_disabled": function (obj){
             var nodeType = node["original"]["properties"]["jcr:primaryType"];
@@ -373,25 +373,51 @@ function customMenu(node) {
           }
         }
       },
-      "Clear Cache" : {
-          "icon": "fa fa-trash",
-          "label" : "Clear Cache",
-          "action" : function (obj) {
+    "Cache" : {
+        "icon": "fa fa-recycle",
+        "separator_before" : true,
+        "label" : "Cache",
+        "action" : true,
+        "submenu" :{
+            "Open": {
+                "icon": "glyphicon glyphicon-new-window",
+                "label" : "Open",
+                "action": function (obj) {
+                    var url = $scope.model.dispatcherHost;
+                    openNodeContext(url, prefix_path, parent);
+                },
+                "_disabled": function (obj){
+                    var nodeType = node["original"]["properties"]["jcr:primaryType"];
 
-            var url = $scope.model.dispatcherHost + $scope.model.dispatcherInvalidateCacheUri
-            var nodeType = node["original"]["properties"]["jcr:primaryType"];
+                    //If the node selected is a folder then disable option of opening it.
+                    if(nodeType == "sling:Folder"){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+            },
+            "Clear": {
+                "icon": "fa fa-trash",
+                "label" : "Clear",
+                "action": function (obj) {
+                    var url = $scope.model.dispatcherHost + $scope.model.dispatcherInvalidateCacheUri;
+                    var nodeType = node["original"]["properties"]["jcr:primaryType"];
 
-            if(nodeType == "publick:page")
-            {
-                var extension = ".html";
+                    if(nodeType == "publick:page")
+                    {
+                        var extension = ".html";
+                    }
+                    else{
+                        var extension = "/";
+                    }
+
+                    clearCache(url, null, "/" + path_string + extension);
+                }
             }
-            else{
-                var extension = "/";
-            }
-
-            clearCache(url, null, "/" + path_string + extension);
-          },
-          "_disabled": function (obj){
+        },
+        "_disabled": function (obj){
             var parentId = node["parent"];
 
             //If the node selected is a folder then disable option of opening it.
