@@ -15,6 +15,11 @@ var treeroot = $(rootid);
 var CONTENT_PATH = "/content";
 var ROOT_PATH = "/page";
 $scope.content_path = CONTENT_PATH;
+$scope.model = {
+    status: "",
+    msg:"",
+    alert_css:""
+}
 
 
 /**
@@ -177,7 +182,21 @@ function clearCache(url, params, handle)
     }
     slingPostServlet(url, params, headers).then(
              function(cache){
-                console.log(cache);
+
+                if(cache["statusText"]=="OK")
+                {
+                    $scope.model.status="Success!";
+                    $scope.model.msg="You have successfully cleared "+ handle +".";
+                    $scope.model.alert_css="alert-success";
+
+                }
+                else{
+                    $scope.model.status="Warning!";
+                    $scope.model.msg="Something went wrong please check that you have correctly configured your dispatcher.";
+                    $scope.model.alert_css="alert-warning";
+                }
+
+                $('#alert_placeholder').html('<div class = "alert '+ $scope.model.alert_css +' alert-dismissable fade in"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button><strong>' + $scope.model.status + '</strong> ' + $scope.model.msg + '</div>');
              }
         );
 }
