@@ -5,10 +5,6 @@
  */
 app.controller('PageListController', function($scope, $http, formDataObject, ngDialog, $window, $timeout) {
 
-//var dispatcherURL = ;
-//var dispatcherURI = ;
-
-
 var rootname = "clbk"
 var rootid = "#" + rootname;
 var treeroot = $(rootid);
@@ -22,6 +18,12 @@ $scope.model = {
 }
 
 
+
+
+/******************/
+/* AJAX Functions */
+/******************/
+
 /**
  *  This code gets the a tree starting a page of depth as a JSON object.
 **/
@@ -33,63 +35,20 @@ function get(page, depth) {
 }
 
 
-
 /**
  *  This code allows you to POST to the Sling Post Servlet.
 **/
-function slingPostServlet(url, params, headers) {
-  return $http({
-    method: 'POST',
-    url: url,
-    headers: headers,
-    data: params,
-    transformRequest: formDataObject
+function slingPostServlet(url, params, headers, timeout) {
+    timeout = typeof timeout !== 'undefined' ? timeout : 60000;
+    return $http({
+        method: 'POST',
+        url: url,
+        headers: headers,
+        data: params,
+        transformRequest: formDataObject,
+        timeout: timeout
   });
 }
-
-
-
-/**
- *  This code translates a Sling return JSON object into a jstree
- *  accepted object. It filters out the properties and only allows
- *  for node to be represented in the JSON main tree.
-**/
-function translate(objects){
-var tree = [];
-
-for(var obj in objects){
-var icon = "glyphicon glyphicon-file";
-
-    var isObj = false;
-
-    if(typeof(objects[obj]) == "object" && Object.prototype.toString.call(objects[obj]) != "[object Array]")
-    {
-        for(obj1 in objects[obj])
-        {
-            if(obj1 == "jcr:primaryType" && objects[obj][obj1]=="publick:page")
-            {
-                icon = "glyphicon glyphicon-file";
-            }
-            else if(obj1 == "jcr:primaryType" && objects[obj][obj1]=="sling:Folder")
-            {
-                icon = "glyphicon glyphicon-folder-open";
-            }
-
-            if((typeof(objects[obj][obj1]) == "object")){
-                isArr = (Object.prototype.toString.call(objects[obj][obj1]) === "[object Array]")
-                if(!isArr)
-                {
-                    isObj = true;
-                }
-            }
-        }
-        tree.push({"text" : obj, "icon" : icon, "properties" : objects[obj], "children" : isObj});
-    }
-}
-
-return tree;
-}
-
 
 
 /**
@@ -117,7 +76,6 @@ function renameNode(prefix_path, path_string, parent, node)
 }
 
 
-
 /**
  *  This code sends a POST request to the Sling Post Servlet
  *  to change a node's path. This function is used in the DND
@@ -132,7 +90,6 @@ function moveNode(old_path, new_path)
       slingPostServlet(url, params, null);
     }
 }
-
 
 
 /**
@@ -159,7 +116,6 @@ function deleteNode(path, prefix_path, node)
 }
 
 
-
 /**
  *  This code sends a POST request to the dispatcher
  *  to invalidate the page or folder in the handle path.
@@ -180,7 +136,7 @@ function clearCache(url, params, handle)
     'CQ-Path': handle,
     'Content-Type': 'application/octet-stream'
     }
-    slingPostServlet(url, params, headers).then(
+    slingPostServlet(url, params, headers, 5000).then(
              function(cache){
 
                 if(cache["statusText"]=="OK")
@@ -197,19 +153,38 @@ function clearCache(url, params, handle)
                 }
 
                 $('#alert_placeholder').html('<div class = "alert '+ $scope.model.alert_css +' alert-dismissable fade in"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button><strong>' + $scope.model.status + '</strong> ' + $scope.model.msg + '</div>');
+             },
+             function(err){
+                console.log(err);
+                if(err["statusText"]==""){
+                      $scope.model.status="Warning!";
+                      $scope.model.msg="Something went wrong please check that you have correctly configured your dispatcher.";
+                      $scope.model.alert_css="alert-warning";
+                  }
+
+                  $('#alert_placeholder').html('<div class = "alert '+ $scope.model.alert_css +' alert-dismissable fade in"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button><strong>' + $scope.model.status + '</strong> ' + $scope.model.msg + '</div>');
              }
         );
 }
 
 
 
+
+/*********************/
+/* Context Functions */
+/*********************/
+
 /**
- *  Context Functions
-**/
+ * Open page that corresponds to node selected.
+ **/
 function openNodeContext(url, prefix_path, parent) {
     $window.open(url + '/' + prefix_path + '/' + parent + '.html', '_blank');
 }
 
+
+/**
+ * Open modal to create a child node with form provided in modal.
+ **/
 function newNodeContext(prefix_path, parent) {
     ngDialog.open({
         template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=new",
@@ -221,6 +196,10 @@ function newNodeContext(prefix_path, parent) {
     });
 }
 
+
+/**
+ * Open modal and load forms with nodes properties
+ **/
 function editNodeContext(prefix_path, parent) {
   ngDialog.open({
       template : "/admin/page/edit.html?post=" + CONTENT_PATH + "/" + prefix_path + "&post2=" + parent + "&post3=edit",
@@ -233,10 +212,18 @@ function editNodeContext(prefix_path, parent) {
   });
 }
 
+
+/**
+ * Open edit modal in Subpages and Page Preview tabs
+ **/
 $scope.editNodeContext = function(prefix_path, parent){
     editNodeContext(prefix_path, parent)
 }
 
+
+/**
+ * This function allow you to confirm to close the modal.
+ **/
 function preCloseCallback() {
   var nestedConfirmDialog = ngDialog.openConfirm({
       template:'\
@@ -255,19 +242,10 @@ function preCloseCallback() {
   // NOTE: return the promise from openConfirm
   return nestedConfirmDialog;
 }
-    
-function renameNodeContext(obj, prefix_path, path, parent, node) {
-    renameNode(prefix_path, path, parent, node);
-}
-
-function deleteNodeContext(obj, prefix_path, path, node) {
-    deleteNode(path, prefix_path, node);
-}
-
 
 
 /**
- *  Context Functions
+ *  Called when context is invoked (right clicked on node).
 **/
 function customMenu(node) {
 
@@ -306,41 +284,44 @@ function customMenu(node) {
           "label" : "New",
           "action" : function (obj) {
             newNodeContext(prefix_path, parent);
-          },
-         "_disabled": function (obj){
-           var parentId = node["parent"];
-           //If the node selected is a folder then disable option of opening it.
-//           if(parentId == "#"){
-//               return true;
-//           }
-//           else{
-//               return false;
-//           }
-         }
+          }
       },
       "Edit" : {
             "icon": "fa fa-pencil",
             "label" : "Edit",
             "action" : function (obj) {
                 editNodeContext(prefix_path, parent);
+
+                var url = $scope.model.dispatcherHost + $scope.model.dispatcherInvalidateCacheUri;
+                var nodeType = node["original"]["properties"]["jcr:primaryType"];
+
+                if(nodeType == "publick:page")
+                {
+                    var extension = ".html";
+                }
+                else{
+                    var extension = "/";
+                }
+
+                clearCache(url, null, "/" + path_string + extension);
             },
             "_disabled": function (obj){
-              var parentId = node["parent"];
+                var parentId = node["parent"];
 
-              //If the node selected is a folder then disable option of opening it.
-              if(parentId == "#"){
-                  return true;
-              }
-              else{
-                  return false;
-              }
+                //If the node selected is a folder then disable option of opening it.
+                if(parentId == "#"){
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
       },
       "Rename" : {
         "icon": "glyphicon glyphicon-text-color",
         "label" : "Rename",
         "action" : function (obj) {
-            renameNodeContext(obj, prefix_path, path_string, parent, node);
+            renameNode(prefix_path, path, parent, node);
         },
         "_disabled": function (obj){
           var parentId = node["parent"];
@@ -359,7 +340,7 @@ function customMenu(node) {
         "icon": "fa fa-trash",
         "label" : "Delete",
         "action" : function (obj) {
-            deleteNodeContext(obj, prefix_path, path_string, node);
+            deleteNode(path, prefix_path, node);
         },
         "_disabled": function (obj){
           var parentId = node["parent"];
@@ -441,52 +422,10 @@ function customMenu(node) {
 
 
 
-/**
- *  The following code gets the sling resource tree (as JSON)
- *  starting at the /page node with a depth of 2.
- *  This code sets up the initial tree and initialises the jstree
- *  plugins that are used such as contextmenu, dnd ...
-**/
-get("page/", "2").then(function(res){
-var objects = res['data'];
-var tree = [];
-tree = translate(objects);
-tree = [{"text" : "page", "properties" : {"jcr:primaryType" : "sling:Folder"}, "icon" : "glyphicon glyphicon-folder-open", "state" : {"opened" : true, "disabled" : true, "selected" : false},"children" : tree}];
 
-    treeroot
-    .jstree({
-        'core' : {
-            'data' : function (node, cb) {
-                if(node.id === "#") {
-                    cb(tree);
-                }
-                else {
-                    var path_string = treeroot.jstree("get_path", node,"/",false);
-                    get(path_string, "2").then(
-                        function(res){
-                            var tree = translate(res['data']);
-                            cb(tree);
-                    });
-                }
-            },
-            'check_callback' : true
-        },
-        "plugins" : [
-          "contextmenu",
-          "dnd"
-        ],
-        "contextmenu" : {
-            "items" : customMenu
-        },
-        "dnd":{
-            "is_draggable": function(node){
-                return true;
-            }
-        }
-    });
-});
-
-
+/********************/
+/* Listen to events */
+/********************/
 
 /**
  *  The following code listens for the select_node event.
@@ -517,69 +456,6 @@ treeroot
 });
 
 
-/**
- *  Return an object that only contains nodes of a specific type (e.g. "publick:page" or "sling:Folder")
-**/
-function filterLevelOneByPrimaryType(selectedNode, object, primaryType) {
-    var filteredProperties = {};
-
-    if (object["jcr:primaryType"] === primaryType) {
-        filteredProperties["selectedNode"] = selectedNode;
-        for (var key in object) {
-            filteredProperties[key] = object[key];
-        }        
-    }
-
-    return filteredProperties;
-}
-    
-function filterLevelTwoByPrimaryType(selectedNode, object, primaryType) {
-    var filteredProperties = {};
-
-    for (var key in object) {
-        if (object.hasOwnProperty(key)) {
-//            filteredProperties["selectedNode"] = selectedNode;
-            var levelTwo = object[key];
-            if (typeof(levelTwo) == "object")
-            {
-                levelTwo["text"] = key
-            }
-            for (var keysTwo in levelTwo) {
-                if (levelTwo.hasOwnProperty(keysTwo) && keysTwo === "jcr:primaryType" && levelTwo["jcr:primaryType"] === primaryType) {
-                    filteredProperties[key] = object[key];
-                }
-            }
-        }
-    }
-//    filteredProperties["selectedNode"] = object["node"]["text"];
-    
-    return filteredProperties;
-}
-
-    
-/**
- *  Update $scope.pageList.
- *  $scope.apply() is needed to update the scope afterwards.
-**/
-function updatePageList(object) {
-    if (isEmpty(object)) {
-        object = undefined;
-    }
-    $scope.pageList = object;
-}
-
-/**
- *  Update $scope.pageContent.
- *  $scope.apply() is needed to update the scope afterwards.
-**/
-function updatePageContent(object) {
-    if (isEmpty(object)) {
-        object = undefined;
-    }
-    $scope.pageContent = object;
-}
-
-    
 /**
  *  The following code listens for the dblclick event.
  *  If the event is triggered then it will let you rename
@@ -625,6 +501,7 @@ treeroot
     }
 });
 
+
 function toggle_node(element) {
     if ($.jstree !== undefined) {
         var instance = $.jstree.reference(element);
@@ -653,37 +530,191 @@ treeroot
 
 
 
-  $("select[name='primarytype']").on("change", function(){
-      var typeValue = $(this).find(":selected").val();
 
-      if(typeValue==="sling:Folder"){
-          $("#configurationName").addClass("hide");
-          $("#visible").addClass("hide");
-          $("#keywords").addClass("hide");
-          $("#links").addClass("hide");
-          $("#scripts").addClass("hide");
-          $("#description").addClass("hide");
-          $("#contentfield").addClass("hide");
-      }
-      if(typeValue==="publick:page"){
-          $("#configurationName").removeClass("hide");
-          $("#visible").removeClass("hide");
-          $("#keywords").removeClass("hide");
-          $("#links").removeClass("hide");
-          $("#scripts").removeClass("hide");
-          $("#description").removeClass("hide");
-          $("#contentfield").removeClass("hide");
-      }
-  });
+/******************/
+/* MISC Functions */
+/******************/
+/**
+ *  This code translates a Sling return JSON object into a jstree
+ *  accepted object. It filters out the properties and only allows
+ *  for node to be represented in the JSON main tree.
+**/
+function translate(objects){
+var tree = [];
+
+for(var obj in objects){
+var icon = "glyphicon glyphicon-file";
+
+    var isObj = false;
+
+    if(typeof(objects[obj]) == "object" && Object.prototype.toString.call(objects[obj]) != "[object Array]")
+    {
+        for(obj1 in objects[obj])
+        {
+            if(obj1 == "jcr:primaryType" && objects[obj][obj1]=="publick:page")
+            {
+                icon = "glyphicon glyphicon-file";
+            }
+            else if(obj1 == "jcr:primaryType" && objects[obj][obj1]=="sling:Folder")
+            {
+                icon = "glyphicon glyphicon-folder-open";
+            }
+
+            if((typeof(objects[obj][obj1]) == "object")){
+                isArr = (Object.prototype.toString.call(objects[obj][obj1]) === "[object Array]")
+                if(!isArr)
+                {
+                    isObj = true;
+                }
+            }
+        }
+        tree.push({"text" : obj, "icon" : icon, "properties" : objects[obj], "children" : isObj});
+    }
+}
+
+return tree;
+}
+
+
+/**
+ *  Return an object that only contains nodes of a specific type (e.g. "publick:page" or "sling:Folder")
+**/
+function filterLevelOneByPrimaryType(selectedNode, object, primaryType) {
+    var filteredProperties = {};
+
+    if (object["jcr:primaryType"] === primaryType) {
+        filteredProperties["selectedNode"] = selectedNode;
+        for (var key in object) {
+            filteredProperties[key] = object[key];
+        }
+    }
+
+    return filteredProperties;
+}
+
+
+function filterLevelTwoByPrimaryType(selectedNode, object, primaryType) {
+    var filteredProperties = {};
+
+    for (var key in object) {
+        if (object.hasOwnProperty(key)) {
+//            filteredProperties["selectedNode"] = selectedNode;
+            var levelTwo = object[key];
+            if (typeof(levelTwo) == "object")
+            {
+                levelTwo["text"] = key
+            }
+            for (var keysTwo in levelTwo) {
+                if (levelTwo.hasOwnProperty(keysTwo) && keysTwo === "jcr:primaryType" && levelTwo["jcr:primaryType"] === primaryType) {
+                    filteredProperties[key] = object[key];
+                }
+            }
+        }
+    }
+//    filteredProperties["selectedNode"] = object["node"]["text"];
+
+    return filteredProperties;
+}
+
+
+/**
+ *  Update $scope.pageList.
+ *  $scope.apply() is needed to update the scope afterwards.
+**/
+function updatePageList(object) {
+    if (isEmpty(object)) {
+        object = undefined;
+    }
+    $scope.pageList = object;
+}
+
+
+/**
+ *  Update $scope.pageContent.
+ *  $scope.apply() is needed to update the scope afterwards.
+**/
+function updatePageContent(object) {
+    if (isEmpty(object)) {
+        object = undefined;
+    }
+    $scope.pageContent = object;
+}
+
+
+/**
+ * Helper: Test if object is empty
+ */
+function isEmpty(obj) {
+    for (var prop in obj) {
+        if (obj.hasOwnProperty(prop))
+            return false;
+    }
+    return true;
+}
+
+
+
+
+/*******************/
+/* Initialize page */
+/*******************/
+/**
+ * This function enables you to initialize the banner with a welcoming message and
+ * Initialize the jstree tree.
+**/
+function initialize(){
+
+    var status="Info!";
+    var msg="Welcome to the siteadmin page, here you will be able to create pages, folders and organize your site as you see fitted.";
+    var alert_css="alert-info";
+    $('#alert_placeholder').html('<div class = "alert '+ alert_css +' alert-dismissable fade in"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button><strong>' + status + '</strong> ' + msg + '</div>');
 
     /**
-     * Helper: Test if object is empty
-     */
-    function isEmpty(obj) {
-        for (var prop in obj) {
-            if (obj.hasOwnProperty(prop))
-                return false;
-        }
-        return true;
-    }
+     *  The following code gets the sling resource tree (as JSON)
+     *  starting at the /page node with a depth of 2.
+     *  This code sets up the initial tree and initialises the jstree
+     *  plugins that are used such as contextmenu, dnd ...
+    **/
+    get("page/", "2").then(function(res){
+    var objects = res['data'];
+    var tree = [];
+    tree = translate(objects);
+    tree = [{"text" : "page", "properties" : {"jcr:primaryType" : "sling:Folder"}, "icon" : "glyphicon glyphicon-folder-open", "state" : {"opened" : true, "disabled" : true, "selected" : false},"children" : tree}];
+
+        treeroot
+        .jstree({
+            'core' : {
+                'data' : function (node, cb) {
+                    if(node.id === "#") {
+                        cb(tree);
+                    }
+                    else {
+                        var path_string = treeroot.jstree("get_path", node,"/",false);
+                        get(path_string, "2").then(
+                            function(res){
+                                var tree = translate(res['data']);
+                                cb(tree);
+                        });
+                    }
+                },
+                'check_callback' : true
+            },
+            "plugins" : [
+              "contextmenu",
+              "dnd"
+            ],
+            "contextmenu" : {
+                "items" : customMenu
+            },
+            "dnd":{
+                "is_draggable": function(node){
+                    return true;
+                }
+            }
+        });
+    });
+}
+
+initialize();
+
 });
