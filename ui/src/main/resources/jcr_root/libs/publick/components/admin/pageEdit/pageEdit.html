@@ -225,12 +225,12 @@
         </div>
         <div class="tab-pane" id="text-content">
 
+            <!--Remenber that if you comment sightly it will still render but without html and can play tricks on you.-->
             <div data-ng-show="model.primarytype === 'publick:page'" class="row">
                 <div class="col-lg-12 col-md-12">
-                    <div class="form-group">
-                        <label>Content</label>
-                        <textarea class="blog-edit-content form-control" name="content">${page.content @ context='unsafe'}</textarea>
+                    <div summernote data-ng-model="model.content" height="300" data-ng-show="model.primarytype === 'publick:page'" class="form-group">
                     </div>
+                    <input type="hidden" data-ng-model="model.content" data-ng-init="model.content = '${page.content}'" name="content" value="{{model.content}}" class="form-control">
                 </div>
             </div>
 
