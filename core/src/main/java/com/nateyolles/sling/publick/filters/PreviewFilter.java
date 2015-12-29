@@ -92,21 +92,13 @@ public class PreviewFilter implements Filter {
 
         if ("GET".equals(method) && (PublickConstants.PAGE_TYPE_BLOG.equals(resourceType) || PublickConstants.PAGE_TYPE_PAGE.equals(resourceType))) {
 
-            System.out.println("ONE");
-//            System.out.println(resource.getValueMap());
-            System.out.println(resourceType);
-
             if (!resource.getValueMap().get("visible", false)) {
                 final boolean authorable = userService.isAuthorable(slingRequest.getResourceResolver().adaptTo(Session.class));
-
-                System.out.println("TWO");
 
                 /* If user is logged in and page isn't published, inject a preview bar. */
                 if (authorable) {
                     PrintWriter out = response.getWriter();
                     CharResponseWrapper responseWrapper = new CharResponseWrapper((HttpServletResponse)response);
-
-                    System.out.println("THREE");
 
                     try {
                       chain.doFilter(request, responseWrapper);
@@ -129,8 +121,6 @@ public class PreviewFilter implements Filter {
 
                         out.write(html[0] + INSERTION_TAG + previewHeader + html[1]);
                     } else {
-                        System.out.println("FIVE");
-                        System.out.println(servletResponse + previewHeader);
 //                        out.write(servletResponse + previewHeader);
                         out.write(servletResponse);
                     }

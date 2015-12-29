@@ -192,10 +192,6 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
                 pageNode.addMixin(NodeType.MIX_CREATED);
             }
 
-//            System.out.println(request.getParameter("handle"));
-//            System.out.println(dispatcherService.getDispatcherHost());
-//            System.out.println(dispatcherService.getDispatcherInvalidateCacheUri());
-
             resolver.commit();
 
             /**
