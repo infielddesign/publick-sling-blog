@@ -16,7 +16,6 @@ $scope.model = {
     msg:"",
     alert_css:""
 }
-$scope.paste = false;
 
 
 
@@ -101,8 +100,6 @@ function moveNode(old_path, new_path)
 function copyNode(old_path)
 {
     $scope.old_path = old_path;
-    $scope.paste = true;
-    console.log($scope.paste);
 }
 
 
@@ -126,6 +123,12 @@ function pasteNode(new_path, old_path, prefix_path, node)
                   var tree = translate(paste2['data']);
                   treeroot.jstree(true).refresh_node(fetched_node);
               });
+          },function(err){
+            $scope.model.status="Error!";
+            $scope.model.msg=err["data"]["title"] + ": " + err["data"]["status.message"];
+            $scope.model.alert_css="alert-danger";
+
+            $('#alert_placeholder').html('<div class = "alert '+ $scope.model.alert_css +' alert-dismissable fade in"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button><strong>' + $scope.model.status + '</strong> ' + $scope.model.msg + '</div>');
           });
         }
     }
