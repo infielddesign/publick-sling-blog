@@ -376,8 +376,8 @@ function customMenu(node) {
       },
     "Copy" : {
         "icon": "fa fa-files-o",
-        "label" : "Copy",
-        "action" : function (obj) {
+        "label": "Copy",
+        "action": function (obj) {
             $scope.old_path = CONTENT_PATH + "/" + path_string;
             console.log(node);
             treeroot.jstree("copy", node);
@@ -779,6 +779,7 @@ function initialize(){
                 'check_callback' : true
             },
             "plugins" : [
+              "unique",
               "contextmenu",
               "dnd"
             ],
