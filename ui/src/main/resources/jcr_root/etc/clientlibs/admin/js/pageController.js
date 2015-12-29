@@ -16,6 +16,7 @@ $scope.model = {
     msg:"",
     alert_css:""
 }
+$scope.paste = false;
 
 
 
@@ -97,6 +98,45 @@ function moveNode(old_path, new_path)
  *  to change a node's path. This function is used in the DND
  *  feature.
 **/
+function copyNode(old_path)
+{
+    $scope.old_path = old_path;
+    $scope.paste = true;
+    console.log($scope.paste);
+}
+
+
+/**
+ *  This code sends a POST request to the Sling Post Servlet
+ *  to change a node's path. This function is used in the DND
+ *  feature.
+**/
+function pasteNode(new_path, old_path, prefix_path, node)
+{
+    if(old_path){
+        var params = {":operation": "copy", ":applyTo": $scope.old_path, ":dest": new_path};
+        var url = CONTENT_PATH + ROOT_PATH;
+        var fetched_node = treeroot.jstree(true).get_node(node).parent;
+
+        if(old_path != new_path){
+          slingPostServlet(url, params, null).then(
+          function(paste1){
+              get(prefix_path, "2").then(
+              function(paste2){
+                  var tree = translate(paste2['data']);
+                  treeroot.jstree(true).refresh_node(fetched_node);
+              });
+          });
+        }
+    }
+}
+
+
+/**
+ *  This code sends a POST request to the Sling Post Servlet
+ *  to change a node's path. This function is used in the DND
+ *  feature.
+**/
 function deleteNode(path, prefix_path, node)
 {
     var params = {":operation": "delete", ":applyTo": CONTENT_PATH + "/" + path};
@@ -155,7 +195,6 @@ function clearCache(url, params, handle)
                 $('#alert_placeholder').html('<div class = "alert '+ $scope.model.alert_css +' alert-dismissable fade in"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button><strong>' + $scope.model.status + '</strong> ' + $scope.model.msg + '</div>');
              },
              function(err){
-                console.log(err);
                 if(err["statusText"]==""){
                       $scope.model.status="Warning!";
                       $scope.model.msg="Something went wrong please check that you have correctly configured your dispatcher.";
@@ -308,7 +347,7 @@ function customMenu(node) {
             "_disabled": function (obj){
                 var parentId = node["parent"];
 
-                //If the node selected is a folder then disable option of opening it.
+                //If the node selected is the root then disable option of opening it.
                 if(parentId == "#"){
                     return true;
                 }
@@ -326,7 +365,6 @@ function customMenu(node) {
         "_disabled": function (obj){
           var parentId = node["parent"];
 
-          console.log(parentId);
           //If the node selected is a folder then disable option of opening it.
           if(parentId == "#"){
               return true;
@@ -336,24 +374,65 @@ function customMenu(node) {
           }
         }
       },
-      "Delete" : {
+    "Copy" : {
+        "icon": "fa fa-files-o",
+        "label" : "Copy",
+        "action" : function (obj) {
+            $scope.old_path = CONTENT_PATH + "/" + path_string;
+            console.log(node);
+            treeroot.jstree("copy", node);
+//            copyNode(old_path);
+
+        },
+        "_disabled": function (obj){
+            var parentId = node["parent"];
+
+            //If the node selected is a root node then disable option of opening it.
+            if(parentId == "#"){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    },
+    "Paste" : {
+        "icon": "fa fa-clipboard",
+        "label" : "Paste",
+        "action" : function (obj) {
+            var target = CONTENT_PATH + "/" +path_string + "/";
+            var old_path = $scope.old_path;
+
+            var currentId = node["id"];
+            var parentId = node["parent"];
+            var copied = treeroot.jstree("get_buffer");
+            treeroot.jstree("select_node","#"+parentId);
+            treeroot.jstree("paste");
+            treeroot.jstree("clear_buffer");
+            pasteNode(target, old_path, prefix_path, node);
+        },
+        "_disabled": function (obj){
+              return !treeroot.jstree("can_paste");
+        }
+    },
+    "Delete" : {
         "icon": "fa fa-trash",
         "label" : "Delete",
         "action" : function (obj) {
-            deleteNode(path, prefix_path, node);
+            deleteNode(path_string, prefix_path, node);
         },
         "_disabled": function (obj){
-          var parentId = node["parent"];
+            var parentId = node["parent"];
 
-          //If the node selected is a folder then disable option of opening it.
-          if(parentId == "#"){
-              return true;
-          }
-          else{
-              return false;
-          }
+            //If the node selected is a folder then disable option of opening it.
+            if(parentId == "#"){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
-      },
+    },
     "Cache" : {
         "icon": "fa fa-recycle",
         "separator_before" : true,
