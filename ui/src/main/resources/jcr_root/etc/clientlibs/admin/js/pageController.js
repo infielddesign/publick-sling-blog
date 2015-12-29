@@ -363,7 +363,7 @@ function customMenu(node) {
         "icon": "glyphicon glyphicon-text-color",
         "label" : "Rename",
         "action" : function (obj) {
-            renameNode(prefix_path, path, parent, node);
+            renameNode(prefix_path, path_string, parent, node);
         },
         "_disabled": function (obj){
           var parentId = node["parent"];
