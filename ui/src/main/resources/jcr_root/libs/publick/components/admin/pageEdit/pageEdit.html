@@ -44,6 +44,7 @@
                         <input type="hidden" name="mode" data-sly-attribute.value="${page.mode}" class="form-control">
                         <input type="hidden" name="handle" data-sly-attribute.value="${page.handle}">
                         <input type="text" name="url" data-sly-attribute.value="${page.url}" class="form-control input-sm" aria-describedby="node-name-input" ng-readonly="'${page.mode}' == 'edit'">
+                        <input type="text" name="url" data-sly-attribute.value="${page.url}" class="form-control input-sm" aria-describedby="node-name-input" ng-readonly="'${page.mode}' == 'edit'" required>
                     </div>
                 </div>
             </div>
