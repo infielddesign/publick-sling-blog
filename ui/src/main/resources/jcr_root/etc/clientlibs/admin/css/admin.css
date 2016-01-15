@@ -48,6 +48,9 @@
  * pageEdit
  */
 
+#pageeditform .nav {
+    padding-bottom: 1em;
+}
 .ngdialog-overlay,
 .ngdialog-content {
     z-index: 1;

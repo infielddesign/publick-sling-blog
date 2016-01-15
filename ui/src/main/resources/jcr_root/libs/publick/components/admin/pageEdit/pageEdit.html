@@ -6,12 +6,12 @@
 
 <form id="pageeditform" name="pageeditform" action="/bin/admin/editpage" method="post" enctype="multipart/form-data">
 
-    <ul class="nav nav-tabs" id="myTab">
-        <li class="active"><a data-target="#general" data-toggle="tab">General</a></li>
-        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#header" data-toggle="tab">Header</a></li>
-        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#banner" data-toggle="tab">Banner</a></li>
-        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#text-content" data-toggle="tab">Content</a></li>
-        <li><a data-ng-show="model.primarytype === 'publick:page'" data-target="#footer" data-toggle="tab">Footer</a></li>
+    <ul class="nav nav nav-pills nav-justified" id="myTab">
+        <li class="active"><a href="#" data-target="#general" data-toggle="tab">General</a></li>
+        <li><a href="#" data-ng-show="model.primarytype === 'publick:page'" data-target="#header" data-toggle="tab">Header</a></li>
+        <li><a href="#" data-ng-show="model.primarytype === 'publick:page'" data-target="#banner" data-toggle="tab">Banner</a></li>
+        <li><a href="#" data-ng-show="model.primarytype === 'publick:page'" data-target="#text-content" data-toggle="tab">Content</a></li>
+        <li><a href="#" data-ng-show="model.primarytype === 'publick:page'" data-target="#footer" data-toggle="tab">Footer</a></li>
     </ul>
 
     <div class="tab-content">
@@ -53,7 +53,7 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
                         <label>Main heading on page</label><br>
-                        <input type="text" name="navigationTitle" data-sly-attribute.value="${page.navigationTitle}" class="form-control">
+                        <input type="text" name="navigationTitle" data-sly-attribute.value="${page.navigationTitle}" class="form-control" autofocus>
                     </div>
                 </div>
             </div>
@@ -155,7 +155,6 @@
         <div class="tab-pane" id="header">
 
             <!-- Start Header fields-->
-            <h2>Header</h2>
             <div data-ng-show="model.primarytype === 'publick:page'" class="row">
                 <hr class="pageedit-separator">
                 <div class="col-lg-12 col-md-12">
@@ -180,7 +179,6 @@
         <div class="tab-pane" id="banner">
 
             <!-- Start Banner fields-->
-            <h2>Banner</h2>
             <div data-ng-show="model.primarytype === 'publick:page'" class="row">
                 <hr class="pageedit-separator">
                 <div class="col-lg-12 col-md-12">
@@ -238,7 +236,6 @@
         <div class="tab-pane" id="footer">
 
             <!-- Start Footer fields-->
-            <h2>Footer</h2>
             <div data-ng-show="model.primarytype === 'publick:page'" class="row">
                 <hr class="pageedit-separator">
                 <div class="col-lg-12 col-md-12">
