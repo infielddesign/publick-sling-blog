@@ -43,6 +43,9 @@
 .pagelist-muted {
     padding-left: 8px;
 }
+.create-first-page .glyphicon {
+    margin-right: 15px;
+}
 
 /**
  * pageEdit

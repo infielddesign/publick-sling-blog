@@ -264,6 +264,14 @@ $scope.editNodeContext = function(prefix_path, parent){
 
 
 /**
+ * Create create new page
+ **/
+$scope.newNodeContext = function(prefix_path, parent){
+    newNodeContext(prefix_path, parent);
+}
+
+
+/**
  * This function allow you to confirm to close the modal.
  **/
 function preCloseCallback() {
@@ -746,10 +754,10 @@ function isEmpty(obj) {
 **/
 function initialize(){
 
-    var status="Info!";
-    var msg="Welcome to the siteadmin page, here you will be able to create pages, folders and organize your site as you see fitted.";
-    var alert_css="alert-info";
-    $('#alert_placeholder').html('<div class = "alert '+ alert_css +' alert-dismissable fade in"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button><strong>' + status + '</strong> ' + msg + '</div>');
+//    var status="Info!";
+//    var msg="";
+//    var alert_css="alert-info";
+//    $('#alert_placeholder').html('<div class = "alert '+ alert_css +' alert-dismissable fade in"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button><strong>' + status + '</strong> ' + msg + '</div>');
 
     /**
      *  The following code gets the sling resource tree (as JSON)

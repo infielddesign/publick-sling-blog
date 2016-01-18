@@ -5,20 +5,26 @@
 
     <input type="hidden" name="dispatcherHost" data-ng-model="model.dispatcherHost" data-ng-init="model.dispatcherHost = '${config.dispatcherHost}'">
     <input type="hidden" name="dispatcherInvalidateCacheUri" data-ng-model="model.dispatcherInvalidateCacheUri" data-ng-init="model.dispatcherInvalidateCacheUri = '${config.dispatcherInvalidateCacheUri}'">
-
-
+   
     <!--<div class="row">-->
         <!--<div class="alert {{model.alert_css}} text-center col-lg-12 col-md-12 scollable-x bottom-buffer">-->
             <!--<strong>{{model.status}}</strong> {{model.msg}}-->
         <!--</div>-->
     <!--</div>-->
     <!--<div class = "alert {{model.alert_css}} alert-dismissable fade in"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button><strong>{{model.status}}</strong> {{model.msg}}</div>-->
-    <div id="alert_placeholder" class="row" style="min-height: 60px;border-bottom: 1px solid #ddd">
-
-    </div>
+    <div id="alert_placeholder" class="row"></div>
     <!--<div id="alert_placeholder" class = "alert {{model.alert_css}} alert-dismissable fade in">-->
     <!--</div>-->
-    <div class="row">
+
+    <div class="row" data-sly-test="${!list.pages}">
+        <div class="col-xs-12 alert alert-info" role="alert">Welcome to the siteadmin page, here you can create and organize pages and folders.</div>
+        
+        <div class="col-xs-12">
+            <h2 class="create-first-page"><a class="cursor-pointer" data-ng-click="newNodeContext('page', 'page');"><i class="glyphicon glyphicon-pencil"></i>Create first page</a></h2>
+        </div>
+    </div>
+
+    <div class="row" data-sly-test="${list.pages}">
         <div class="col-lg-3 col-md-4 scollable-x bottom-buffer" style="border-right: 1px solid #ddd;height: 600px;">
             <div style="color: #337ab7;" id="clbk" class="demo"></div>
         </div>
