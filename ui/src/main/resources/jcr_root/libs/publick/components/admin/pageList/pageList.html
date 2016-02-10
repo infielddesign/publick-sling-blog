@@ -32,35 +32,12 @@
         
         <div class="col-lg-9 col-md-8 bottom-buffer" style="margin-top: 20px">
             <ul class="nav nav-pills" id="myTab">
-                <li class="active"><a href="#" data-target="#subpages" data-toggle="tab">Subpages</a></li>
-                <li><a href="#" data-target="#preview" data-toggle="tab">Page Preview</a></li>
+                <li class="active"><a href="#" data-target="#preview" data-toggle="tab">Page Preview</a></li>
+                <li><a href="#" data-target="#subpages" data-toggle="tab">Subpages</a></li>
             </ul>
 
             <div class="tab-content">
-                <div class="tab-pane fade in active" id="subpages">
-                    <div class="row" data-ng-show="pageList" style="margin-top: 20px" ng-cloak>
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>Link/URL</th>
-                                <th class="column-extra-small"></th>
-                                <th class="column-small">Edit</th>
-                            </tr>
-                            </thead>
-                            <tbody data-ng-repeat="list in pageList">
-                            <tr>
-                                <td><a href="{{prefix_path_child}}{{list.text}}.html" target="_blank" title="Open page">{{list.pageTitle || "// No SEO title available" }}</a> <span class="text-muted pagelist-muted">{{prefix_path_child}}{{list.text}}.html</span></td>
-                                <td><i class="glyphicon" data-ng-class="list.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></td>
-                                <td><a data-ng-click="editNodeContext(prefix_path_child, list.text)"><i style="cursor:pointer" class="glyphicon glyphicon-pencil"></i></a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div><!-- // END row -->
-                    <div data-ng-show="!pageList" ng-cloak>
-                        <h4 style="text-align: center;margin-top: 250px">Please select a node to display information about it.</h4>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="preview">
+                <div class="tab-pane fade in active" id="preview">
                     <div class="row" data-ng-show="pageContent" style="margin-top: 20px" ng-cloak>
                         <table class="table table-hover">
                             <thead>
@@ -95,7 +72,29 @@
                         <h4 style="text-align: center;margin-top: 250px">Please select a node to display information about it.</h4>
                     </div>
                 </div>
-
+                <div class="tab-pane fade" id="subpages">
+                    <div class="row" data-ng-show="pageList" style="margin-top: 20px" ng-cloak>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Link/URL</th>
+                                <th class="column-extra-small"></th>
+                                <th class="column-small">Edit</th>
+                            </tr>
+                            </thead>
+                            <tbody data-ng-repeat="list in pageList">
+                            <tr>
+                                <td><a href="{{prefix_path_child}}{{list.text}}.html" target="_blank" title="Open page">{{list.pageTitle || "// No SEO title available" }}</a> <span class="text-muted pagelist-muted">{{prefix_path_child}}{{list.text}}.html</span></td>
+                                <td><i class="glyphicon" data-ng-class="list.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></td>
+                                <td><a data-ng-click="editNodeContext(prefix_path_child, list.text)"><i style="cursor:pointer" class="glyphicon glyphicon-pencil"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- // END row -->
+                    <div data-ng-show="!pageList" ng-cloak>
+                        <h4 style="text-align: center;margin-top: 250px">Please select a node to display information about it.</h4>
+                    </div>
+                </div>
             </div>
 
         </div><!-- // END col -->
