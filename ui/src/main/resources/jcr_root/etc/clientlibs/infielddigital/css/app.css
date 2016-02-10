@@ -1265,4 +1265,12 @@ footer.footer-wrapper {
     width:240px;
 }
 /* end toc */
-=======
+
+.preview-header {
+  margin: 0 auto;
+  padding: 0 14px;
+}
+.preview-header .alert {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
