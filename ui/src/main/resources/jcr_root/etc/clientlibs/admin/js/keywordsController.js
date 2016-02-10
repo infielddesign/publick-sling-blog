@@ -41,7 +41,6 @@ app.controller('KeywordsController', function ($scope, $timeout, $window) {
   };
   
   $scope.onKeywordKeypress = function (event, index) {
-    console.log($scope.keywords);
     if (event.keyCode === 13 && !isLastKeywordEmpty()) {
       $scope.addKeyword(event);
     }
