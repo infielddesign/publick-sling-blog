@@ -84,7 +84,7 @@
                         <label>Keywords</label>
                         <div class="input-group-keywords">
                             <div data-ng-repeat="keyword in keywords track by $index" class="input-group added-input-field col-xs-6 col-sm-4 col-md-3">
-                                <input type="text" name="keywords" class="form-control" data-ng-model="keywords[$index]">
+                                <input id="keyword-{{$index}}" type="text" name="keywords" class="form-control" data-ng-model="keywords[$index]" ng-keypress="onKeywordKeypress($event, $index)">
                                 <div class="input-group-addon">
                                     <a href="#" data-ng-click="removeKeyword($event, $index)"><i class="fa fa-minus-circle"></i></a>
                                 </div>
