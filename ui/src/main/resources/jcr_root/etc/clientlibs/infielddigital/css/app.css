@@ -1178,6 +1178,9 @@ footer.footer-wrapper {
 	line-height: 34px;
 	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
+.footer-wrapper .footer .footer-logo > div {
+    z-index: 1;
+}
 
 .footer > li > div{
 	position: absolute;
