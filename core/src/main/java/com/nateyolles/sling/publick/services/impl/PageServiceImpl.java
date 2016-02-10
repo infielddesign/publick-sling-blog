@@ -4,6 +4,9 @@ import com.nateyolles.sling.publick.PublickConstants;
 import com.nateyolles.sling.publick.services.PageService;
 import org.apache.felix.scr.annotations.*;
 import org.apache.jackrabbit.JcrConstants;
+import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.PersistenceException;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.apache.sling.jcr.resource.JcrResourceConstants;
 import org.osgi.service.component.ComponentContext;
@@ -38,6 +41,13 @@ public class PageServiceImpl implements PageService {
             JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY,
             PublickConstants.PAGE_TYPE_PAGE,
             JcrConstants.JCR_CREATED);
+
+//    private static final String PATH_QUERY = String.format("SELECT * FROM [%s] AS s WHERE "
+//                    + "ISDESCENDANTNODE([%s])",
+//            "nt:base",
+//            PublickConstants.PAGE_PATH,
+//            JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY);
+
 
     /**
      * The JCR session.
@@ -84,6 +94,7 @@ public class PageServiceImpl implements PageService {
 
                 QueryResult result = query.execute();
                 nodes = result.getNodes();
+
             } catch (RepositoryException e) {
                 LOGGER.error("Could not search repository", e);
             }
@@ -113,6 +124,7 @@ public class PageServiceImpl implements PageService {
     public long getNumberOfPages() {
         return getPages().getSize();
     }
+
 
     /**
      * Activate Service.

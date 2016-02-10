@@ -1,6 +1,6 @@
 {
   "jcr:primaryType": "publick:page",
-  "sling:resourceType" : "publick/pages/adminSecurePage",
+  "sling:resourceType" : "publick/pages/basicPage",
   "title" : "Edit Page",
   "jcr:content" : {
     "mainContent" : {

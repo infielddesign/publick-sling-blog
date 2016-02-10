@@ -21,6 +21,9 @@ public final class PublickConstants {
     /** Page path */
     public static final String PAGE_PATH = CONTENT_PATH + "/page";
 
+    /** Page Configuration path */
+    public static final String PAGE_PATH_CONF = CONTENT_PATH + "/pageconf";
+
     /** Comments path */
     public static final String COMMENTS_PATH = CONTENT_PATH + "/comments";
 
@@ -35,6 +38,15 @@ public final class PublickConstants {
 
     /** Admin page list path */
     public static final String ADMIN_PAGE_LIST_PATH = ADMIN_PAGE_PATH + "/list";
+
+    /** Admin page list page path */
+    public static final String ADMIN_PAGE_LIST_PAGE_PATH = "/admin" + "/page" + "/list";
+
+    /** Admin page configuration path */
+    public static final String ADMIN_PAGE_CONF_PATH = ADMIN_PATH + "/pageconf";
+
+    /** Admin page configuration list path */
+    public static final String ADMIN_PAGE_CONF_LIST_PATH = ADMIN_PAGE_CONF_PATH + "/list";
 
     /** Images path */
     public static final String IMAGE_PATH = ASSET_PATH + "/images";
@@ -72,6 +84,9 @@ public final class PublickConstants {
     /** Admin email config path */
     public static final String EMAIL_CONFIG_PATH = ADMIN_CONFIG_PATH + "/email";
 
+    /** Admin dispatcher config path */
+    public static final String DISPATCHER_CONFIG_PATH = ADMIN_CONFIG_PATH + "/dispatcher";
+
     /** Node type base */
     private static final String NODE_TYPE = "publick";
 
@@ -86,6 +101,12 @@ public final class PublickConstants {
 
     /** Comment node type */
     public static final String NODE_TYPE_COMMENT = NODE_TYPE + ":comment";
+
+    /** Unstructured node type */
+    public static final String NODE_TYPE_UNSTRUCTURED = "nt:unstructured";
+
+    /** Folder node type */
+    public static final String NODE_TYPE_FOLDER = "sling:Folder";
 
     /** Page base resource type */
     private static final String PAGE_TYPE = "publick/pages";

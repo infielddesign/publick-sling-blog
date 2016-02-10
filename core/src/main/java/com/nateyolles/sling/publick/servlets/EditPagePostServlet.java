@@ -1,7 +1,7 @@
 package com.nateyolles.sling.publick.servlets;
 
 import com.nateyolles.sling.publick.PublickConstants;
-import com.nateyolles.sling.publick.services.FileUploadService;
+import com.nateyolles.sling.publick.services.DispatcherService;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.jackrabbit.JcrConstants;
@@ -26,11 +26,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 /**
  * Servlet to save pages.
  */
 @SlingServlet(paths = PublickConstants.SERVLET_PATH_ADMIN + "/editpage")
 public class EditPagePostServlet extends SlingAllMethodsServlet {
+
+    @Reference
+    DispatcherService dispatcherService;
+
 
     /**
      * The logger.
@@ -38,51 +50,126 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(EditPagePostServlet.class);
 
     /**
-     * Page path in the format of /yyyy/MM.
-     */
-    private static final String PAGE_PATH = "/%d/%02d";
-
-    /**
      * Root resource of all pages.
      */
     private static final String PAGE_ROOT = "page";
 
     /**
-     * File upload service.
-     */
-    @Reference
-    private FileUploadService fileUploadService;
-
-    /**
      * Create and save page resource.
      *
      * Creates page path and saves properties. If page resource already
-     * exists, the resource is updated with new properties. Saves file
-     * to the assets folder using the FileUploadService.
+     * exists, the resource is updated with new properties.
      */
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
         ResourceResolver resolver = request.getResourceResolver();
         Session session = resolver.adaptTo(Session.class);
 
-        final String description = request.getParameter("description");
-        final String content = request.getParameter("content");
+        /**
+         * Path properties
+         */
         final String url = request.getParameter("url");
-        final boolean visible = Boolean.parseBoolean(request.getParameter("visible"));
-        final String[] keywords = request.getParameterValues("keywords");
-        final String pagePath = PublickConstants.PAGE_PATH + "/" + url;
+        final String parentpath = request.getParameter("parentpath");
+        final String parentnode = request.getParameter("parentnode");
+        final String pagePath = parentpath + "/" + url;
+        final String primarytype = request.getParameter("primarytype");
 
         Resource existingNode = resolver.getResource(pagePath);
-
         Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put(JcrConstants.JCR_PRIMARYTYPE, PublickConstants.NODE_TYPE_PAGE);
-        properties.put(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY, PublickConstants.PAGE_TYPE_PAGE);
-        properties.put("visible", visible);
-        properties.put("content", content);
-        properties.put("description", description);
+        properties.put(JcrConstants.JCR_PRIMARYTYPE, primarytype);
 
-        if (keywords != null) {
-            properties.put("keywords", keywords);
+        if(primarytype.equals("publick:page")) {
+
+            /**
+             * Header properties
+             */
+            final String header_logo = request.getParameter("header-logo");
+            final String header_text = request.getParameter("header-text");
+
+            /**
+             * Set header properties
+             */
+            properties.put("header-logo", header_logo);
+            properties.put("header-text", header_text);
+
+
+
+
+            /**
+             * Banner properties
+             */
+            final String banner_background_image = request.getParameter("banner-background-image-url");
+            final Boolean banner_is_text = Boolean.parseBoolean(request.getParameter("banner-is-text"));
+            final String banner_title = request.getParameter("banner-title");
+            final String banner_text = request.getParameter("banner-text");
+
+            /**
+             * Set Banner properties
+             */
+            properties.put("banner-background-image-url", banner_background_image);
+            properties.put("banner-is-text", banner_is_text);
+            properties.put("banner-title", banner_title);
+            properties.put("banner-text", banner_text);
+
+
+
+
+            /**
+             * Footer properties
+             */
+            final String footer_logo = request.getParameter("footer-logo");
+            final String footer_text = request.getParameter("footer-text");
+
+            /**
+             * Set footer properties
+             */
+            properties.put("footer-logo", footer_logo);
+            properties.put("footer-text", footer_text);
+
+
+
+
+            /**
+             * Content and page behavior properties
+             */
+            final String description = request.getParameter("description");
+            final String content = request.getParameter("content");
+            final boolean visible = Boolean.parseBoolean(request.getParameter("visible"));
+            final String[] keywords = request.getParameterValues("keywords");
+            final String pageTitle = request.getParameter("pageTitle");
+            final String navigationTitle = request.getParameter("navigationTitle");
+            final String resourcetype = PublickConstants.PAGE_TYPE_PAGE;
+
+            /**
+             * Set content and page behavior properties
+             */
+            properties.put(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY, resourcetype);
+            properties.put("visible", visible);
+            properties.put("content", content);
+            properties.put("description", description);
+            properties.put("pageTitle", pageTitle);
+            properties.put("navigationTitle", navigationTitle);
+
+            if (keywords != null) {
+                properties.put("keywords", keywords);
+            }
+
+
+
+
+            /*
+            * The following configuration feature has been removed for the moment but may be reinstated in the future
+             */
+            //final String[] links = request.getParameterValues("links");
+            // final String[] scripts = request.getParameterValues("scripts");
+            //if (links != null) {
+            //    properties.put("links", links);
+            //}
+            //if (scripts != null) {
+            //    properties.put("scripts", scripts);
+            //}
+            //final String configurationName = request.getParameter("configurationName");
+            //properties.put("configurationName", configurationName);
         }
 
         try {
@@ -98,7 +185,7 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
                 ModifiableValueMap existingProperties = existingNode.adaptTo(ModifiableValueMap.class);
                 existingProperties.putAll(properties);
             } else {
-                Node node = JcrResourceUtil.createPath(resolver.getResource(PublickConstants.CONTENT_PATH).adaptTo(Node.class), PAGE_ROOT, NodeType.NT_UNSTRUCTURED, NodeType.NT_UNSTRUCTURED, true);
+                Node node = JcrResourceUtil.createPath(resolver.getResource(parentpath).adaptTo(Node.class), parentnode, NodeType.NT_UNSTRUCTURED, NodeType.NT_UNSTRUCTURED, true);
 
                 Resource page = resolver.create(resolver.getResource(node.getPath()), url, properties);
                 Node pageNode = page.adaptTo(Node.class);
@@ -106,9 +193,22 @@ public class EditPagePostServlet extends SlingAllMethodsServlet {
             }
 
             resolver.commit();
+
+            /**
+             * Call the Flushcache servlet to invalidate the cache as the page has been edited and saved
+             * and we need to re-cache the page again to reflect the changes made to the page
+             */
+//            try {
+//                dispatcherService.invalidate(dispatcherService.getDispatcherHost() + dispatcherService.getDispatcherInvalidateCacheUri(), request.getParameter("handle"));
+//            } catch (Exception e) {
+//                LOGGER.error("Flushcache servlet exception: " + e.getMessage());
+//            }
+//            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/bin/admin/flushcache");
+//            dispatcher.forward(request, response);
+
             resolver.close();
 
-            response.sendRedirect(PublickConstants.ADMIN_PAGE_LIST_PATH + ".html");
+            response.sendRedirect(PublickConstants.ADMIN_PAGE_LIST_PAGE_PATH + ".html");
         } catch (RepositoryException e) {
             LOGGER.error("Could not save page to repository.", e);
             response.sendRedirect(request.getHeader("referer"));

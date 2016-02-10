@@ -1,0 +1,37 @@
+<div class="row" data-ng-controller="DispatcherController" data-settings-type="dispatcher"
+    data-sly-use.config="com.nateyolles.sling.publick.components.admin.DispatcherConfig">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Settings</h3>
+            </div>
+            <div class="panel-body">
+                <form action="/bin/admin/systemconfig" method="post">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>Dispatcher host</label>
+                                <input type="text" name="dispatcherHost" data-ng-model="model.dispatcherHost" data-ng-init="model.dispatcherHost = '${config.dispatcherHost}'" class="form-control">
+                                <span class="help-block">The dispatcher host can be a DNS or IP.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>Dispatcher invalidate cache URI</label>
+                                <input type="text" name="dispatcherInvalidateCacheUri" data-ng-model="model.dispatcherInvalidateCacheUri" data-ng-init="model.dispatcherInvalidateCacheUri = '${config.dispatcherInvalidateCacheUri}'" class="form-control">
+                                <span class="help-block">The dispatcher invalidate cache URI is used to invalidate the cache.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 form-group">
+                            <button type="submit" class="btn btn-primary" data-ng-click="save($event)" data-sly-attribute.disabled="${!config.authorable && 'disabled'}">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

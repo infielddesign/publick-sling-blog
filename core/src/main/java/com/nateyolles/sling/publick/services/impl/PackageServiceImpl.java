@@ -65,7 +65,7 @@ public class PackageServiceImpl implements PackageService {
     private static final String BACKUP_VERSION = "1.0";
 
     /** Default package paths for Publick backups */
-    private static final String[] BACKUP_PATHS = {"/content/assets", "/content/blog", "/content/comments"};
+    private static final String[] BACKUP_PATHS = {"/content/assets", "/content/blog", "/content/comments", "/content/page", "/content/pageconf"};
 
     /**
      * Get the list of all packages in order of newest to oldest.
@@ -112,7 +112,6 @@ public class PackageServiceImpl implements PackageService {
 
             WorkspaceFilter filter = VltUtils.createFilter(paths, true);
             ExportOptions opts = VltUtils.getExportOptions(filter, paths, groupName, packageName, version);
-
             vaultPackage = VltUtils.createPackage(packaging.getPackageManager(), session, opts, tempDirectory);
 
             savedPackage = uploadPackage(session, vaultPackage);

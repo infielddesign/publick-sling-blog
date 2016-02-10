@@ -1,0 +1,37 @@
+.textpic-images.csc-default .csc-textpic {
+    max-width: initial;
+    padding: 0;
+}
+
+.textpic-images .csc-textpic .csc-textpic-center-inner {
+    text-align: center;
+    width: 100%;
+    float: none;
+    margin: 0;
+}
+
+.textpic-images .csc-textpic-imagerow {
+    width: 48%;
+    margin-bottom: 2%;
+    vertical-align: middle;
+    margin: 0 4% 2% 0;
+    display: block;
+    float: left;
+}
+
+.textpic-images .csc-textpic-imagerow:nth-of-type(even) {
+    margin-right: 0;
+}
+
+.textpic-images.csc-default .csc-textpic .csc-textpic-imagecolumn {
+    width: 100%;
+}
+
+.textpic-images.csc-default .csc-textpic .csc-textpic-image {
+    margin: 0;
+    display: inline-block;
+}
+
+.textpic-images .csc-textpic-image * {
+    display: inline-block;
+}

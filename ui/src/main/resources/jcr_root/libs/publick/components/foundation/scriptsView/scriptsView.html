@@ -1,0 +1,8 @@
+<div data-sly-use.page="com.nateyolles.sling.publick.components.foundation.PageView" data-sly-unwrap>
+    <div data-sly-list="${page.confScripts}" data-sly-unwrap>
+        <script src="${item}" type="text/javascript"></script>
+    </div>
+    <div data-sly-list="${page.scripts}" data-sly-unwrap>
+        <script src="${item}" type="text/javascript"></script>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 package com.nateyolles.sling.publick.components.admin;
 
+import com.nateyolles.sling.publick.PublickConstants;
 import com.nateyolles.sling.publick.sightly.WCMUse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -20,11 +21,28 @@ public class PageEdit extends WCMUse {
 
     private Resource resource;
     private SlingHttpServletRequest request;
+    private String configurationName;
     private String url;
     private boolean visible;
     private String[] keywords;
+    private String[] links;
+    private String[] scripts;
     private String content;
     private String description;
+    private String primaryType;
+    private String parentPath;
+    private String parentNode;
+    private String mode;
+    private String pageTitle;
+    private String navigationTitle;
+    private String[]elementsOfParentPath;
+    private String checksElements;
+
+    /**
+     * Array of strings that represents primaryTypes.
+     */
+    private String[] primaryTypes;
+    private String handle;
 
     /**
      * Sightly component initialization.
@@ -35,9 +53,11 @@ public class PageEdit extends WCMUse {
         request = getRequest();
 
         String path = request.getParameter("post");
+        String parent = request.getParameter("post2");
+        String mode = request.getParameter("post3");
 
         if (StringUtils.isNotBlank(path)) {
-            getPage(path);
+            getPage(path, parent, mode);
         }
     }
 
@@ -47,19 +67,52 @@ public class PageEdit extends WCMUse {
      *
      * @param path The resource path to the page.
      */
-    private void getPage(String path) {
+    private void getPage(String path, String parent, String Mode) {
         ResourceResolver resolver = resource.getResourceResolver();
-        Resource page = resolver.getResource(path);
+        Resource page = resolver.getResource(path + "/" + parent);
+
+        if(Mode.equals("new")) {
+            page = null;
+        }
 
         if (page != null) {
             ValueMap properties = page.adaptTo(ValueMap.class);
             url = properties.get("url", String.class);
             visible = Boolean.valueOf(properties.get("visible", false));
+            configurationName = properties.get("configurationName", String.class);
             keywords = properties.get("keywords", String[].class);
+            links = properties.get("links", String[].class);
+            scripts = properties.get("scripts", String[].class);
             content = properties.get("content", String.class);
             description = properties.get("description", String.class);
+            pageTitle = properties.get("pageTitle", String.class);
+            navigationTitle = properties.get("navigationTitle", String.class);
             url = page.getName();
+
+            primaryType = properties.get("jcr:primaryType", String.class);
         }
+
+        handle = StringUtils.removeStart(path + "/" + url, PublickConstants.CONTENT_PATH);
+
+        parentPath = path;
+        elementsOfParentPath = parentPath.split("/");
+        checksElements = "/" + elementsOfParentPath[1] + "/" + elementsOfParentPath[2];
+        if(parentPath.equals(PublickConstants.PAGE_PATH) && checksElements.equals(PublickConstants.PAGE_PATH)){
+            parentNode = "";
+        }
+        else {
+            parentNode = parent;
+        }
+        mode = Mode;
+    }
+
+    /**
+     * Get the page configurationName.
+     *
+     * @return The page configurationName.
+     */
+    public String getConfigurationName() {
+        return configurationName;
     }
 
     /**
@@ -90,6 +143,42 @@ public class PageEdit extends WCMUse {
     }
 
     /**
+     * Get the multi-value link property.
+     *
+     * @return The multi-value link property.
+     */
+    public String getLinks() {
+
+        JSONArray jsonArray = null;
+
+        if (links != null) {
+            jsonArray = new JSONArray(Arrays.asList(links));
+        } else {
+            jsonArray = new JSONArray();
+        }
+
+        return jsonArray.toString();
+    }
+
+    /**
+     * Get the multi-value script property.
+     *
+     * @return The multi-value script property.
+     */
+    public String getScripts() {
+
+        JSONArray jsonArray = null;
+
+        if (scripts != null) {
+            jsonArray = new JSONArray(Arrays.asList(scripts));
+        } else {
+            jsonArray = new JSONArray();
+        }
+
+        return jsonArray.toString();
+    }
+
+    /**
      * Get the multi-value keywords property as a JSON string.
      *
      * @return The multi-value keyword property as a JSON string.
@@ -115,6 +204,7 @@ public class PageEdit extends WCMUse {
         return content;
     }
 
+
     /**
      * Get the description property.
      *
@@ -122,5 +212,90 @@ public class PageEdit extends WCMUse {
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Get all primaryTypes.
+     *
+     * @return All primaryTypes.
+     */
+    public String[] getPrimaryTypes() {
+        primaryTypes[0] = PublickConstants.NODE_TYPE_FOLDER;
+        primaryTypes[1] = PublickConstants.NODE_TYPE_PAGE;
+
+        return primaryTypes;
+    }
+
+    /**
+     * Get the page's primaryType.
+     *
+     * @return The page's primaryType.
+     */
+    public String getPrimaryType() {
+        return primaryType;
+    }
+
+    /**
+     * Is a page or not.
+     *
+     * @return True is page.
+     */
+//    public String displayPageForm() {
+//        if(primaryType!=null && primaryType.equals("publick:page"))
+//            return "";
+//        return "hide";
+//    }
+
+    /**
+     * Get the page parent path.
+     *
+     * @return The page's parent path.
+     */
+    public String getParentPath() {
+        return parentPath;
+    }
+
+    /**
+     * Get the page parent node.
+     *
+     * @return The page's parent node.
+     */
+    public String getParentNode() {
+        return parentNode;
+    }
+
+    /**
+     * Get the page's mode.
+     *
+     * @return The page's mode.
+     */
+    public String getMode() {
+        return mode;
+    }
+
+    /**
+     * Get the page's pageTitle.
+     *
+     * @return The page's pageTitle.
+     */
+    public String getPageTitle() {
+        return pageTitle;
+    }
+
+    /**
+     * Get the page's navigationTitle.
+     *
+     * @return The page's navigationTitle.
+     */
+    public String getNavigationTitle() {
+        return navigationTitle;
+    }
+
+     /* Get the handle property.
+     *
+     * @return The handle property.
+     */
+    public String getHandle() {
+        return handle + ".html";
     }
 }

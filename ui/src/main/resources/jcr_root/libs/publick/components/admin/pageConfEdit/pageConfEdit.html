@@ -1,0 +1,64 @@
+<div data-sly-use.pageConf="com.nateyolles.sling.publick.components.admin.PageConfigurationEdit" data-sly-unwrap></div>
+
+<form action="/bin/admin/editpageconf" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <div class="form-group">
+                <label>Configuration Name</label>
+                <input type="text" name="configurationName" data-sly-attribute.value="${pageConf.configurationName}" class="form-control">
+                <span class="help-block">The page Configuration name. Used in the post's URL</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label>Header</label>
+                <textarea class="blog-edit-content form-control" name="header">${pageConf.header @ context='unsafe'}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label>Footer</label>
+                <textarea class="blog-edit-content form-control" name="footer">${pageConf.footer @ context='unsafe'}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4">
+            <div class="form-group" data-ng-controller="LinksController" data-ng-init="links = ${pageConf.getLinksJSON}">
+                <label>Links</label>
+                <div data-ng-repeat="link in links track by $index" class="input-group">
+                    <input type="text" name="links" class="form-control" data-ng-model="links[$index]">
+                    <div class="input-group-addon">
+                        <a href="#" data-ng-click="removeLink($event, $index)"><i class="fa fa-minus-circle"></i></a>
+                    </div>
+                </div>
+                <div class="input-group keywords-add-container">
+                    <a href="#" data-ng-click="addLink($event)">Add link<i class="fa fa-plus-circle"></i></a>
+                </div>
+                <span class="help-block clear">Used for including CSS.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4">
+            <div class="form-group" data-ng-controller="ScriptsController" data-ng-init="scripts = ${pageConf.getScriptsJSON}">
+                <label>Scripts</label>
+                <div data-ng-repeat="script in scripts track by $index" class="input-group">
+                    <input type="text" name="scripts" class="form-control" data-ng-model="scripts[$index]">
+                    <div class="input-group-addon">
+                        <a href="#" data-ng-click="removeScript($event, $index)"><i class="fa fa-minus-circle"></i></a>
+                    </div>
+                </div>
+                <div class="input-group keywords-add-container">
+                    <a href="#" data-ng-click="addScript($event)">Add script<i class="fa fa-plus-circle"></i></a>
+                </div>
+                <span class="help-block clear">Used for including JS.</span>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,322 @@
+/*******************************************************************************************************/
+/* #media #query ~640px */      
+/******************************************************************************************************/
+
+@media only screen and (min-width: 40em) {
+
+    .middle-content > * ,
+	.csc-default.logo-bar-wrapper {
+        padding-top: 60px;
+    }
+
+    .nav-toggle {
+        display: none;
+    }
+
+    .nav-wrapper {
+        position: fixed;
+    }
+
+    .nav-title-area {
+        float: left;
+    }
+
+    .nav-menu {
+        position: relative;
+        float: right;
+        width: auto;
+        top: 1.5em;
+        bottom: auto;
+        left: auto;
+        right: 0;
+        font-size: 12px;
+        background-color: transparent;
+        margin: 0 -0.9em;
+        overflow: visible;
+    }
+
+    .nav-primary {
+        background-color: transparent;
+    }
+
+    .nav-primary > li {
+        border: none;
+        width: auto;
+    }
+
+    .nav-primary > li,
+    .nav-primary .nav-primary-sub > li {
+        padding: 0;
+    }
+
+    .nav-primary > li > a {
+        color: #666;
+        letter-spacing: 2px;
+        padding: 0 0.9em 3em 0.9em;
+        background-color: transparent;
+    }
+
+    .nav-wrapper .nav .nav-menu .nav-primary > li:hover .nav-primary-sub {
+        display: inline-block;
+    }
+
+    .nav-primary .nav-primary-sub {
+        height: auto;
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+        background-color: rgba(0,0,0,0.8);
+        width: 220px;
+        padding: 10px 5px 5px;
+        border-top: 5px solid #93B91A;
+        color: #aaa;
+        top: 37px;
+        text-align: left;
+    }
+
+    .nav .nav-primary .nav-primary-sub::before {
+        content: "";
+        position: absolute;
+        border-color: transparent transparent #93B91A transparent;
+        border-style: solid;
+        border-width: 0px 7px 7px 7px;
+        top: -12px;
+        left: 20px;
+    }
+
+    .nav-primary .nav-primary-sub,
+    .nav.thin .nav-primary .nav-primary-sub {
+        top: 32px;
+    }
+
+    .nav .nav-primary .nav-primary-sub a {
+        padding: 0.5em 0;
+        border-top: 1px solid #555;
+        padding: 0.6em 0.6em;
+        width: 200px;
+    }
+
+    .nav .nav-primary li:hover > a {
+        color: #489DC7;
+    }
+
+    .nav .nav-primary .nav-primary-sub li:first-child a {
+        border: 0;
+    }
+
+	.nav .nav-menu .nav-primary > li.active .nav-primary-sub,
+	.nav .nav-menu .nav-primary > li.mouseover .nav-primary-sub {
+		display: none;
+	}
+
+    .nav-primary .menu-item-toggle {
+        display: none;
+    }
+
+    .hero-wrapper .hero-bg.large {
+        height: 450px;
+    }
+
+	.hero-overlay {
+		right: 0;
+		width: 63%;
+		max-width: 450px;
+		/*top:180px;*/
+		/*bottom:inherit;*/
+        bottom:60px;
+	}
+
+    /* #team-grid start */
+
+    .team-grid .csc-textpic-imagerow {
+        width: 22.5%;
+    }
+
+    /* team-grid end*/
+
+    /* #blog start */
+
+    .blog-landingPage.article .header {
+        font-size: 32px;
+        line-height: 1.2em;
+    }
+
+    /* blog end*/
+
+
+    /* #service start */
+    .service .csc-header {
+        width: 65%;
+        padding-top: 16px;
+        padding-bottom: 0;
+        border-top: solid 2px #999;
+        border-bottom: none;
+    }
+
+    .service .bodytext {
+        width: 55%;
+        font-size: 18px;
+    }
+
+    .service ul {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 28%;
+        border-top: solid 2px #999;
+    }
+
+    .service .csc-header > * {
+        font-size: 38px;
+    }
+    /* #service end */
+
+    /* #quote begin */
+
+	.quote > * {
+		width: 55%;
+		float: left;
+		clear: left;
+		margin: 0 5% 20px -25%;
+		text-align: right;
+	}
+
+    .quote i {
+        line-height: 1.3em;
+		font-size:16px;
+    }
+
+    /* quote end */
+
+
+	/* #two-col-wrapper start */
+
+	.two-col-wrapper .top-header {
+		max-width: 65%;
+	}
+
+	.two-col-wrapper .top-header-text {
+		font-size: 38px;
+	}
+
+	.two-col-wrapper .default-page-main header > * {
+		font-size: 24px;
+	}
+
+	/* #two-col-wrapper end */
+
+	/* #meta-data area*/
+
+	.two-col-wrapper .meta-data header.csc-header > * {
+		font-size: 14px;
+	}
+
+	/*end meta data area*/
+
+	/* secondary nav start area */
+	.nav-secondary {
+		display: inline-block;
+	}
+    .nav-secondary .nav-secondary-sub {
+        margin: 0.5em 1em;
+    }
+    .nav-secondary .nav-secondary-sub li {
+        line-height: 1em;
+        margin-bottom: 0.5em;
+        font-size: 0.9em;
+    }
+
+    /* end secondary nav area */
+
+    /* #left-nav-wrapper start */
+	.two-col-wrapper .default-page-main {
+		width: 67%;
+	}
+
+
+	.two-col-wrapper .default-page-sidebar {
+		float: right;
+		border-top: solid 2px #999;
+		width: 28%;
+	}
+
+	#wrapper .two-col-wrapper .default-page-sidebar {
+		display: inline-block;
+	}
+
+
+	.two-col-wrapper.left-nav .default-page-sidebar {
+		float: left;
+		width: 20%;
+		border-right: solid 1px #999;
+		border-top:none;
+		margin-top: 14px;
+		padding-right:10px;
+	}
+
+	.two-col-wrapper.left-nav .default-page-main {
+		float: right;
+		clear: none;
+		border: none;
+	}
+
+	.two-col-wrapper.left-nav .default-page-main > *:first-of-type{
+		margin-top:0;
+	}
+
+	.two-col-wrapper.left-nav .default-page-main header h1 {
+		font-size: 38px;
+	}
+
+	.two-col-wrapper.left-nav .main-content > *{
+		padding:0;
+	}
+
+	/*left-nav end */
+
+
+	/*footer*/
+	.footer-link-logo {
+		width: 84px;
+		height: 57px;
+		font-size: 41px;
+		line-height: 1em;
+		padding: 18px 0 3px 0;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.footer-wrapper .footer .footer-logo div {
+		left: 11px;
+		top: -43px;
+	}
+
+    /* image grid start */
+
+    .image-grid {
+        width: 576px;
+    }
+
+    .image-grid-item {
+        width: 288px;
+        height: 288px;
+    }
+
+    .image-grid-item .csc-textpic-text > * {
+        font-size: 18px;
+    }
+
+    /* image grid end */
+
+    /* work grid start */
+
+    .work-grid-wrapper .csc-textpic-imagerow {
+        width: 48%;
+        margin-right: 2%;
+        float: left;
+    }
+    
+    /* work grid end */
+
+}

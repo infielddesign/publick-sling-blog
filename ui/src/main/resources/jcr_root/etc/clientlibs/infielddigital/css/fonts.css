@@ -1,0 +1,23 @@
+@font-face {
+	font-family: bariol_regularregular;
+	src: url("/etc/clientlibs/infielddigital/fonts/bariol_light-webfont.woff");
+}
+
+@font-face {
+	font-family: RobotoSlab-Light;
+	src: url("/etc/clientlibs/infielddigital/fonts/RobotoSlab-Light-webfont.woff");
+}
+@font-face {
+	font-family: RobotoSlab-Regular;
+	src: url("/etc/clientlibs/infielddigital/fonts/RobotoSlab-Regular-webfont.woff");
+}
+@font-face {
+	font-family: RobotoSlab-Thin;
+	src: url("/etc/clientlibs/infielddigital/fonts/RobotoSlab-Thin-webfont.woff");
+}
+@font-face {
+	font-family: RobotoSlab-Bold;
+	src: url("/etc/clientlibs/infielddigital/fonts/RobotoSlab-Bold-webfont.woff");
+}
+
+@import url(http://fonts.googleapis.com/css?family=Quicksand:300,400,700);

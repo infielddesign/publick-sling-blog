@@ -1,0 +1,15 @@
+{
+  "jcr:primaryType": "publick:page",
+  "sling:resourceType" : "publick/pages/adminSecurePage",
+  "title" : "Edit Page Configuration",
+  "jcr:content" : {
+    "mainContent" : {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType" : "publick/components/foundation/parsys",
+      "pageConfEdit" : {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType" : "publick/components/admin/pageConfEdit"
+      }
+    }
+  }
+}

@@ -37,7 +37,7 @@ public interface PageService {
      *
      * @param pageSize The number of pages per size.
      * @return The number of pagination pages required to display all
-     *            pages.
+     * pages.
      */
     long getNumberOfPages(int pageSize);
 }

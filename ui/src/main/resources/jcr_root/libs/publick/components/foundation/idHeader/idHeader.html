@@ -1,0 +1,60 @@
+<div data-sly-use.header="com.infielddigital.sling.publick.components.foundation.IdHeaderView" data-sly-unwrap>
+    <section role="header">
+        <header class="nav-wrapper">
+            <previewheader/>
+            <nav class="nav" nav="">
+                <ul class="nav-title-area">
+                    <li class="nav-header">
+                        <a href="/page/infielddigital/index.html" class="header-link">
+                            <span class="header-link-logo">${header.headerLogo}</span>
+                            <span class="header-link-text">${header.headerText}</span>
+                        </a>
+                    </li>
+                    <li class="nav-toggle">
+                        <a menu-toggle-button="">
+                            <span class="nav-toggle-icon"></span>
+                        </a>
+                    </li>
+                </ul>
+                <section class="nav-menu" nav-menu="">
+                    <ul class="nav-primary ">
+                        <li><a href="/page/infielddigital/index/capabilities.html">Capabilities</a></li>
+                        <li>
+                            <a href="/page/infielddigital/index/technology.html">Technology</a>
+                            <ul class="nav-primary-sub">
+                                <li>
+                                    <a href="/page/infielddigital/index/technology/adobe-experience-manager.html">Adobe Experience Manager</a>
+                                </li>
+                                <li>
+                                    <a href="/page/infielddigital/index/technology/elastic-path.html">Elastic Path</a>
+                                </li>
+                                <li>
+                                    <a href="/page/infielddigital/index/technology/apache-solr.html">Apache Solr</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/page/infielddigital/index/work.html">Work</a>
+                        </li>
+                        <li>
+                            <a href="/page/infielddigital/index/team.html">Team</a>
+                            <ul class="nav-primary-sub">
+                                <li>
+                                    <a href="/page/infielddigital/index/team/jobs.html">Jobs</a>
+                                </li>
+                                <li>
+                                    <a href="/page/infielddigital/index/team/news.html">News</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/page/infielddigital/index/contact.html">Contact</a>
+                        </li>
+                        <!--${header.menu @ context='unsafe'}-->
+                    </ul>
+                </section>
+                <a nav-menu-exit=""></a>
+            </nav>
+        </header>
+    </section>
+</div>

@@ -1,0 +1,28 @@
+<div data-sly-use.banner="com.infielddigital.sling.publick.components.foundation.IdBannerView" data-sly-unwrap>
+    <div class="hero-wrapper" parallax-wrapper="">
+        <div class="hero">
+
+            <div class="hero-bg large">
+
+                <div class="hero-shadow"></div>
+                <img src="${banner.bannerImageBackground}" width="1139" height="677" alt="" style="margin-top: 16.5px; top: -101.5px;">
+            </div>
+            <div data-sly-test="${banner.isText}" class="hero-overlay">
+
+                <!--  CONTENT ELEMENT, uid:27/text [begin] -->
+                <div id="c27" class="csc-default tool">
+                    <!--  Header: [begin] -->
+                    <header class="csc-header csc-header-n1"><h1 class="csc-header-alignment-left csc-firstHeader">${banner.bannerTitle}</h1></header>
+                    <!--  Header: [end] -->
+
+                    <!--  Text: [begin] -->
+                    <p class="bodytext">${banner.bannerText}</p>
+                    <!--  Text: [end] -->
+                </div>
+                <!--  CONTENT ELEMENT, uid:27/text [end] -->
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -9,7 +9,8 @@ app.factory('SettingsService', function($http, formDataObject) {
         system    : PATH_BASE + '/systemconfig',
         email     : PATH_BASE + '/emailconfig',
         recaptcha : PATH_BASE + '/recaptchaconfig',
-        akismet   : PATH_BASE + '/akismetconfig'
+        akismet   : PATH_BASE + '/akismetconfig',
+        dispatcher   : PATH_BASE + '/dispatcherconfig'
       };
 
   /**
