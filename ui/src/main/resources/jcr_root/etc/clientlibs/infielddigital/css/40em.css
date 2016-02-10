@@ -52,8 +52,14 @@
     .nav-primary > li > a {
         color: #111;
         letter-spacing: 2px;
-        padding: 0 0.9em 3em 0.9em;
+        padding: 0 0.9em 2.8em 0.9em;
         background-color: transparent;
+    }
+    .wf-loading .nav-primary > li > a {
+      visibility: hidden;
+    }
+    .wf-active .nav-primary > li > a {
+      visibility: visible;
     }
 
     .nav-wrapper .nav .nav-menu .nav-primary > li:hover .nav-primary-sub {
