@@ -50,7 +50,7 @@
                             <tbody data-ng-repeat="list in pageList">
                             <tr>
                                 <td><a href="{{prefix_path_child}}{{list.text}}.html" target="_blank" title="Open page">{{list.pageTitle || "// No SEO title available" }}</a> <span class="text-muted pagelist-muted">{{prefix_path_child}}{{list.text}}.html</span></td>
-                                <td><i class="glyphicon" data-ng-class="list.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></i></td>
+                                <td><i class="glyphicon" data-ng-class="list.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></td>
                                 <td><a data-ng-click="editNodeContext(prefix_path_child, list.text)"><i style="cursor:pointer" class="glyphicon glyphicon-pencil"></i></a></td>
                             </tr>
                             </tbody>
@@ -77,7 +77,7 @@
                                 </a>
                                     <span class="text-muted pagelist-muted">{{prefix_path}}{{pageContent.selectedNode}}.html</span>
                                 </td>
-                                <td><i class="glyphicon" data-ng-class="pageContent.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></i></td>
+                                <td><i class="glyphicon" data-ng-class="pageContent.visible ? 'glyphicon-eye-open' : 'glyphicon-eye-close'"></i></td>
                                 <td><a data-ng-click="editNodeContext(prefix_path, pageContent.selectedNode)"><i style="cursor:pointer" class="glyphicon glyphicon-pencil"></i></a></td>
                             </tr>
                             <tr>
