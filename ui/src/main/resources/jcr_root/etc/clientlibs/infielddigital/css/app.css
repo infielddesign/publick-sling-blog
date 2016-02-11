@@ -1171,6 +1171,10 @@ footer.footer-wrapper {
     line-height: 1.5em;
 }
 
+.footer-wrapper a:hover {
+    color: #4C779C;
+}
+
 .footer-wrapper .footer .footer-logo {
 	position: absolute;
 	top:50%;
